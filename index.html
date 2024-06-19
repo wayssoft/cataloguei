@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <!-- Custom Css -->
+    <link rel="stylesheet" href="assets/css/landing-page.css" type="text/css" />
+    <link rel="stylesheet" href="assets/css/alerts.css" type="text/css" />
+
+    <!--sweetalert-->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Custom Css -->
+    <script src='assets/js/alerts.js'></script>
+    <script src='assets/js/main.js'></script>
+
+    <!-- Ionic icons -->
+    <link href="https://unpkg.com/ionicons@4.2.0/dist/css/ionicons.min.css" rel="stylesheet">
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700,900" rel="stylesheet">
+
+    <!--boxicon-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+
+    <!--favicon-->
+    <link href="assets/img/favicon.png" rel="shortcut icon" type="image/x-icon">
+    <link href="assets/img/webclip.png" rel="apple-touch-icon">    
+
+    <title>Cataloguei shop</title>
+  </head>
+
+  <body>
+
+  <!-- N A V B A R -->
+  <nav class="navbar navbar-default navbar-expand-lg fixed-top custom-navbar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="icon ion-md-menu"></span>
+    </button>
+    <img src="assets/img/logo-lange.png" style="height: 40px" class="img-fluid nav-logo-mobile" alt="Company Logo">
+    <div class="collapse navbar-collapse" id="navbarNavDropdown">
+      <div class="container">
+      	<img src="assets/img/logo-lange.png" style="height: 40px" class="img-fluid nav-logo-desktop" alt="Company Logo">
+        <ul class="navbar-nav ml-auto nav-right" data-easing="easeInOutExpo" data-speed="1250" data-offset="65">
+          <li class="nav-item nav-custom-link">
+            <a class="nav-link" href="index.html">Home <i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li>
+          <li class="nav-item nav-custom-link">
+            <a class="nav-link" href="#marketing">Funções e recursos<i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li>
+          <li class="nav-item nav-custom-link">
+            <a class="nav-link" href="#testimonials">Testemunho <i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li>
+          <li class="nav-item nav-custom-link">
+            <a class="nav-link" href="#pricing">Planos e preços <i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li>
+          <li class="nav-item nav-custom-link btn btn-demo-small">
+            <a class="nav-link" onclick="publicar()" href="#">Log-in<i class="icon ion-ios-arrow-forward icon-mobile"></i></a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <!-- E N D  N A V B A R -->
+  
+  <!-- H E R O -->
+  <section id="hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-5 col-md-5 col-sm-5 col-xs-5">
+          <img src="assets/img/iphone.png" class="img-fluid" alt="Demo image">
+        </div>
+        <div style="margin-top: 15px;" class="col-md-7 content-box hero-content">
+          <h1>Crie seu catálogo digital e comece a vender pelo <b>Whatsapp, Instagram ou Facebook</b></h1>
+          <p>Cadastre seus produtos, compartilhe com seus clientes e acompanhe os pedidos em tempo real. Simples, rápido e gratuito!</p>
+          <a href="app/register/empresa.php" class="btn btn-regular">Comece Gratuitamente</a>
+          <a href="https://play.google.com/store/apps/details?id=com.wayssoft.cataloguei" class="btn btn-regular"><i class='bx bxl-play-store'></i>Baixe para Android</a>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- E N D  H E R O -->
+
+  <!-- E N D  M A R K E T I N G -->
+  <section id="marketing">
+    <div class="container">
+      <div class="row">
+        <div style="margin-top: -30px;" class="col-md-5">
+          <div class="content-box">
+            <span>Por que escolher o Cataloguei.shop?</span>
+            <h2 style="font-size: 20px;">Cadastro Rápido e Fácil:</h2>
+            <p style="margin-top: -5px;">Adicione produtos com fotos e descrições detalhadas em minutos</p>
+            
+            <h2 style="font-size: 20px; margin-top: 10px;">Promoções Especiais:</h2>
+            <p style="margin-top: -5px;">Aplique preços promocionais para atrair mais clientes</p>  
+            
+            <h2 style="font-size: 20px; margin-top: 10px;">Entrega Facilitada:</h2>
+            <p style="margin-top: -5px;">Colete o endereço de entrega dos seus clientes de forma simples e organizada</p>   
+            
+            <h2 style="font-size: 20px; margin-top: 10px;">Compartilhamento Fácil:</h2>
+            <p style="margin-top: -5px;">Gere links personalizados para divulgar seu catálogo nas redes sociais</p>            
+
+          </div>
+        </div>
+        <div class="col-md-7">
+            <img src="assets/img/cataloguei.shop.venda.png" class="img-fluid" alt="Demo image">
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- E N D  M A R K E T I N G -->
+
+  <!-- E N D  M A R K E T I N G -->
+  <section id="marketing">
+    <div class="container">
+      <div class="row">
+        <div style="margin-top: -50px;" class="col-md-5">
+          <div class="content-box">
+            <h2 style="font-size: 20px;">Gestão Eficiente de Pedidos</h2>
+            <p>Com o Cataloguei.shop, a gestão dos pedidos é simplificada e eficiente. Quando um cliente realiza um pedido, 
+              nosso sistema envia automaticamente um link contendo todas as informações do pedido para a sua empresa. Assim, 
+              você tem acesso imediato aos detalhes necessários para processar e preparar a entrega.
+              <br><br>
+              Além disso, o cliente que efetuou o pedido recebe atualizações em tempo real sobre o status do pedido.</p>
+          </div>
+        </div>
+        <div class="col-md-7">
+            <img src="assets/img/cataloguei.shop.notificacao.whatsapp.png" class="img-fluid" alt="Demo image">
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- E N D  M A R K E T I N G -->  
+
+  <!-- T E S T I M O N I A L S -->
+  <section id="testimonials">
+    <div class="container">
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="testimonial-box">
+            <div class="row personal-info">
+              <div class="col-md-10 col-xs-10">
+                <h6><span class="rating">35%</span> No aumento das vendas</h6>
+                <small>Fonte: Small Business Trends</small>
+              </div>
+            </div>
+            <p>Empresas que utilizam catálogos digitais e links personalizados para vendas online registram um aumento de até 35% nas vendas anuais. &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</p>
+          </div>
+
+          <div class="testimonial-box">
+            <div class="row personal-info">
+              <div class="col-md-10 col-xs-10">
+                <h6><span class="rating">60%</span> Expansão do alcance</h6>
+                <small>Fonte: Shopify</small>
+              </div>
+            </div>
+            <p>Pequenos negócios que adotam plataformas de vendas online aumentam sua base de clientes em 60%, atingindo consumidores além de sua localização.</p>
+          </div>
+
+        </div>      
+        
+        <div class="col-md-6">
+          <div class="testimonial-box">
+            <div class="row personal-info">
+              <div class="col-md-10 col-xs-10">
+                <h6><span class="rating">25%</span> Eficiência Operacional</h6>
+                <small>Fonte: Logistics Management</small>
+              </div>
+            </div>
+            <p>Negócios que gerenciam pedidos e inventários digitalmente reduzem erros operacionais em até 25%, melhorando a eficiência e a satisfação do cliente. &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;</p>
+          </div>
+
+          <div class="testimonial-box">
+            <div class="row personal-info">
+              <div class="col-md-10 col-xs-10">
+                <h6><span class="rating">50%</span> Satisfação do cliente</h6>
+                <small>Fonte: HubSpot</small>
+              </div>
+            </div>
+            <p>Empresas que enviam atualizações de status de pedidos em tempo real observam uma melhoria de 50% na satisfação do cliente, aumentando a fidelidade e a repetição nas compras.</p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- E N D  T E S T I M O N I A L S -->
+
+  <!-- P R I C I N G -->
+  <section id="pricing">
+    <div class="container">
+      <div class="title-block">
+        <h2>Planos e preços</h2>
+        <p>Venda mais online com o melhor investimento!</p>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <div class="pricing-box">
+            <h3 class="demo">Grátis</h3>
+            <h6>R$0,00</h6>
+            <small>Para Sempre</small>
+            <p>Ideal para quem quer testar nossa plataforma.</p>
+            <div class="divider-light"></div>
+            <ul>
+              <li><i class="icon ion-md-checkmark-circle-outline demo"></i>Suporte com especialista</li>
+              <li><i class="icon ion-md-checkmark-circle-outline demo"></i>Gestão de status do pedido</li>
+              <li><i class="icon ion-md-checkmark-circle-outline demo"></i>Link da loja para as redes sociais</li>
+              <li><i class="icon ion-md-checkmark-circle-outline demo"></i>Até 50 produtos cadastrados</li>
+              <li><i class="icon ion-md-checkmark-circle-outline demo"></i>Preços promocionais nos produtos - <span class="demo">¡New!</span></li>
+            </ul>
+            <div class="text-center">
+              <a href="app/register/empresa.php" class="btn btn-demo">Comece Gratuitamente</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="pricing-box">
+            <h3>Pro</h3>
+            <h6>R$19,00</h6>
+            <small>Por mês</small>
+            <p>O melhor custo benefício para simplificar suas vendas</p>
+            <div class="divider-light"></div>
+            <ul>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Suporte com especialista</li>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Gestão de status do pedido</li>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Link da loja para as redes sociais</li>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Até 1.000 produtos cadastrados</li>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Preços promocionais nos produtos - <span>¡New!</span></li>
+            </ul>
+            <div class="text-center">
+              <a href="https://wa.me/5545988380959?text=Ol%C3%A1%21+Gostaria+de+contratar+o+plano+PRO+do+Cataloguei.shop" class="btn btn-buy">Contratar agora</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="pricing-box">
+            <h3>Pro vip</h3>
+            <h6>R$59,00</h6>
+            <small>Por mês</small>
+            <p>O máximo de benefícios para o seu negócio!</p>
+            <div class="divider-light"></div>
+            <ul>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Suporte com especialista</li>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Gestão de status do pedido</li>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Link da loja para as redes sociais</li>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Até 10.000 produtos cadastrados</li>
+              <li><i class="icon ion-md-checkmark-circle-outline"></i>Preços promocionais nos produtos - <span>¡New!</span></li>
+            </ul>
+            <div class="text-center">
+              <a href="https://wa.me/5545988380959?text=Ol%C3%A1%21+Gostaria+de+contratar+o+plano+PRO-VIP+do+Cataloguei.shop" class="btn btn-buy">Contratar agora</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- E N D  P R I C I N G -->
+
+  <!-- C A L L  T O  A C T I O N -->
+  <!--
+  <section id="call-to-action">
+    <div class="container text-center">
+      <h2>Pronto para começar a vender mais?</h2>
+      <div class="title-block">
+        <p>Cadastre-se hoje mesmo e aproveite todas as funcionalidades do Cataloguei.shop. É rápido, fácil e gratuito!</p>
+        <a href="#" class="btn btn-regular">Cadastre-se Agora</a>
+      </div>
+    </div>
+  </section>
+  -->
+  <!-- E N D  C A L L  T O  A C T I O N -->
+
+  <!--  F O O T E R  -->
+  <footer>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3">
+          <h5>A empresa</h5>
+          <ul>
+            <li><a href="#">Quem somos</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>API</h5>
+          <ul>
+            <li><a href="#">Documentação</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Suporte</h5>
+          <ul>
+            <li><a href="#">A empresa</a></li>
+            <li><a href="#">Ao usuario</a></li>
+          </ul>
+        </div>
+        <div class="col-md-3">
+          <h5>Company</h5>
+          <p>Cataloguei.shop: Simplifique suas vendas online com nosso app de catálogo digital</p>
+          <p><a href="mailto:contato@wayssoft.com.br" class="external-links">contato@wayssoft.com.br</a></p>
+        </div>
+      </div> 
+      <div class="divider"></div>
+      <div class="row">
+        <div class="col-md-6 col-xs-12">
+            <a href="#"><i class="icon ion-logo-facebook"></i></a>
+            <a href="#"><i class="icon ion-logo-instagram"></i></a>
+            <!--
+            <a href="#"><i class="icon ion-logo-twitter"></i></a>
+            <a href="#"><i class="icon ion-logo-youtube"></i></a>
+            -->
+          </div>
+          <div class="col-md-6 col-xs-12">
+            <small>2024 &copy; Todos os direitos reservados. Feito com ❤️ por <a href="https://www.wayssoft.com.br/" target="blank" class="external-links">Wayssoft</a></small>
+          </div>
+      </div>
+    </div>
+  </footer>
+  <!--  E N D  F O O T E R  -->
+    
+
+    <!-- External JavaScripts -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+  </body>
+</html>

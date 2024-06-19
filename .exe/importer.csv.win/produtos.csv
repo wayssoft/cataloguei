@@ -1,0 +1,6 @@
+codigo_barras,nome,descricao,preco,quantidade
+1234567890123,Produto A,"Descrição do Produto A",10.50,100
+2345678901234,Produto B,"Descrição do Produto B",20.00,150
+3456789012345,Produto C,"Descrição do Produto C",15.75,200
+4567890123456,Produto D,"Descrição do Produto D",30.25,50
+5678901234567,Produto E,"Descrição do Produto E",25.00,75

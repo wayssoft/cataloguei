@@ -1,0 +1,12 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.wayssoft.cataloguei",
+      "sha256_cert_fingerprints":
+        ["E1:46:FF:D0:B7:3B:3A:DE:84:A5:E2:2B:F0:DE:B2:23:73:B6:41:B8:D3:99:7A:7D:55:91:5C:C8:A1:03:8C:4C",
+        "81:46:ED:37:33:AF:4A:6E:1A:1E:42:78:D7:88:79:4D:1A:F6:66:80:F4:C5:31:74:21:B2:B5:7C:4F:4F:34:27"]
+    }
+  }
+]

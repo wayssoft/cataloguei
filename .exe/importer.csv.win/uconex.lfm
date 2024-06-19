@@ -1,0 +1,114 @@
+object DM: TDM
+  OldCreateOrder = False
+  Height = 618
+  HorizontalOffset = 454
+  VerticalOffset = 31
+  Width = 735
+  object ZConnection1: TZConnection
+    ControlsCodePage = cCP_UTF8
+    AutoEncodeStrings = True
+    Properties.Strings = (
+      'AutoEncodeStrings=True'
+      'controls_cp=CP_UTF8'
+    )
+    Connected = True
+    Port = 0
+    Database = 'C:\wayssoft\projeto\lazarus\cataloguei\data.db'
+    Protocol = 'sqlite-3'
+    Left = 68
+    Top = 228
+  end
+  object qry_produtos: TZQuery
+    Connection = ZConnection1
+    SQL.Strings = (
+      'SELECT * FROM produtos'
+    )
+    Params = <>
+    Left = 68
+    Top = 300
+    object qry_produtosid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qry_produtoscodigo_barras: TMemoField
+      FieldKind = fkData
+      FieldName = 'codigo_barras'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtosnome: TMemoField
+      FieldKind = fkData
+      FieldName = 'nome'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtosdescricao: TMemoField
+      FieldKind = fkData
+      FieldName = 'descricao'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtospreco: TFloatField
+      FieldKind = fkData
+      FieldName = 'preco'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 2
+    end
+    object qry_produtosquantidade: TFloatField
+      FieldKind = fkData
+      FieldName = 'quantidade'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 2
+    end
+    object qry_produtosidentificador: TMemoField
+      FieldKind = fkData
+      FieldName = 'identificador'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtospath_img: TMemoField
+      FieldKind = fkData
+      FieldName = 'path_img'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = True
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+  end
+end

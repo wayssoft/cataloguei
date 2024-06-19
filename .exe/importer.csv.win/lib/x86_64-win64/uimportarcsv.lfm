@@ -1,0 +1,333 @@
+object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
+  Left = 454
+  Height = 485
+  Top = 31
+  Width = 585
+  BorderIcons = [biSystemMenu]
+  Caption = 'Importar produtos'
+  ClientHeight = 485
+  ClientWidth = 585
+  OnClose = FormClose
+  Position = poScreenCenter
+  object Button1: TButton
+    Left = 16
+    Height = 25
+    Top = 66
+    Width = 75
+    Caption = 'Selecionar'
+    OnClick = Button1Click
+    TabOrder = 0
+  end
+  object cBoxCodigoBarras: TComboBox
+    Left = 224
+    Height = 23
+    Top = 161
+    Width = 124
+    ItemHeight = 15
+    TabOrder = 1
+    Text = 'cBoxCodigoBarras'
+  end
+  object Label1: TLabel
+    Left = 16
+    Height = 15
+    Top = 163
+    Width = 74
+    Caption = 'Codigo barras'
+    ParentColor = False
+  end
+  object Label2: TLabel
+    Left = 104
+    Height = 15
+    Top = 163
+    Width = 108
+    Caption = '-------------------->'
+    ParentColor = False
+  end
+  object cBoxNomeProduto: TComboBox
+    Left = 224
+    Height = 23
+    Top = 195
+    Width = 124
+    ItemHeight = 15
+    TabOrder = 2
+    Text = 'cBoxNomeProduto'
+  end
+  object Label3: TLabel
+    Left = 16
+    Height = 15
+    Top = 199
+    Width = 79
+    Caption = 'Nome produto'
+    ParentColor = False
+  end
+  object Label4: TLabel
+    Left = 104
+    Height = 15
+    Top = 199
+    Width = 108
+    Caption = '-------------------->'
+    ParentColor = False
+  end
+  object cBoxDescricao: TComboBox
+    Left = 224
+    Height = 23
+    Top = 227
+    Width = 124
+    ItemHeight = 15
+    TabOrder = 3
+    Text = 'cBoxDescricao'
+  end
+  object Label5: TLabel
+    Left = 16
+    Height = 15
+    Top = 231
+    Width = 51
+    Caption = 'Descrição'
+    ParentColor = False
+  end
+  object Label6: TLabel
+    Left = 104
+    Height = 15
+    Top = 231
+    Width = 108
+    Caption = '-------------------->'
+    ParentColor = False
+  end
+  object cBoxPreco: TComboBox
+    Left = 224
+    Height = 23
+    Top = 259
+    Width = 124
+    ItemHeight = 15
+    TabOrder = 4
+    Text = 'cBoxPreco'
+  end
+  object Label7: TLabel
+    Left = 16
+    Height = 15
+    Top = 263
+    Width = 30
+    Caption = 'Preço'
+    ParentColor = False
+  end
+  object Label8: TLabel
+    Left = 104
+    Height = 15
+    Top = 263
+    Width = 108
+    Caption = '-------------------->'
+    ParentColor = False
+  end
+  object cBoxEstoque: TComboBox
+    Left = 224
+    Height = 23
+    Top = 291
+    Width = 124
+    ItemHeight = 15
+    TabOrder = 5
+    Text = 'cBoxEstoque'
+  end
+  object Label9: TLabel
+    Left = 16
+    Height = 15
+    Top = 295
+    Width = 42
+    Caption = 'Estoque'
+    ParentColor = False
+  end
+  object Label10: TLabel
+    Left = 104
+    Height = 15
+    Top = 295
+    Width = 108
+    Caption = '-------------------->'
+    ParentColor = False
+  end
+  object Label11: TLabel
+    Left = 16
+    Height = 15
+    Top = 42
+    Width = 209
+    Caption = 'Selecione o arquivo csv a ser importado'
+    ParentColor = False
+  end
+  object cBoxImg: TComboBox
+    Left = 224
+    Height = 23
+    Top = 323
+    Width = 124
+    ItemHeight = 15
+    TabOrder = 6
+    Text = 'cBoxImg'
+  end
+  object Label12: TLabel
+    Left = 16
+    Height = 15
+    Top = 327
+    Width = 44
+    Caption = 'Imagem'
+    ParentColor = False
+  end
+  object Label13: TLabel
+    Left = 104
+    Height = 15
+    Top = 327
+    Width = 108
+    Caption = '-------------------->'
+    ParentColor = False
+  end
+  object Label14: TLabel
+    Left = 36
+    Height = 14
+    Top = 350
+    Width = 417
+    Caption = 'Atenção para a imagem deve ser informado o caminho da imagem no computador local'
+    Font.CharSet = ANSI_CHARSET
+    Font.Color = clGray
+    Font.Height = -11
+    Font.Name = 'Arial'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    ParentColor = False
+    ParentFont = False
+  end
+  object Panel1: TPanel
+    Left = 16
+    Height = 1
+    Top = 120
+    Width = 554
+    BevelOuter = bvNone
+    Color = 15066597
+    ParentColor = False
+    TabOrder = 7
+  end
+  object Panel2: TPanel
+    Left = 16
+    Height = 1
+    Top = 34
+    Width = 554
+    BevelOuter = bvNone
+    Color = 15066597
+    ParentColor = False
+    TabOrder = 8
+  end
+  object Label15: TLabel
+    Left = 16
+    Height = 15
+    Top = 17
+    Width = 126
+    Caption = '1° Selecione o arquivo'
+    Font.CharSet = ANSI_CHARSET
+    Font.Name = 'Arial'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object Label16: TLabel
+    Left = 16
+    Height = 15
+    Top = 103
+    Width = 123
+    Caption = '2° Mapear as colunas'
+    Font.CharSet = ANSI_CHARSET
+    Font.Name = 'Arial'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object cBoxIdentificador: TComboBox
+    Left = 224
+    Height = 23
+    Top = 128
+    Width = 124
+    ItemHeight = 15
+    TabOrder = 9
+    Text = 'cBoxIdentificador'
+  end
+  object Label17: TLabel
+    Left = 104
+    Height = 15
+    Top = 133
+    Width = 108
+    Caption = '-------------------->'
+    ParentColor = False
+  end
+  object Label18: TLabel
+    Left = 16
+    Height = 15
+    Top = 133
+    Width = 67
+    Caption = 'Identificador'
+    ParentColor = False
+  end
+  object Image1: TImage
+    Left = 16
+    Height = 18
+    Top = 348
+    Width = 24
+    Picture.Data = {
+      1754506F727461626C654E6574776F726B477261706869639901000089504E47
+      0D0A1A0A0000000D494844520000001200000012080600000056CE8E57000000
+      09704859730001D8710001D87101739FCE26000000206348524D00007A250000
+      80830000F9FF000080E9000075300000EA6000003A980000176F925FC5460000
+      011F4944415478DAAC94BD4A03411485073BC546CCAA214548ED2B2482165AF9
+      02A7B10E26C549E3838839DB08362A3E8620D82720F802420ADB44B4189B3BB2
+      2C99D98DA4387067CEBDDF0C777E9CF7DEAD430E23C545395097A02E2C8EAA0A
+      D401F501EA0DD44E1A945EE91E94375DFF17745E8004F556056D829A5AF113A8
+      478B5F416DAC02BA2AECA205AA59180FEA823AA03EADE80BD41EA87D8BBD35BF
+      5507745B58FDC776D3B438CCDF54814E4ACDFD0675B004E4411DA5402FA5E405
+      A80C5403D4BCE43DC740FD25C7ED418D400D235E1FCC1D98FF813250B348F21D
+      A887883703F32C80B6ECD6FA88DAA00E13FE18D4767894F344E214D47BC25F80
+      1A385067A02689C42A4D409D861EED823AB6B7D4ADA99ED5344039B7AE8FED77
+      00BC777892B1EA13E20000000049454E44AE426082
+    }
+  end
+  object Panel3: TPanel
+    Left = 16
+    Height = 1
+    Top = 407
+    Width = 554
+    BevelOuter = bvNone
+    Color = 15066597
+    ParentColor = False
+    TabOrder = 10
+  end
+  object Label19: TLabel
+    Left = 16
+    Height = 15
+    Top = 389
+    Width = 113
+    Caption = '3° Processar dados'
+    Font.CharSet = ANSI_CHARSET
+    Font.Name = 'Arial'
+    Font.Pitch = fpVariable
+    Font.Quality = fqDraft
+    Font.Style = [fsBold]
+    ParentColor = False
+    ParentFont = False
+  end
+  object ProgressBar1: TProgressBar
+    Left = 16
+    Height = 14
+    Top = 416
+    Width = 332
+    TabOrder = 11
+  end
+  object Button2: TButton
+    Left = 488
+    Height = 25
+    Top = 448
+    Width = 75
+    Caption = 'Importar'
+    OnClick = Button2Click
+    TabOrder = 12
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 480
+    Top = 112
+  end
+end
