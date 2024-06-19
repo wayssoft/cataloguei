@@ -318,13 +318,21 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     TabOrder = 11
   end
   object Button2: TButton
-    Left = 488
+    Left = 495
     Height = 25
     Top = 448
     Width = 75
     Caption = 'Importar'
     OnClick = Button2Click
     TabOrder = 12
+  end
+  object Button3: TButton
+    Left = 416
+    Height = 25
+    Top = 448
+    Width = 75
+    Caption = 'Cancelar'
+    TabOrder = 13
   end
   object OpenDialog1: TOpenDialog
     Left = 480

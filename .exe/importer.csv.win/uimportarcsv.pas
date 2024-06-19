@@ -15,6 +15,7 @@ type
   TFrmImportarCsvProdutos = class(TForm)
     Button1: TButton;
     Button2: TButton;
+    Button3: TButton;
     cBoxCodigoBarras: TComboBox;
     cBoxImg: TComboBox;
     cBoxIdentificador: TComboBox;
@@ -333,10 +334,13 @@ begin
       end;
       if DM.qry_produtos.RecordCount > 0 then begin
         // salva um log
+        DM.qry_produtos.Edit;
+        DM.qry_produtosstatus.AsString:='pending';
+        DM.qry_produtos.Post;
       end else begin
         DM.qry_produtos.Insert;
-        //DM.qry_produtosid.AsInteger:= i;
         DM.qry_produtosidentificador.AsString := CSV.Cells[ColumnIndex, i];
+        DM.qry_produtosstatus.AsString:='pending';
         DM.qry_produtos.Post;
       end;
     end;

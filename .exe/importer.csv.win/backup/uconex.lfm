@@ -13,13 +13,14 @@ object DM: TDM
     )
     Connected = True
     Port = 0
-    Database = 'C:\Users\ricar\OneDrive\Documents\Projetos\cataloguei\.exe\importer.csv.win\data.db'
+    Database = 'C:\wayssoft\cataloguei\.exe\importer.csv.win\data.db'
     Protocol = 'sqlite-3'
     Left = 68
     Top = 228
   end
   object qry_produtos: TZQuery
     Connection = ZConnection1
+    Active = True
     SQL.Strings = (
       'SELECT * FROM produtos'
     )
@@ -106,6 +107,17 @@ object DM: TDM
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = True
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtosstatus: TMemoField
+      FieldKind = fkData
+      FieldName = 'status'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
       Required = False
       BlobType = ftMemo
       Transliterate = False
