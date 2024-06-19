@@ -1,0 +1,11 @@
+CREATE TABLE produtos (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    codigo_barras TEXT,
+    nome TEXT,
+    descricao TEXT,
+    preco REAL,
+    quantidade REAL,
+    identificador TEXT,
+    path_img TEXT,
+    status TEXT
+);
