@@ -8,7 +8,10 @@ uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
   DBGrids, Buttons, StdCtrls, Grids, ActnList, ZConnection, ZDataset,
   // units
-  uRequest4Pascal,
+  // Uses para ultilizar o Request4Pascal
+  uRequest4pascal,
+  fpjson,
+  jsonparser,
   //Formularios
   uLogin, uConex,
   uImportarCSV, DB;
@@ -26,8 +29,10 @@ type
     PageControl1: TPageControl;
     Panel1: TPanel;
     Panel4: TPanel;
+    ProgressBar1: TProgressBar;
     spBtImportarProdutos: TSpeedButton;
     SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
     StringGrid1: TStringGrid;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
@@ -38,6 +43,7 @@ type
     procedure spBtImportarProdutosClick(Sender: TObject);
     procedure SpeedButton1Click(Sender: TObject);
     procedure StringGrid1DblClick(Sender: TObject);
+    procedure Timer1Timer(Sender: TObject);
   private
 
   public
@@ -152,6 +158,47 @@ begin
     // Exemplo de uso do valor obtido
     ShowMessage('Valor da primeira coluna na linha ' + IntToStr(StringGrid1.Row) + ': ' + valorPrimeiraColuna);
   end;
+end;
+
+procedure TfrmPrincipal.Timer1Timer(Sender: TObject);
+var
+  url: String;
+  body: String;
+  headers: TStrings;
+  response: TJSONObject;
+  request: TRequest4pascal;
+begin
+  DM.qry_produtos.Refresh;
+  DM.qry_produtos.Last;
+  DM.qry_produtos.First;
+  while not DM.qry_produtos.EOF do begin;
+
+    url := 'https://api.cataloguei.shop/v1/send_produto.php?token=';
+    body := '{'
+    +'"identificador":"'+DM.qry_produtosidentificador.AsString+'",'
+    +'"codigo_barras":"'+DM.qry_produtoscodigo_barras.AsString+'",'
+    +'"nome":"'+DM.qry_produtosnome.AsString+'",'
+    +'"descricao":"'+DM.qry_produtosdescricao.AsString+'",'
+    +'"preco":"value2",'
+    +'"estoque":"value2",'
+    +'"imgB64":"value2"'
+    +'}';
+    headers := TStringList.Create;
+    headers.Add('Authorization: Bearer your_token_here');
+
+    request := TRequest4pascal.Create;
+    try
+      response := request._post(url, body, headers);
+      // Processar a resposta JSON
+    finally
+      headers.Free;
+      request.Free;
+    end;
+
+    Application.ProcessMessages;
+    DM.qry_produtos.Next;
+  end;
+  Close;
 end;
 
 end.
