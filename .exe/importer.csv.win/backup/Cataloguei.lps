@@ -12,7 +12,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="51"/>
+        <UsageCount Value="53"/>
       </Unit>
       <Unit>
         <Filename Value="uprincipal.pas"/>
@@ -23,9 +23,9 @@
         <UnitName Value="uPrincipal"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="126"/>
-        <CursorPos X="7" Y="152"/>
-        <UsageCount Value="51"/>
+        <TopLine Value="81"/>
+        <CursorPos X="34" Y="99"/>
+        <UsageCount Value="53"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -39,7 +39,7 @@
         <EditorIndex Value="3"/>
         <TopLine Value="33"/>
         <CursorPos X="3" Y="49"/>
-        <UsageCount Value="50"/>
+        <UsageCount Value="52"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -50,7 +50,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="58"/>
         <CursorPos X="6"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="51"/>
       </Unit>
       <Unit>
         <Filename Value="uimportarcsv.pas"/>
@@ -59,9 +59,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uImportarCSV"/>
-        <TopLine Value="402"/>
-        <CursorPos X="50" Y="464"/>
-        <UsageCount Value="40"/>
+        <TopLine Value="333"/>
+        <CursorPos X="65" Y="338"/>
+        <UsageCount Value="42"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -74,13 +74,13 @@
         <UnitName Value="uConex"/>
         <EditorIndex Value="2"/>
         <TopLine Value="2"/>
-        <CursorPos X="36" Y="32"/>
-        <UsageCount Value="30"/>
+        <CursorPos X="36" Y="33"/>
+        <UsageCount Value="32"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="..\..\..\..\..\..\..\dev-lazarus\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcCache.pas"/>
+        <Filename Value="C:\dev-lazarus\AppData\Local\lazarus\onlinepackagemanager\packages\zeosdbo\src\dbc\ZDbcCache.pas"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="3118"/>
         <CursorPos Y="3134"/>
@@ -89,34 +89,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="312" Column="17" TopLine="244"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="219" Column="30" TopLine="193"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="464" Column="36" TopLine="440"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="460" Column="58" TopLine="440"/>
-      </Position>
-      <Position>
-        <Filename Value="uprincipal.pas"/>
-        <Caret Line="48" Column="58" TopLine="33"/>
-      </Position>
-      <Position>
-        <Filename Value="uprincipal.pas"/>
-        <Caret Line="49" Column="58" TopLine="34"/>
-      </Position>
-      <Position>
-        <Filename Value="uprincipal.pas"/>
-        <Caret Line="48" Column="58" TopLine="33"/>
-      </Position>
       <Position>
         <Filename Value="uprincipal.pas"/>
         <Caret Line="50" Column="58" TopLine="35"/>
@@ -208,6 +180,34 @@
       <Position>
         <Filename Value="uprincipal.pas"/>
         <Caret Line="109" Column="38" TopLine="94"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="152" Column="7" TopLine="125"/>
+      </Position>
+      <Position>
+        <Filename Value="uimportarcsv.pas"/>
+        <Caret Line="464" Column="50" TopLine="402"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="53" Column="19" TopLine="34"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="55" Column="67" TopLine="37"/>
+      </Position>
+      <Position>
+        <Filename Value="uconex.pas"/>
+        <Caret Line="32" Column="36"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="97" Column="34" TopLine="79"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="98" Column="34" TopLine="80"/>
       </Position>
     </JumpHistory>
     <RunParams>

@@ -24,12 +24,14 @@ type
     Image1: TImage;
     Label1: TLabel;
     PageControl1: TPageControl;
+    Panel1: TPanel;
     Panel4: TPanel;
     spBtImportarProdutos: TSpeedButton;
     SpeedButton1: TSpeedButton;
     StringGrid1: TStringGrid;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
+    Timer1: TTimer;
     procedure act_atualizar_listaExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -70,17 +72,14 @@ var
 begin
   // atualiza a tabela
   with DM.qry_produtos do begin
-     Close;
-     SQL.Clear;
-     SQL.Add('SELECT * FROM produtos');
-     Open;
+     Refresh;
      Last;
      First;
   end;
 
   // Definindo o número de linhas e colunas (opcional se já estiver definido visualmente)
   StringGrid1.RowCount := DM.qry_produtos.RecordCount + 1; // número de linhas
-  StringGrid1.ColCount := 6; // número de colunas
+  StringGrid1.ColCount := 7; // número de colunas
 
   // Ajusta o cabecalho
   i:=0;
@@ -91,14 +90,16 @@ begin
   StringGrid1.Cells[3, i] := 'Descrição';
   StringGrid1.Cells[4, i] := 'Preço';
   StringGrid1.Cells[5, i] := 'Estoque';
+  StringGrid1.Cells[6, i] := 'Status';
 
   // ajustar largura das colunas
   StringGrid1.ColWidths[0] := 110;
   StringGrid1.ColWidths[1] := 110;
   StringGrid1.ColWidths[2] := 230;
-  StringGrid1.ColWidths[3] := 350;
+  StringGrid1.ColWidths[3] := 310;
   StringGrid1.ColWidths[0] := 80;
   StringGrid1.ColWidths[0] := 80;
+  StringGrid1.ColWidths[0] := 60;
 
   while not DM.qry_produtos.EOF do begin
     i:=i+1;
@@ -122,6 +123,7 @@ begin
      SQL.Add('SELECT * FROM produtos');
      Open;
   end;
+  act_atualizar_lista.Execute;
 end;
 
 procedure TfrmPrincipal.spBtImportarProdutosClick(Sender: TObject);

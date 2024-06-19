@@ -183,13 +183,22 @@ object frmPrincipal: TfrmPrincipal
       end
       object StringGrid1: TStringGrid
         Left = 0
-        Height = 617
+        Height = 592
         Top = 40
         Width = 925
         Align = alClient
         TabOrder = 1
         TitleStyle = tsNative
         OnDblClick = StringGrid1DblClick
+      end
+      object Panel1: TPanel
+        Left = 0
+        Height = 25
+        Top = 632
+        Width = 925
+        Align = alBottom
+        BevelOuter = bvNone
+        TabOrder = 2
       end
     end
     object TabSheet3: TTabSheet
@@ -208,5 +217,9 @@ object frmPrincipal: TfrmPrincipal
       Caption = 'act_atualizar_lista'
       OnExecute = act_atualizar_listaExecute
     end
+  end
+  object Timer1: TTimer
+    Left = 333
+    Top = 456
   end
 end

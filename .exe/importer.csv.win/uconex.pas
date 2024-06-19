@@ -14,6 +14,7 @@ type
   TDM = class(TDataModule)
     qry_produtosidentificador: TMemoField;
     qry_produtospath_img: TMemoField;
+    qry_produtosstatus: TMemoField;
     ZConnection1: TZConnection;
     qry_produtos: TZQuery;
     qry_produtoscodigo_barras: TMemoField;
