@@ -22,7 +22,14 @@ type
     qry_produtosnome: TMemoField;
     qry_produtospreco: TFloatField;
     qry_produtosquantidade: TFloatField;
-    ZTable1: TZTable;
+    ZTable1codigo_barras: TMemoField;
+    ZTable1descricao: TMemoField;
+    ZTable1id: TLargeintField;
+    ZTable1identificador: TMemoField;
+    ZTable1nome: TMemoField;
+    ZTable1path_img: TMemoField;
+    ZTable1preco: TFloatField;
+    ZTable1quantidade: TFloatField;
   private
 
   public

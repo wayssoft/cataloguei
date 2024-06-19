@@ -65,6 +65,7 @@
         <Filename Value="uimportarcsv.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="FrmImportarCsvProdutos"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uImportarCSV"/>
       </Unit>
@@ -72,6 +73,7 @@
         <Filename Value="uconex.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="DM"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="uConex"/>
       </Unit>
@@ -90,6 +92,7 @@
     </SearchPaths>
     <Linking>
       <Debugging>
+        <GenerateDebugInfo Value="False"/>
         <DebugInfoType Value="dsDwarf2Set"/>
       </Debugging>
       <Options>

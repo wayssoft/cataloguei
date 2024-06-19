@@ -148,6 +148,7 @@ object frmPrincipal: TfrmPrincipal
           Height = 22
           Top = 8
           Width = 23
+          Anchors = [akTop, akRight]
           Glyph.Data = {
             46030000424D460300000000000036000000280000000E0000000E0000000100
             2000000000001003000064000000640000000000000000000000FFFFFFFFFFFF
@@ -177,6 +178,7 @@ object frmPrincipal: TfrmPrincipal
             49FFF9AB4AFFF9AB4AFFF9AB4AFFF9AB4AFFF9AB4AFFF9AB4AFFF9AB49FFF9AA
             47FFFCCB8FFFFFFEFEFF
           }
+          OnClick = SpeedButton1Click
         end
       end
       object StringGrid1: TStringGrid
@@ -187,6 +189,7 @@ object frmPrincipal: TfrmPrincipal
         Align = alClient
         TabOrder = 1
         TitleStyle = tsNative
+        OnDblClick = StringGrid1DblClick
       end
     end
     object TabSheet3: TTabSheet
@@ -197,5 +200,13 @@ object frmPrincipal: TfrmPrincipal
     DataSet = DM.qry_produtos
     Left = 333
     Top = 330
+  end
+  object ActionList1: TActionList
+    Left = 333
+    Top = 392
+    object act_atualizar_lista: TAction
+      Caption = 'act_atualizar_lista'
+      OnExecute = act_atualizar_listaExecute
+    end
   end
 end

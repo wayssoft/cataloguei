@@ -461,7 +461,7 @@ begin
       end;
     end;
 
-    ProgressBar1.Position :=ProgressBar1.Position.Size + 1;
+    ProgressBar1.Position :=ProgressBar1.Position + 1;
     Application.ProcessMessages;
   end;
 end;

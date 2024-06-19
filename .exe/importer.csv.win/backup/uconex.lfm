@@ -13,7 +13,7 @@ object DM: TDM
     )
     Connected = True
     Port = 0
-    Database = 'C:\wayssoft\projeto\lazarus\cataloguei\data.db'
+    Database = 'C:\Users\ricar\OneDrive\Documents\Projetos\cataloguei\.exe\importer.csv.win\data.db'
     Protocol = 'sqlite-3'
     Left = 68
     Top = 228
@@ -110,11 +110,5 @@ object DM: TDM
       BlobType = ftMemo
       Transliterate = False
     end
-  end
-  object ZTable1: TZTable
-    Connection = ZConnection1
-    TableName = 'produtos'
-    Left = 232
-    Top = 312
   end
 end

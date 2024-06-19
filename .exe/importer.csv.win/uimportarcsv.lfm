@@ -318,9 +318,9 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     TabOrder = 11
   end
   object Button2: TButton
-    Left = 488
+    Left = 16
     Height = 25
-    Top = 448
+    Top = 440
     Width = 75
     Caption = 'Importar'
     OnClick = Button2Click
