@@ -25,7 +25,7 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     Width = 124
     ItemHeight = 15
     TabOrder = 1
-    Text = 'cBoxCodigoBarras'
+    Text = 'Selecione'
   end
   object Label1: TLabel
     Left = 16
@@ -50,7 +50,7 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     Width = 124
     ItemHeight = 15
     TabOrder = 2
-    Text = 'cBoxNomeProduto'
+    Text = 'Selecione'
   end
   object Label3: TLabel
     Left = 16
@@ -75,7 +75,7 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     Width = 124
     ItemHeight = 15
     TabOrder = 3
-    Text = 'cBoxDescricao'
+    Text = 'Selecione'
   end
   object Label5: TLabel
     Left = 16
@@ -100,7 +100,7 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     Width = 124
     ItemHeight = 15
     TabOrder = 4
-    Text = 'cBoxPreco'
+    Text = 'Selecione'
   end
   object Label7: TLabel
     Left = 16
@@ -125,7 +125,7 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     Width = 124
     ItemHeight = 15
     TabOrder = 5
-    Text = 'cBoxEstoque'
+    Text = 'Selecione'
   end
   object Label9: TLabel
     Left = 16
@@ -158,7 +158,7 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     Width = 124
     ItemHeight = 15
     TabOrder = 6
-    Text = 'cBoxImg'
+    Text = 'Selecione'
   end
   object Label12: TLabel
     Left = 16
@@ -246,7 +246,7 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     Width = 124
     ItemHeight = 15
     TabOrder = 9
-    Text = 'cBoxIdentificador'
+    Text = 'Selecione'
   end
   object Label17: TLabel
     Left = 104
@@ -332,6 +332,7 @@ object FrmImportarCsvProdutos: TFrmImportarCsvProdutos
     Top = 448
     Width = 75
     Caption = 'Cancelar'
+    OnClick = Button3Click
     TabOrder = 13
   end
   object OpenDialog1: TOpenDialog

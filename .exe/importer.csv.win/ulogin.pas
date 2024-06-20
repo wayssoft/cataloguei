@@ -51,7 +51,8 @@ end;
 
 procedure TfrmLogin.Button2Click(Sender: TObject);
 begin
-  Application.Terminate;
+  //Application.Terminate;
+  Close;
 end;
 
 procedure TfrmLogin.Button1Click(Sender: TObject);
@@ -71,6 +72,7 @@ begin
   try
     response := request._post(url, body, headers);
     // Processar a resposta JSON
+    ShowMessage(response.ToString);
   finally
     headers.Free;
     request.Free;

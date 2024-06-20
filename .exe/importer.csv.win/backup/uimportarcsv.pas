@@ -108,44 +108,47 @@ begin
   if cBoxIdentificador.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxIdentificador.Text, 'IND');
-  end else begin ShowMessage('Não foi mapeado o identificador'); end;
+  end else begin ShowMessage('Não foi mapeado o identificador'); Exit; end;
 
   // codigo de barras
   if cBoxCodigoBarras.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxCodigoBarras.Text, 'GTIN');
-  end else begin ShowMessage('Não foi mapeado o codigo de barras'); end;
+  end else begin ShowMessage('Não foi mapeado o codigo de barras'); Exit; end;
 
   // nome do produto
   if cBoxNomeProduto.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxNomeProduto.Text, 'NOME');
-  end else begin ShowMessage('Não foi mapeado o nome do produto'); end;
+  end else begin ShowMessage('Não foi mapeado o nome do produto'); Exit; end;
 
   // descrição do produto
   if cBoxDescricao.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxDescricao.Text, 'DESC');
-  end else begin ShowMessage('Não foi mapeado a descrição do produto'); end;
+  end else begin ShowMessage('Não foi mapeado a descrição do produto'); Exit; end;
 
   // preço do produto
   if cBoxPreco.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxPreco.Text, 'PRECO');
-  end else begin ShowMessage('Não foi mapeado o preço do produto'); end;
+  end else begin ShowMessage('Não foi mapeado o preço do produto'); Exit; end;
 
   // estoque do produto
   if cBoxEstoque.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxEstoque.Text, 'ESTOQ');
-  end else begin ShowMessage('Não foi mapeado o estoque do produto'); end;
+  end else begin ShowMessage('Não foi mapeado o estoque do produto'); Exit; end;
 
 
   // caminho da imagem
   if cBoxImg.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxImg.Text, 'IMG');
-  end else begin ShowMessage('Não foi mapeado o caminho da imagem do produto'); end;
+  end else begin ShowMessage('Não foi mapeado o caminho da imagem do produto'); Exit; end;
+
+  ShowMessage('Importação da tabela CSV realizada com sucesso');
+  Close;
 
 end;
 
@@ -339,7 +342,6 @@ begin
         DM.qry_produtos.Post;
       end else begin
         DM.qry_produtos.Insert;
-        //DM.qry_produtosid.AsInteger:= i;
         DM.qry_produtosidentificador.AsString := CSV.Cells[ColumnIndex, i];
         DM.qry_produtosstatus.AsString:='pending';
         DM.qry_produtos.Post;

@@ -143,7 +143,7 @@ object frmPrincipal: TfrmPrincipal
           ParentColor = False
           ParentFont = False
         end
-        object SpeedButton1: TSpeedButton
+        object spBtFiltro: TSpeedButton
           Left = 865
           Height = 22
           Top = 8
@@ -178,9 +178,9 @@ object frmPrincipal: TfrmPrincipal
             49FFF9AB4AFFF9AB4AFFF9AB4AFFF9AB4AFFF9AB4AFFF9AB4AFFF9AB49FFF9AA
             47FFFCCB8FFFFFFEFEFF
           }
-          OnClick = SpeedButton1Click
+          OnClick = spBtFiltroClick
         end
-        object SpeedButton2: TSpeedButton
+        object spBtSync: TSpeedButton
           Left = 888
           Height = 22
           Top = 8
@@ -240,6 +240,7 @@ object frmPrincipal: TfrmPrincipal
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
             FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00
           }
+          OnClick = spBtSyncClick
         end
       end
       object StringGrid1: TStringGrid
@@ -270,6 +271,30 @@ object frmPrincipal: TfrmPrincipal
           TabOrder = 0
         end
       end
+      object mB64: TMemo
+        Left = 16
+        Height = 256
+        Top = 344
+        Width = 888
+        Lines.Strings = (
+          'mB64'
+        )
+        ScrollBars = ssBoth
+        TabOrder = 3
+        Visible = False
+      end
+      object mLog: TMemo
+        Left = 16
+        Height = 146
+        Top = 168
+        Width = 886
+        Lines.Strings = (
+          'mLog'
+        )
+        ScrollBars = ssBoth
+        TabOrder = 4
+        Visible = False
+      end
     end
     object TabSheet3: TTabSheet
       Caption = 'Configurações'
@@ -286,6 +311,18 @@ object frmPrincipal: TfrmPrincipal
     object act_atualizar_lista: TAction
       Caption = 'act_atualizar_lista'
       OnExecute = act_atualizar_listaExecute
+    end
+    object act_start_timer: TAction
+      Caption = 'act_start_timer'
+      OnExecute = act_start_timerExecute
+    end
+    object act_disbled_bt: TAction
+      Caption = 'act_disbled_bt'
+      OnExecute = act_disbled_btExecute
+    end
+    object act_enabled_bt: TAction
+      Caption = 'act_enabled_bt'
+      OnExecute = act_enabled_btExecute
     end
   end
   object Timer1: TTimer

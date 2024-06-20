@@ -276,7 +276,6 @@ object frmLogin: TfrmLogin
     TabOrder = 4
   end
   object qry_config: TZQuery
-    Connection = frmPrincipal.ZConnection1
     Params = <>
     Left = 320
     Top = 184

@@ -51,7 +51,8 @@ end;
 
 procedure TfrmLogin.Button2Click(Sender: TObject);
 begin
-  Application.Terminate;
+  //Application.Terminate;
+  Close;
 end;
 
 procedure TfrmLogin.Button1Click(Sender: TObject);
