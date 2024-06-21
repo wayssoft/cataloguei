@@ -1,14 +1,15 @@
 object frmLogin: TfrmLogin
   Left = 454
-  Height = 431
+  Height = 541
   Top = 31
   Width = 427
   BorderIcons = []
   Caption = 'Login Cataloguei'
-  ClientHeight = 431
+  ClientHeight = 541
   ClientWidth = 427
   Color = clWhite
   OnClose = FormClose
+  OnShow = FormShow
   Position = poScreenCenter
   object Image1: TImage
     Left = 8
@@ -188,7 +189,7 @@ object frmLogin: TfrmLogin
   object Button1: TButton
     Left = 344
     Height = 25
-    Top = 392
+    Top = 488
     Width = 75
     Caption = 'Prosseguir'
     Font.CharSet = ANSI_CHARSET
@@ -203,7 +204,7 @@ object frmLogin: TfrmLogin
   object Button2: TButton
     Left = 264
     Height = 25
-    Top = 392
+    Top = 488
     Width = 75
     Caption = 'Cancelar'
     Font.CharSet = ANSI_CHARSET
@@ -215,22 +216,24 @@ object frmLogin: TfrmLogin
     ParentFont = False
     TabOrder = 1
   end
-  object Edit2: TEdit
+  object edtSenha: TEdit
     Left = 24
     Height = 23
     Top = 224
     Width = 208
+    EchoMode = emPassword
+    PasswordChar = '*'
     TabOrder = 2
-    Text = 'Edit2'
+    Text = 'edtSenha'
   end
-  object MaskEdit1: TMaskEdit
+  object mEdtNumero: TMaskEdit
     Left = 24
     Height = 23
     Top = 176
     Width = 208
     MaxLength = 0
     TabOrder = 3
-    Text = 'MaskEdit1'
+    Text = 'mEdtNumero'
     SpaceChar = '_'
   end
   object Label1: TLabel
@@ -274,10 +277,5 @@ object frmLogin: TfrmLogin
     Font.Quality = fqDraft
     ParentFont = False
     TabOrder = 4
-  end
-  object qry_config: TZQuery
-    Params = <>
-    Left = 320
-    Top = 184
   end
 end

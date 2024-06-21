@@ -20,7 +20,6 @@ object DM: TDM
   end
   object qry_produtos: TZQuery
     Connection = ZConnection1
-    Active = True
     SQL.Strings = (
       'SELECT * FROM produtos'
     )
@@ -122,5 +121,11 @@ object DM: TDM
       BlobType = ftMemo
       Transliterate = False
     end
+  end
+  object qry_config: TZQuery
+    Connection = ZConnection1
+    Params = <>
+    Left = 68
+    Top = 368
   end
 end

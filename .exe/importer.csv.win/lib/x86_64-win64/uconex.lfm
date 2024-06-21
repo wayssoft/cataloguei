@@ -121,4 +121,55 @@ object DM: TDM
       Transliterate = False
     end
   end
+  object qry_config: TZQuery
+    Connection = ZConnection1
+    SQL.Strings = (
+      'select * from config'
+    )
+    Params = <>
+    Left = 68
+    Top = 368
+    object qry_configid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qry_configsenha: TMemoField
+      FieldKind = fkData
+      FieldName = 'senha'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_confignumero_whatsapp: TMemoField
+      FieldKind = fkData
+      FieldName = 'numero_whatsapp'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_configtoken: TMemoField
+      FieldKind = fkData
+      FieldName = 'token'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+  end
 end

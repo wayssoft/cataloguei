@@ -273,14 +273,14 @@ begin
 
   if error = False then begin;
 
-      url := 'https://wayssoft.com.br/api/v1/cataloguei/send_produto.php?token=698dc19d489c4e4db73e28a713eab07b';
+      url := 'https://wayssoft.com.br/api/v1/cataloguei/send_produto.php?token='+DM.qry_configtoken.AsString;
       body := '{'
       +'"identificador":"'+DM.qry_produtosidentificador.AsString+'",'
       +'"codigo_barras":"'+DM.qry_produtoscodigo_barras.AsString+'",'
       +'"nome":"'+DM.qry_produtosnome.AsString+'",'
       +'"descricao":"'+DM.qry_produtosdescricao.AsString+'",'
       +'"preco":"'+AjustarValorMoeda(FormatFloat('0.00',DM.qry_produtospreco.AsFloat))+'",'
-      +'"estoque":"'+AjustarValorMoeda(FloatToStr (DM.qry_produtosquantidade.AsFloat))+'",'
+      +'"estoque":"'+AjustarValorMoeda(FloatToStr(DM.qry_produtosquantidade.AsFloat))+'",'
       +'"imgB64":"'+mB64.Lines.Text+'"'
       +'}';
       mLog.Lines.Text:=body;

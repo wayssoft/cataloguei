@@ -273,7 +273,7 @@ begin
 
   if error = False then begin;
 
-      url := 'https://wayssoft.com.br/api/v1/cataloguei/send_produto.php?token=698dc19d489c4e4db73e28a713eab07b';
+      url := 'https://wayssoft.com.br/api/v1/cataloguei/send_produto.php?token='+DM.qry_configtoken.AsString;
       body := '{'
       +'"identificador":"'+DM.qry_produtosidentificador.AsString+'",'
       +'"codigo_barras":"'+DM.qry_produtoscodigo_barras.AsString+'",'

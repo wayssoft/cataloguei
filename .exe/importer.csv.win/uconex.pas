@@ -12,6 +12,11 @@ type
   { TDM }
 
   TDM = class(TDataModule)
+    qry_config: TZQuery;
+    qry_configid: TLargeintField;
+    qry_confignumero_whatsapp: TMemoField;
+    qry_configsenha: TMemoField;
+    qry_configtoken: TMemoField;
     qry_produtosidentificador: TMemoField;
     qry_produtospath_img: TMemoField;
     qry_produtosstatus: TMemoField;
