@@ -1,0 +1,2 @@
+mLog
+ERROR: Imagem produto 1 não existe caminho:C:\wayssoft\Environment\img-produtos\

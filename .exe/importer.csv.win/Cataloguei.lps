@@ -12,7 +12,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="75"/>
+        <UsageCount Value="77"/>
       </Unit>
       <Unit>
         <Filename Value="uprincipal.pas"/>
@@ -23,9 +23,9 @@
         <UnitName Value="uPrincipal"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="259"/>
-        <CursorPos X="7" Y="272"/>
-        <UsageCount Value="75"/>
+        <TopLine Value="311"/>
+        <CursorPos X="40" Y="326"/>
+        <UsageCount Value="77"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -36,10 +36,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uLogin"/>
-        <EditorIndex Value="4"/>
-        <TopLine Value="77"/>
-        <CursorPos X="17" Y="61"/>
-        <UsageCount Value="74"/>
+        <EditorIndex Value="5"/>
+        <TopLine Value="89"/>
+        <CursorPos X="3" Y="81"/>
+        <UsageCount Value="76"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -47,10 +47,10 @@
         <Filename Value="units\urequest4pascal.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="uRequest4Pascal"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="131"/>
         <CursorPos X="57" Y="101"/>
-        <UsageCount Value="73"/>
+        <UsageCount Value="75"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -60,9 +60,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uImportarCSV"/>
-        <TopLine Value="180"/>
-        <CursorPos X="132" Y="188"/>
-        <UsageCount Value="64"/>
+        <TopLine Value="165"/>
+        <CursorPos X="5" Y="182"/>
+        <UsageCount Value="66"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -73,10 +73,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="uConex"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="7"/>
         <CursorPos X="36" Y="38"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="56"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -94,92 +94,21 @@
         <TopLine Value="133"/>
         <UsageCount Value="11"/>
       </Unit>
+      <Unit>
+        <Filename Value="ufinish.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFinish"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uFinish"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="32"/>
+        <CursorPos X="16" Y="52"/>
+        <UsageCount Value="22"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="338" Column="65" TopLine="324"/>
-      </Position>
-      <Position>
-        <Filename Value="uprincipal.pas"/>
-        <Caret Line="246" Column="16" TopLine="229"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="150" Column="64" TopLine="129"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="149" Column="87" TopLine="130"/>
-      </Position>
-      <Position>
-        <Filename Value="uprincipal.pas"/>
-        <Caret Line="283" Column="86" TopLine="265"/>
-      </Position>
-      <Position>
-        <Filename Value="ulogin.pas"/>
-        <Caret Line="86" Column="46" TopLine="58"/>
-      </Position>
-      <Position>
-        <Filename Value="ulogin.pas"/>
-        <Caret Line="81" Column="17" TopLine="64"/>
-      </Position>
-      <Position>
-        <Filename Value="ulogin.pas"/>
-        <Caret Line="63" Column="15" TopLine="61"/>
-      </Position>
-      <Position>
-        <Filename Value="ulogin.pas"/>
-        <Caret Line="86" Column="46" TopLine="68"/>
-      </Position>
-      <Position>
-        <Filename Value="ulogin.pas"/>
-        <Caret Line="99" Column="38" TopLine="75"/>
-      </Position>
-      <Position>
-        <Filename Value="ulogin.pas"/>
-        <Caret Line="98" Column="38" TopLine="74"/>
-      </Position>
-      <Position>
-        <Filename Value="uconex.pas"/>
-        <Caret Line="33" Column="36" TopLine="2"/>
-      </Position>
-      <Position>
-        <Filename Value="uconex.pas"/>
-        <Caret Line="34" Column="36" TopLine="3"/>
-      </Position>
-      <Position>
-        <Filename Value="ulogin.pas"/>
-        <Caret Line="104" Column="38" TopLine="74"/>
-      </Position>
-      <Position>
-        <Filename Value="ulogin.pas"/>
-        <Caret Line="112" Column="23" TopLine="70"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="440" Column="21" TopLine="433"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="447" Column="21" TopLine="440"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="171" Column="3" TopLine="168"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="105" Column="29" TopLine="99"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="173" Column="3" TopLine="170"/>
-      </Position>
-      <Position>
-        <Filename Value="uimportarcsv.pas"/>
-        <Caret Line="111" Column="30" TopLine="109"/>
-      </Position>
       <Position>
         <Filename Value="uimportarcsv.pas"/>
         <Caret Line="113" Column="30" TopLine="111"/>
@@ -215,6 +144,89 @@
       <Position>
         <Filename Value="uimportarcsv.pas"/>
         <Caret Line="183" Column="3" TopLine="180"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="272" Column="7" TopLine="288"/>
+      </Position>
+      <Position>
+        <Filename Value="ufinish.pas"/>
+      </Position>
+      <Position>
+        <Filename Value="ufinish.pas"/>
+        <Caret Line="41" Column="9" TopLine="13"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="317" Column="15" TopLine="298"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="16" Column="27"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="325" Column="27" TopLine="304"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="181" Column="3" TopLine="178"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="94" Column="29" TopLine="91"/>
+      </Position>
+      <Position>
+        <Filename Value="ufinish.pas"/>
+        <Caret Line="30" Column="5" TopLine="24"/>
+      </Position>
+      <Position>
+        <Filename Value="ufinish.pas"/>
+        <Caret Line="32" Column="5" TopLine="26"/>
+      </Position>
+      <Position>
+        <Filename Value="ufinish.pas"/>
+        <Caret Line="8" Column="86" TopLine="30"/>
+      </Position>
+      <Position>
+        <Filename Value="ufinish.pas"/>
+        <Caret Line="51" Column="49" TopLine="30"/>
+      </Position>
+      <Position>
+        <Filename Value="ufinish.pas"/>
+        <Caret Line="52" Column="56" TopLine="30"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="326" Column="83" TopLine="312"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="181" Column="3" TopLine="178"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="95" Column="35" TopLine="91"/>
+      </Position>
+      <Position>
+        <Filename Value="ulogin.pas"/>
+        <Caret Line="61" Column="17" TopLine="77"/>
+      </Position>
+      <Position>
+        <Filename Value="ulogin.pas"/>
+        <Caret Line="54" Column="3" TopLine="52"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="326" Column="45" TopLine="312"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="177" Column="3" TopLine="174"/>
+      </Position>
+      <Position>
+        <Filename Value="uprincipal.pas"/>
+        <Caret Line="93" Column="3" TopLine="91"/>
       </Position>
     </JumpHistory>
     <RunParams>

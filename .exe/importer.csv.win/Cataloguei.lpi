@@ -11,6 +11,7 @@
       <UseXPManifest Value="True"/>
       <XPManifest>
         <DpiAware Value="True"/>
+        <ExecutionLevel Value="requireAdministrator"/>
       </XPManifest>
       <Icon Value="0"/>
     </General>
@@ -76,6 +77,13 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="uConex"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ufinish.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFinish"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uFinish"/>
       </Unit>
     </Units>
   </ProjectOptions>

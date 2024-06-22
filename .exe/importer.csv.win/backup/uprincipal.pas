@@ -13,7 +13,7 @@ uses
   fpjson,
   jsonparser,
   //Formularios
-  uLogin, uConex,
+  uLogin, uConex, uFinish,
   uImportarCSV, DB;
 
 type
@@ -93,10 +93,6 @@ begin
   // cria a conexão com banco de dados
   DM.ZConnection1.Database:=ExtractFilePath(ParamStr(0))+'data.db';
   DM.ZConnection1.Connected:=True;
-  If (frmLogin = Nil) Then // Verifica se o formulário está vazio (Nil).
-  frmLogin := TfrmLogin.Create(Application); // Cria o formulário.
-  frmLogin.WindowState := wsNormal; // Se o usuario maximizou ou minizou o formulário, ele volta para o tamanho nornal.
-  frmLogin.ShowModal; //ou Form1.ShowModal - Mostra o formulário na tela.
 end;
 
 procedure TfrmPrincipal.act_atualizar_listaExecute(Sender: TObject);
@@ -178,6 +174,10 @@ end;
 
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
+  If (frmLogin = Nil) Then // Verifica se o formulário está vazio (Nil).
+  frmLogin := TfrmLogin.Create(Application); // Cria o formulário.
+  frmLogin.WindowState := wsNormal; // Se o usuario maximizou ou minizou o formulário, ele volta para o tamanho nornal.
+  frmLogin.ShowModal; //ou Form1.ShowModal - Mostra o formulário na tela.
   with DM.qry_produtos do
   begin
      Close;
@@ -237,15 +237,20 @@ var
   JSONResponse: TJSONObject;
   request: TRequest4pascal;
   error:Boolean;
+  TotError,
+  TotSync:Integer;
+  log:String;
 begin
   Timer1.Enabled:=False;
   error:=False;
+  TotError:=0;
+  TotSync:=0;
 
   // verifica se imagem existe
   if not FileExists(DM.qry_produtospath_img.AsString) then
   begin
       error:=True;
-      mLog.Lines.Add('Imagem produto '+DM.qry_produtosidentificador.AsString
+      mLog.Lines.Add('ERROR: Imagem produto '+DM.qry_produtosidentificador.AsString
                                       +' não existe caminho:'+DM.qry_produtospath_img.AsString);
   end else begin
       // verifica extesão da imagem
@@ -260,7 +265,7 @@ begin
 
       end else begin
         error:=True;
-        mLog.Lines.Add('Imagem produto '+DM.qry_produtosidentificador.AsString
+        mLog.Lines.Add('ERROR: Imagem produto '+DM.qry_produtosidentificador.AsString
                                         +' extensão diferente de JPG:'+DM.qry_produtospath_img.AsString);
       end;
 
@@ -299,6 +304,7 @@ begin
             DM.qry_produtos.Edit;
             DM.qry_produtosstatus.AsString:='atualizado';
             DM.qry_produtos.Post;
+            TotSync:=TotSync+1;
           end;
         end;
       finally
@@ -306,6 +312,8 @@ begin
         request.Free;
       end;
 
+  end else begin
+     TotError:=TotError+1;
   end;
 
   Application.ProcessMessages;
@@ -314,7 +322,13 @@ begin
 
   // verifica se foi atualizado todos os produtos
   if progress_produto >= total_produtos then begin
-    ShowMessage('Deu certo');
+    // salva o log
+    log:=ExtractFilePath(ParamStr(0))+'\log\'+FormatDateTime('ddmmyyyyhhnnss', now)+'.txt';
+    mLog.Lines.SaveToFile(log);
+    frmFinish.log := log;
+    frmFinish.TotError:=TotError;
+    frmFinish.TotSync:=TotSync;
+    frmFinish.showmodal;
     ProgressBar1.Position:=0;
     act_enabled_bt.Execute;
     act_atualizar_lista.Execute;
