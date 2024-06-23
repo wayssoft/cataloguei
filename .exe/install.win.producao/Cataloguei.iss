@@ -28,10 +28,11 @@ ArchitecturesAllowed=x64compatible
 ; the 64-bit view of the registry.
 ArchitecturesInstallIn64BitMode=x64compatible
 DisableProgramGroupPage=yes
+CreateUninstallRegKey=yes
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir=C:\wayssoft\cataloguei\.exe\install.win.producao
-OutputBaseFilename=Cataloguei
+OutputBaseFilename=inwtall_cataloguei_win64
 SetupIconFile=C:\wayssoft\cataloguei\.exe\importer.csv.win\Cataloguei.ico
 Compression=lzma
 SolidCompression=yes
@@ -41,7 +42,7 @@ WizardStyle=modern
 Name: "portuguese"; MessagesFile: "compiler:Languages\Portuguese.isl"
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}";
 
 [Files]
 Source: "C:\wayssoft\cataloguei\.exe\install.win\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
@@ -53,5 +54,5 @@ Name: "{autoprograms}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
 Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
 
 [Run]
-Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+;Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 

@@ -6,14 +6,14 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, ExtCtrls, ComCtrls,
-  DBGrids, Buttons, StdCtrls, Grids, ActnList, ZConnection, ZDataset,
+  DBGrids, Buttons, StdCtrls, Grids, ActnList, ZConnection, ZDataset, LCLIntf,
   // units
   // Uses para ultilizar o Request4Pascal
   uRequest4pascal,
   fpjson,
   jsonparser,
   //Formularios
-  uLogin, uConex, uFinish,
+  uLogin, uConex, uFinish, uFiltro,
   uImportarCSV, DB;
 
 type
@@ -28,7 +28,12 @@ type
     ActionList1: TActionList;
     ds_produtos: TDataSource;
     Image1: TImage;
+    Image2: TImage;
     Label1: TLabel;
+    Label2: TLabel;
+    Label3: TLabel;
+    lbLinkCatalago: TLabel;
+    Label4: TLabel;
     mB64: TMemo;
     mLog: TMemo;
     PageControl1: TPageControl;
@@ -38,6 +43,7 @@ type
     spBtImportarProdutos: TSpeedButton;
     spBtFiltro: TSpeedButton;
     spBtSync: TSpeedButton;
+    SpeedButton1: TSpeedButton;
     StringGrid1: TStringGrid;
     TabSheet2: TTabSheet;
     TabSheet3: TTabSheet;
@@ -48,15 +54,19 @@ type
     procedure act_start_timerExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);
+    procedure lbLinkCatalagoClick(Sender: TObject);
     procedure spBtImportarProdutosClick(Sender: TObject);
     procedure spBtFiltroClick(Sender: TObject);
     procedure spBtSyncClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
     procedure StringGrid1DblClick(Sender: TObject);
     procedure Timer1Timer(Sender: TObject);
   private
     var
     total_produtos,
     progress_produto:Integer;
+    TotError,
+    TotSync:Integer;
   public
 
   end;
@@ -174,6 +184,7 @@ end;
 
 procedure TfrmPrincipal.FormShow(Sender: TObject);
 begin
+  TabSheet2.Show;
   If (frmLogin = Nil) Then // Verifica se o formulário está vazio (Nil).
   frmLogin := TfrmLogin.Create(Application); // Cria o formulário.
   frmLogin.WindowState := wsNormal; // Se o usuario maximizou ou minizou o formulário, ele volta para o tamanho nornal.
@@ -186,6 +197,12 @@ begin
      Open;
   end;
   act_atualizar_lista.Execute;
+  lbLinkCatalago.Caption:='https://app.cataloguei.shop/d?loja='+DM.dominio;
+end;
+
+procedure TfrmPrincipal.lbLinkCatalagoClick(Sender: TObject);
+begin
+  OpenURL(lbLinkCatalago.Caption);
 end;
 
 procedure TfrmPrincipal.spBtImportarProdutosClick(Sender: TObject);
@@ -205,13 +222,30 @@ end;
 
 procedure TfrmPrincipal.spBtFiltroClick(Sender: TObject);
 begin
+  frmFiltro.showmodal;
   act_atualizar_lista.Execute;
 end;
 
 procedure TfrmPrincipal.spBtSyncClick(Sender: TObject);
 begin
+  // desfaz filtro
+  ShowMessage('Atenção para a sincronização dos produtos o sistema desfará qualquer filtro aplicado');
+  with DM.qry_produtos do begin
+     Close;
+     SQL.Clear;
+     SQL.Add('SELECT * FROM produtos');
+     Open;
+  end;
+  TotError:=0;
+  TotSync:=0;
+  act_atualizar_lista.Execute;
   act_disbled_bt.Execute;
   act_start_timer.Execute;
+end;
+
+procedure TfrmPrincipal.SpeedButton1Click(Sender: TObject);
+begin
+  OpenURL('https://wayssoft.tomticket.com/kb/cataloguei-desktop');
 end;
 
 procedure TfrmPrincipal.StringGrid1DblClick(Sender: TObject);
@@ -223,9 +257,26 @@ begin
   begin
     // Obtém o valor da primeira coluna da linha selecionada
     valorPrimeiraColuna := StringGrid1.Cells[0, StringGrid1.Row];
+    // filtra na base de dados o registro
+    with DM.qry_produtos_open_link do
+    begin
+      Close;
+      SQL.Clear;
+      SQL.Add('SELECT * FROM produtos WHERE identificador = '+QuotedStr(valorPrimeiraColuna));
+      Open;
+    end;
+    if DM.qry_produtos_open_link.RecordCount =0 then begin
+
+    end else begin
+      if DM.qry_produtos_open_linkid_produto_cataloguei.AsInteger > 0 then begin
+        OpenURL('https://app.cataloguei.shop/d.php?produto='+IntToStr(DM.qry_produtos_open_linkid_produto_cataloguei.AsInteger)+'&loja='+DM.dominio);
+      end else begin
+        ShowMessage('Produto ainda não foi sincronizado.');
+      end;
+    end;
 
     // Exemplo de uso do valor obtido
-    ShowMessage('Valor da primeira coluna na linha ' + IntToStr(StringGrid1.Row) + ': ' + valorPrimeiraColuna);
+    //ShowMessage('Valor da primeira coluna na linha ' + IntToStr(StringGrid1.Row) + ': ' + valorPrimeiraColuna);
   end;
 end;
 
@@ -237,14 +288,10 @@ var
   JSONResponse: TJSONObject;
   request: TRequest4pascal;
   error:Boolean;
-  TotError,
-  TotSync:Integer;
   log:String;
 begin
   Timer1.Enabled:=False;
   error:=False;
-  TotError:=0;
-  TotSync:=0;
 
   // verifica se imagem existe
   if not FileExists(DM.qry_produtospath_img.AsString) then
@@ -274,6 +321,12 @@ begin
   // verifica se ja esta atualizado o registro
   if DM.qry_produtosstatus.AsString = 'atualizado' then begin
     error:=True;
+    mLog.Lines.Add('ERROR: produto: '+DM.qry_produtosidentificador.AsString+' já esta atualizado');
+  end;
+
+  if DM.qry_produtosstatus.AsString = 'error' then begin
+    error:=True;
+    mLog.Lines.Add('ERROR: produto: '+DM.qry_produtosidentificador.AsString+' com erro');
   end;
 
   if error = False then begin;
@@ -303,6 +356,7 @@ begin
             //atualizar status do produto
             DM.qry_produtos.Edit;
             DM.qry_produtosstatus.AsString:='atualizado';
+            DM.qry_produtosid_produto_cataloguei.AsInteger:=StrToInt(JSONResponse.Get('id_produto'));
             DM.qry_produtos.Post;
             TotSync:=TotSync+1;
           end;

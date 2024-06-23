@@ -82,8 +82,16 @@
         <Filename Value="ufinish.pas"/>
         <IsPartOfProject Value="True"/>
         <ComponentName Value="frmFinish"/>
+        <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="uFinish"/>
+      </Unit>
+      <Unit>
+        <Filename Value="ufiltro.pas"/>
+        <IsPartOfProject Value="True"/>
+        <ComponentName Value="frmFiltro"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="uFiltro"/>
       </Unit>
     </Units>
   </ProjectOptions>

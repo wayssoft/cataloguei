@@ -462,6 +462,9 @@ begin
 
       except
         // grava log
+        DM.qry_produtos.Edit;
+        DM.qry_produtosstatus.AsString:='error';
+        DM.qry_produtos.Post;
       end;
     end;
 
@@ -488,6 +491,9 @@ begin
 
       except
         // grava log
+        DM.qry_produtos.Edit;
+        DM.qry_produtosstatus.AsString:='error';
+        DM.qry_produtos.Post;
       end;
     end;
 

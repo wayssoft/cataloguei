@@ -11,6 +11,7 @@ object frmLogin: TfrmLogin
   OnClose = FormClose
   OnShow = FormShow
   Position = poScreenCenter
+  LCLVersion = '2.2.6.0'
   object Image1: TImage
     Left = 8
     Height = 90
@@ -277,5 +278,6 @@ object frmLogin: TfrmLogin
     Font.Quality = fqDraft
     ParentFont = False
     TabOrder = 4
+    Visible = False
   end
 end

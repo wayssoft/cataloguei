@@ -185,7 +185,7 @@ end;
 
 procedure TFrmImportarCsvProdutos.SpeedButton2Click(Sender: TObject);
 begin
-  OpenURL('https://wayssoft.tomticket.com/kb/cataloguei-desktop/identificador-do-produto');
+  OpenURL('https://wayssoft.tomticket.com/kb/cataloguei-desktop/caminho-da-imagem-do-produto-na-tabela-csv-para-importacao-de-dados');
 end;
 
 procedure TFrmImportarCsvProdutos.ImportCSV(const FileName: string);
@@ -462,6 +462,9 @@ begin
 
       except
         // grava log
+        DM.qry_produtos.Edit;
+        DM.qry_produtosstatus.AsString:='error';
+        DM.qry_produtos.Post;
       end;
     end;
 

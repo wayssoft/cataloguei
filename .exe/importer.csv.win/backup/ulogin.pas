@@ -96,6 +96,7 @@ begin
          UserObject := TJSONObject(JSONResponse.FindPath('user'));
          // Get the token value
          TokenValue := UserObject.Get('token', '');
+         TokenValue := UserObject.Get('dominio', '');
          logInSuccess := True;
       end else begin
         ShowMessage(JSONResponse.Get('message'));

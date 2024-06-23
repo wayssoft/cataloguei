@@ -11,7 +11,7 @@ uses
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, zcomponent, uPrincipal, uLogin, uRequest4Pascal, uImportarCSV, uConex,
-  uFinish
+  uFinish, uFiltro
   { you can add units after this };
 
 {$R *.res}
@@ -24,6 +24,7 @@ begin
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TFrmImportarCsvProdutos, FrmImportarCsvProdutos);
   Application.CreateForm(TfrmFinish, frmFinish);
+  Application.CreateForm(TfrmFiltro, frmFiltro);
   Application.Run;
 end.
 
