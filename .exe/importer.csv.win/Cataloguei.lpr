@@ -10,7 +10,8 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, zcomponent, uPrincipal, uLogin, uRequest4Pascal, uImportarCSV, uConex
+  Forms, zcomponent, uPrincipal, uLogin, uRequest4Pascal, uImportarCSV, uConex,
+  uFinish, uFiltro
   { you can add units after this };
 
 {$R *.res}
@@ -22,6 +23,8 @@ begin
   Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TFrmImportarCsvProdutos, FrmImportarCsvProdutos);
+  Application.CreateForm(TfrmFinish, frmFinish);
+  Application.CreateForm(TfrmFiltro, frmFiltro);
   Application.Run;
 end.
 

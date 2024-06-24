@@ -1,0 +1,6 @@
+mLog
+ERROR: produto: 1 já esta atualizado
+ERROR: produto: 2 já esta atualizado
+ERROR: produto: 3 já esta atualizado
+ERROR: produto: 4 já esta atualizado
+ERROR: produto: 5 já esta atualizado

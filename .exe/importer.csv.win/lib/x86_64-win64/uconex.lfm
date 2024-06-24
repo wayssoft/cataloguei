@@ -120,5 +120,178 @@ object DM: TDM
       BlobType = ftMemo
       Transliterate = False
     end
+    object qry_produtosid_produto_cataloguei: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id_produto_cataloguei'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+  end
+  object qry_config: TZQuery
+    Connection = ZConnection1
+    SQL.Strings = (
+      'select * from config'
+    )
+    Params = <>
+    Left = 68
+    Top = 368
+    object qry_configid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qry_configsenha: TMemoField
+      FieldKind = fkData
+      FieldName = 'senha'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_confignumero_whatsapp: TMemoField
+      FieldKind = fkData
+      FieldName = 'numero_whatsapp'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_configtoken: TMemoField
+      FieldKind = fkData
+      FieldName = 'token'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+  end
+  object qry_produtos_open_link: TZQuery
+    Connection = ZConnection1
+    SQL.Strings = (
+      'SELECT * FROM produtos'
+    )
+    Params = <>
+    Left = 68
+    Top = 440
+    object qry_produtos_open_linkid: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object qry_produtos_open_linkcodigo_barras: TMemoField
+      FieldKind = fkData
+      FieldName = 'codigo_barras'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtos_open_linknome: TMemoField
+      FieldKind = fkData
+      FieldName = 'nome'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtos_open_linkdescricao: TMemoField
+      FieldKind = fkData
+      FieldName = 'descricao'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtos_open_linkpreco: TFloatField
+      FieldKind = fkData
+      FieldName = 'preco'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 2
+    end
+    object qry_produtos_open_linkquantidade: TFloatField
+      FieldKind = fkData
+      FieldName = 'quantidade'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Precision = 2
+    end
+    object qry_produtos_open_linkidentificador: TMemoField
+      FieldKind = fkData
+      FieldName = 'identificador'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtos_open_linkpath_img: TMemoField
+      FieldKind = fkData
+      FieldName = 'path_img'
+      Index = 7
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtos_open_linkstatus: TMemoField
+      FieldKind = fkData
+      FieldName = 'status'
+      Index = 8
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      BlobType = ftMemo
+      Transliterate = False
+    end
+    object qry_produtos_open_linkid_produto_cataloguei: TLargeintField
+      FieldKind = fkData
+      FieldName = 'id_produto_cataloguei'
+      Index = 9
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
   end
 end

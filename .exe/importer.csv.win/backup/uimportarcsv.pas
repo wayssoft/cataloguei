@@ -6,15 +6,15 @@ interface
 
 uses
   Classes, SysUtils, Forms, Controls, Graphics, Dialogs, StdCtrls, ExtCtrls,
-  ComCtrls,CsvDocument, uConex;
+  ComCtrls, Buttons,CsvDocument, uConex, ShellApi, LCLIntf;
 
 type
 
   { TFrmImportarCsvProdutos }
 
   TFrmImportarCsvProdutos = class(TForm)
-    Button1: TButton;
-    Button2: TButton;
+    btSelecionar: TButton;
+    btImportar: TButton;
     Button3: TButton;
     cBoxCodigoBarras: TComboBox;
     cBoxImg: TComboBox;
@@ -48,9 +48,15 @@ type
     Panel2: TPanel;
     Panel3: TPanel;
     ProgressBar1: TProgressBar;
-    procedure Button1Click(Sender: TObject);
-    procedure Button2Click(Sender: TObject);
+    SpeedButton1: TSpeedButton;
+    SpeedButton2: TSpeedButton;
+    procedure btSelecionarClick(Sender: TObject);
+    procedure btImportarClick(Sender: TObject);
+    procedure Button3Click(Sender: TObject);
     procedure FormClose(Sender: TObject; var CloseAction: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
   private
 
   public
@@ -93,66 +99,93 @@ end;
 Result := valor;
 end;
 
-procedure TFrmImportarCsvProdutos.Button1Click(Sender: TObject);
+procedure TFrmImportarCsvProdutos.btSelecionarClick(Sender: TObject);
 begin
   OpenDialog1.Filter := 'CSV Files|*.csv';
   if OpenDialog1.Execute then
   begin
     ImportCSVv2(OpenDialog1.FileName);
+    btImportar.Enabled:=True;
   end;
 end;
 
-procedure TFrmImportarCsvProdutos.Button2Click(Sender: TObject);
+procedure TFrmImportarCsvProdutos.btImportarClick(Sender: TObject);
 begin
+  btSelecionar.Enabled:=False;
   // identificador
   if cBoxIdentificador.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxIdentificador.Text, 'IND');
-  end else begin ShowMessage('Não foi mapeado o identificador'); end;
+  end else begin ShowMessage('Não foi mapeado o identificador'); Exit; end;
 
   // codigo de barras
   if cBoxCodigoBarras.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxCodigoBarras.Text, 'GTIN');
-  end else begin ShowMessage('Não foi mapeado o codigo de barras'); end;
+  end else begin ShowMessage('Não foi mapeado o codigo de barras'); Exit; end;
 
   // nome do produto
   if cBoxNomeProduto.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxNomeProduto.Text, 'NOME');
-  end else begin ShowMessage('Não foi mapeado o nome do produto'); end;
+  end else begin ShowMessage('Não foi mapeado o nome do produto'); Exit; end;
 
   // descrição do produto
   if cBoxDescricao.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxDescricao.Text, 'DESC');
-  end else begin ShowMessage('Não foi mapeado a descrição do produto'); end;
+  end else begin ShowMessage('Não foi mapeado a descrição do produto'); Exit; end;
 
   // preço do produto
   if cBoxPreco.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxPreco.Text, 'PRECO');
-  end else begin ShowMessage('Não foi mapeado o preço do produto'); end;
+  end else begin ShowMessage('Não foi mapeado o preço do produto'); Exit; end;
 
   // estoque do produto
   if cBoxEstoque.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxEstoque.Text, 'ESTOQ');
-  end else begin ShowMessage('Não foi mapeado o estoque do produto'); end;
+  end else begin ShowMessage('Não foi mapeado o estoque do produto'); Exit; end;
 
 
   // caminho da imagem
   if cBoxImg.ItemIndex <> -1 then
   begin
     DisplayColumnDatav2(cBoxImg.Text, 'IMG');
-  end else begin ShowMessage('Não foi mapeado o caminho da imagem do produto'); end;
+  end else begin ShowMessage('Não foi mapeado o caminho da imagem do produto'); Exit; end;
 
+  ShowMessage('Importação da tabela CSV realizada com sucesso');
+  Close;
+
+end;
+
+procedure TFrmImportarCsvProdutos.Button3Click(Sender: TObject);
+begin
+  Close;
 end;
 
 procedure TFrmImportarCsvProdutos.FormClose(Sender: TObject;
   var CloseAction: TCloseAction);
 begin
   FrmImportarCsvProdutos := Nil; // Deixa o formulário vazio
+end;
+
+procedure TFrmImportarCsvProdutos.FormShow(Sender: TObject);
+begin
+  btImportar.Enabled:=False;
+  btSelecionar.Enabled:=True;
+end;
+
+procedure TFrmImportarCsvProdutos.SpeedButton1Click(Sender: TObject);
+begin
+  //ShellExecute(Handle,'open','https://wayssoft.tomticket.com/kb/cataloguei-desktop/identificador-do-produto',nil,nil);
+  OpenURL('https://wayssoft.tomticket.com/kb/cataloguei-desktop/identificador-do-produto');
+end;
+
+procedure TFrmImportarCsvProdutos.SpeedButton2Click(Sender: TObject);
+begin
+  OpenURL('https://wayssoft.tomticket.com/kb/cataloguei-desktop/caminho-da-imagem-do-produto-na-tabela-csv-para-importacao-de-dados');
 end;
 
 procedure TFrmImportarCsvProdutos.ImportCSV(const FileName: string);
@@ -339,7 +372,6 @@ begin
         DM.qry_produtos.Post;
       end else begin
         DM.qry_produtos.Insert;
-        //DM.qry_produtosid.AsInteger:= i;
         DM.qry_produtosidentificador.AsString := CSV.Cells[ColumnIndex, i];
         DM.qry_produtosstatus.AsString:='pending';
         DM.qry_produtos.Post;
@@ -409,20 +441,30 @@ begin
 
 
     if campo = 'PRECO' then begin
-      // primeiro verifica se esse identificador ja foi informado
-      with DM.qry_produtos do
-      begin
-        Close;
-        SQL.Clear;
-        SQL.Add('SELECT * FROM produtos WHERE identificador = '+QuotedStr(CSV.Cells[ColumnIndexIND, i]));
-        Open;
-      end;
-      if DM.qry_produtos.RecordCount > 0 then begin
+      // verifica integridade do dado
+      try
+
+        // primeiro verifica se esse identificador ja foi informado
+        with DM.qry_produtos do
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('SELECT * FROM produtos WHERE identificador = '+QuotedStr(CSV.Cells[ColumnIndexIND, i]));
+          Open;
+        end;
+        if DM.qry_produtos.RecordCount > 0 then begin
+          DM.qry_produtos.Edit;
+          DM.qry_produtospreco.AsFloat := StrToFloat(TrocaVirgPPto(CSV.Cells[ColumnIndex, i]));
+          DM.qry_produtos.Post;
+        end else begin
+          // cria log de não encontrar o produto na DB
+        end;
+
+      except
+        // grava log
         DM.qry_produtos.Edit;
-        DM.qry_produtospreco.AsFloat := StrToFloat(TrocaVirgPPto(CSV.Cells[ColumnIndex, i]));
+        DM.qry_produtosstatus.AsString:='error';
         DM.qry_produtos.Post;
-      end else begin
-        // cria log de não encontrar o produto na DB
       end;
     end;
 
@@ -430,19 +472,25 @@ begin
 
     if campo = 'ESTOQ' then begin
       // primeiro verifica se esse identificador ja foi informado
-      with DM.qry_produtos do
-      begin
-        Close;
-        SQL.Clear;
-        SQL.Add('SELECT * FROM produtos WHERE identificador = '+QuotedStr(CSV.Cells[ColumnIndexIND, i]));
-        Open;
-      end;
-      if DM.qry_produtos.RecordCount > 0 then begin
-        DM.qry_produtos.Edit;
-        DM.qry_produtosquantidade.AsFloat := StrToFloat(TrocaVirgPPto(CSV.Cells[ColumnIndex, i]));
-        DM.qry_produtos.Post;
-      end else begin
-        // cria log de não encontrar o produto na DB
+      try
+
+        with DM.qry_produtos do
+        begin
+          Close;
+          SQL.Clear;
+          SQL.Add('SELECT * FROM produtos WHERE identificador = '+QuotedStr(CSV.Cells[ColumnIndexIND, i]));
+          Open;
+        end;
+        if DM.qry_produtos.RecordCount > 0 then begin
+          DM.qry_produtos.Edit;
+          DM.qry_produtosquantidade.AsFloat := StrToFloat(TrocaVirgPPto(CSV.Cells[ColumnIndex, i]));
+          DM.qry_produtos.Post;
+        end else begin
+          // cria log de não encontrar o produto na DB
+        end;
+
+      except
+        // grava log
       end;
     end;
 
