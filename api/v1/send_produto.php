@@ -9,6 +9,7 @@ require_once 'conex.php';
 // Inicializa uma resposta padrão
 $response = array('status' => 'error', 'message' => 'falhou');
 
+
 function retornaIdProduto($mysqli,$value,$id_empresa): int 
 {
     $sql_code = "SELECT * FROM produto WHERE identificador = '".$value."' AND id_empresa = ".$id_empresa;
@@ -42,7 +43,7 @@ if(!isset($_GET['token']))
     $id_empresa = retornaIdEmpresa($mysqli,$_GET['token']);
     if($id_empresa == 0)
     {
-        header("HTTP/1.1 400 Invalid request token");
+        header("HTTP/1.1 400 Invalid request token 001");
         exit;        
     }
 }
@@ -55,7 +56,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     // Decodifica o JSON em um array associativo
     $data = json_decode($json, true);
     if ($data === null){
-        header("HTTP/1.1 400 Invalid request");
+        header("HTTP/1.1 400 Invalid request 002");
         exit;
     }else{
 
@@ -154,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
             
         } catch (Exception $e) {
             $response['status']  = 'error'; $response['message'] = $e->getMessage();
-            header("HTTP/1.1 400 Invalid request");
+            header("HTTP/1.1 400 Invalid request img");
             exit;
         }
 

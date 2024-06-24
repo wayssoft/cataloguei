@@ -12,6 +12,7 @@ if(!isset($_GET['id'])){
     <title>Menu de produto</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/main.css'>
+
     <!--boxicon-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <style>
@@ -46,5 +47,15 @@ if(!isset($_GET['id'])){
             <a href="produto_promocao.php?id=<?php echo $id_produto; ?>"><i class='bx bx-chevron-right'></i></a>
         </div>
     </div>
+
+
+    <div class="container-menu">
+        <div class="desc-menu">
+            <p>Variação do produto</p>
+        </div>
+        <div class="container-bt b-main-centro-total">
+            <a href="produto_variacao.php?id=<?php echo $id_produto; ?>"><i class='bx bx-chevron-right'></i></a>
+        </div>
+    </div>    
 </body>
 </html>

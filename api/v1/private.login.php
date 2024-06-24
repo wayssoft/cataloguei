@@ -7,26 +7,26 @@ header("Content-Type: application/json; charset=UTF-8");
 require_once 'conex.php';
 
 // function log-in
-function login($db, $num_whatsapp, $senha){
+function login($mysqli, $num_whatsapp, $senha){
     // Inicializa uma resposta padrão
     $response = array('status' => 'error', 'message' => 'Login falhou');
     // trada os dados de entrada
-    $num  = $db->real_escape_string($num_whatsapp);
-    $pass = $db->real_escape_string($senha);
+    $num  = $mysqli->real_escape_string($num_whatsapp);
+    $pass = $mysqli->real_escape_string($senha);
     $num  = preg_replace('/\D/', '', $num);
     $pass = md5($pass);
     $pass = strtoupper($pass);
     // faz a consulta no banco de dados
-    $sql_code = "SELECT nome, status, dominio FROM empresa WHERE upper(numero_whatsapp) = '$num' AND upper(senha) = '$pass'";
-    $sql_query = $db->query($sql_code) or die("Falha na execução do código SQL: " . $db->error);
+    $sql_code = "SELECT * FROM empresa WHERE upper(numero_whatsapp) = '$num' AND upper(senha) = '$pass'";
+    $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
     $quantidade = $sql_query->num_rows;
-    $user = $sql_query->fetch(PDO::FETCH_ASSOC);
+    $usuario = $sql_query->fetch_assoc();
     // verifica se foi encontrado o usuario
     if($quantidade > 0)
     {
         $response['status'] = 'success';
         $response['message'] = 'Login bem-sucedido';
-        $response['user'] = $user; // Inclui os dados do usuário, de acordo com a query
+        $response['user'] = $usuario; // Inclui os dados do usuário, de acordo com a query
     } else {
         // Login falhou
         $response['message'] = 'Número de WhatsApp ou senha incorretos';
@@ -43,8 +43,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
     $json = file_get_contents('php://input');
     // Decodifica o JSON em um array associativo
     $data = json_decode($json, true);
-    if ($data === null) 
+    if ($data === null)
     {
+        header("HTTP/1.1 400 Invalid request");
+        exit;
+    }else{
 
         $num_whatsapp =         $data['num_whatsapp'];
         $senha        =         $data['senha'];
@@ -53,9 +56,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         echo(login($mysqli, $num_whatsapp, $senha));
         header("HTTP/1.1 200 OK");
 
-    }else{
-        header("HTTP/1.1 400 Invalid request");
-        exit;
     }
 
 }else{
