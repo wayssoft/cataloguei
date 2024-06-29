@@ -120,20 +120,27 @@ function sendWhatsappUser($mysqli,$value,$status): bool {
 } 
 
 function baixa_estoque($mysqli,$id_venda): bool {
-    $sql_code = "SELECT produto_id,qtd FROM venda_detalhe WHERE venda_id = ".$id_venda;
+    $sql_code = "SELECT produto_id,qtd,variacao,id_variacao FROM venda_detalhe WHERE status = 'added' AND venda_id = ".$id_venda;
     $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
     //$quantidade = $sql_query->num_rows;
     $venda_detalhe = $sql_query->fetch_all();    
-    foreach($venda_detalhe as $row){
+    foreach($venda_detalhe as $row)
+    {
+
+        // pega valores para verificar a variação
+        $variacao    = $row[2];
+        $id_variacao = $row[3];
+        $qtd_pedido  = $row[1];    
+
         // busca quantidade atual do estoque
         $sql_code = "SELECT id,estoque FROM produto WHERE id = ".$row[0];
         $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
         $quantidade = $sql_query->num_rows;
         if($quantidade > 0){
-            $produto = $sql_query->fetch_assoc();
-            $estoque_atual = $produto['estoque'];
+            $ds_produto = $sql_query->fetch_assoc();
+            $estoque_atual = $ds_produto['estoque'];
         }else{return false;}
-        $estoque = $estoque_atual - $row[1];
+        $estoque = $estoque_atual - $qtd_pedido;
         // altera o estoque do produto
         $sql = "UPDATE produto SET estoque=? WHERE id = ?";
         $stmt = $mysqli->prepare($sql);
@@ -145,7 +152,35 @@ function baixa_estoque($mysqli,$id_venda): bool {
         } else {
             echo "Erro na atualização de dados: " . $stmt->error; return false;
         }
-        $stmt->close();             
+        $stmt->close();   
+        
+        // verifica se tem variação e baixa o estoque da variação
+        if($variacao=='S')
+        {
+
+            // busca quantidade atual do estoque
+            $sql_code = "SELECT id,estoque FROM variacao_produto WHERE id = ".$id_variacao;
+            $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+            $quantidade = $sql_query->num_rows;
+            if($quantidade > 0){
+                $ds_variacao = $sql_query->fetch_assoc();
+                $estoque_atual = $ds_variacao['estoque'];
+            }else{return false;}
+            $estoque = $estoque_atual - $qtd_pedido;
+            // altera o estoque do produto
+            $sql = "UPDATE variacao_produto SET estoque=? WHERE id = ?";
+            $stmt = $mysqli->prepare($sql);
+            if (!$stmt) {return false;}
+            $stmt->bind_param("ss", $estoque, $id_variacao);
+            // Executa a consulta de atualização
+            if ($stmt->execute()) {
+                // update com sucesso
+            } else {
+                echo "Erro na atualização de dados: " . $stmt->error; return false;
+            }
+            $stmt->close(); 
+
+        }
     }
     return true;
 }
@@ -159,7 +194,12 @@ if(isset($_POST['bt_status'])) {
         $id_venda = $venda['id'];
         $status = $venda['status'];
     }
-    // verifica o status aletar
+    // verifica o status
+    if( strtoupper($status) == strtoupper('finalized'))
+    {
+        echo('Pedido já foi finalizado');
+        exit;
+    }
     if( strtoupper($status) == strtoupper('awaiting_approval')){$statusAltCod = 'preparation';}
     if( strtoupper($status) == strtoupper('preparation')){$statusAltCod = 'delivery';} 
     if( strtoupper($status) == strtoupper('delivery')){$statusAltCod = 'finalized';} 

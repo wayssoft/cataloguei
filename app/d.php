@@ -1,7 +1,7 @@
 <?php 
 include('req/conex.php');
 #verifica se tem a variavel na url loja
-$_error_ == False;
+$_error_ = False;
 if(!isset($_GET['loja'])){
     $_error_ = True;
     die("error não foi passado a variavel loja<p><a href=\"log-in.php\">documentação</a></p>");    
@@ -89,12 +89,22 @@ if(isset($_COOKIE['authorization_id'])){
         // filtra os itens
         $sql_code = "SELECT * FROM venda_detalhe WHERE venda_id=".$id_venda." and status = 'added'";
         $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
-        $qtd_itens_venda = $sql_query->num_rows; 
+        $ds_itens_venda = $sql_query->fetch_all(MYSQLI_ASSOC);
+        $qtd_itens_venda = $sql_query->num_rows;
+        // soma o total dos produtos
+        $total_venda = 0;
+        foreach($ds_itens_venda as $row)
+        {
+            $total_venda = $total_venda + $row['valor_total'];
+        }
+
     }else{
         $qtd_itens_venda = 0;
+        $total_venda = 0;
     }
 }else{
     $qtd_itens_venda = 0;
+    $total_venda = 0;
 }
 
 // Links para pop-menu
@@ -257,9 +267,10 @@ $link = 'd.php?loja='.$loja;
         </div>        
     </div> 
     <!-- mostra totalbar -->
+    <div style="width: 100%; height: 70px;"></div> 
     <div class="b-main-total-bar">
         <div class="container-total">
-            <p>Total: R$ 120,20</p>                    
+            <p>Total: <?php echo "R$ " . number_format($total_venda,2,",","."); ?></p>                    
         </div>
     </div>  
 </body>

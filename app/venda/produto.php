@@ -1,18 +1,33 @@
 <?php 
 include('../req/conex.php');
+include('services/produto.sales.php');
 #verifica se tem a variavel na url loja
-if(!isset($_GET['id'])){
+if(!isset($_GET['id']))
+{
     $_error_ = True;
     die("error não foi passado a variavel id do produto<p><a href=\"log-in.php\">documentação</a></p>");    
+
 }else{$id = $_GET['id'];}
-if(!isset($_GET['loja'])){
+
+
+if(!isset($_GET['loja']))
+{
     $_error_ = True;
     die("error não foi passado a variavel loja<p><a href=\"log-in.php\">documentação</a></p>");    
+
 }else{$loja = $_GET['loja'];}
+
+#|
+#|  Dados produtos 
+#|_______________________________________________________________________________________
+#|
+
+// busca produto principal
 $sql_code = "SELECT * FROM produto WHERE id = ".$id;
 $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
 $quantidade = $sql_query->num_rows;
-if($quantidade == 1) {    
+if($quantidade == 1) 
+{    
     $produto            = $sql_query->fetch_assoc();
     $id_produto         = $produto['id'];
     $nome               = $produto['nome'];
@@ -38,143 +53,32 @@ if($quantidade == 1) {
     die("error não foi encontrado a pagina<p><a href=\"log-in.php\">documentação</a></p>");
 }
 
-function retornaIdEmpresa($mysqli,$value): int {
-    $sql_code = "SELECT * FROM empresa WHERE dominio = '".$value."'";
-    $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
-    $quantidade = $sql_query->num_rows;
-    if($quantidade == 1) { 
-        $empresa = $sql_query->fetch_assoc();
-        $_id = $empresa['id'];
-    }else{$_id = 0;};
-    return $_id;
-} 
+// busca variação do produto
+$sql_code = "SELECT id, descricao, estoque, preco, status 
+             FROM variacao_produto 
+             WHERE id_produto = ".$id_produto."
+             AND status = 'A'
+             AND estoque > 0
+             ORDER BY estoque";
+$sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+$variacao = $sql_query->fetch_all(MYSQLI_ASSOC);
+$TotRecordsVariacao = $sql_query->num_rows;
 
-function atualizaTotalVenda($mysqli,$id_venda,$valor_add): bool {
-    // busca o valor atual da venda
-    $sql_code = "SELECT * FROM venda WHERE id = ".$id_venda;
-    $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
-    $quantidade = $sql_query->num_rows;
-    if($quantidade == 1) { 
-        $venda = $sql_query->fetch_assoc();
-        $_total = $venda['total'];
-    }else{$_total = 0;};
-    $_total = $_total + $valor_add;
-    $sql = "UPDATE venda SET total = ? WHERE id = ?"; // Você pode ajustar a condição WHERE conforme necessário
-    $stmt = $mysqli->prepare($sql);
-    if (!$stmt) {
-        //echo "Erro na preparação da consulta: " . $conn->error;
-        return false;
-    }
-    $stmt->bind_param("ss", $_total, $id_venda);
-    // Executa a consulta de atualização
-    if ($stmt->execute()) {
-        //echo "Dados atualizados com sucesso!";
-        return true;
-    } else {
-        //echo "Erro na atualização de dados: " . $stmt->error;
-        return false;
-    }
-    $stmt->close();
-} 
+#|
+#|  Fim dos dados de produto
+#|_______________________________________________________________________________________
+#|
 
-function addProdutoVenda($mysqli,$id_produto, $qtd, $obs, $id_venda): bool {
-    // busca o produto
-    $sql_code = "SELECT * FROM produto WHERE id = ".$id_produto;
-    $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
-    $quantidade = $sql_query->num_rows;
-    if($quantidade == 1) { 
-        $produto = $sql_query->fetch_assoc();
-        $_preco = $produto['preco'];
-        $_promocao = $produto['promocao'];
-        // verifica se tem promoção
-        if($_promocao == 'S'){$_preco = $produto['preco_promocional'];};
-    }else{$_preco = 0;};
 
-    // Prepara a consulta SQL para inserção dos dados
-    $sql = "INSERT INTO venda_detalhe (qtd, valor_un, valor_total, status,obs,venda_id,produto_id)  VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $mysqli->prepare($sql);
-    if (!$stmt) {
-        //echo "Erro na preparação da consulta: " . $conn->error;
-        return false;
-    }
-    // Vincula os parâmetros à consulta preparada
-    $status = 'added';
-    $total = $_preco * $qtd;
-    $stmt->bind_param("sssssss", $qtd, $_preco, $total, $status, $obs, $id_venda, $id_produto);
-    // Executa a consulta
-    if ($stmt->execute()) {
-        $id_venda_detalhe = $mysqli->insert_id; // Obtém o ID do registro inserido
-        // atualiza o total venda
-        if(atualizaTotalVenda($mysqli,$id_venda,$_preco)){
-            return true;
-        }        
-    } else {
-        echo "Erro na inserção de dados: " . $stmt->error;
-    }
-    $stmt->close();
-}
 
-?>
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset='utf-8'>
-    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Produto</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1'>
-    <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/main.css'>
-    <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/buttons.css'>
-    <!--boxicon-->
-    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>    
-</head>
-<body>
-    <div class="b-main-p-prodto-display-img b-main-centro-total"><img src="../painel/<?php echo($path_img); ?>"/></div>
-    <div class="b-main-p-prodto-display-title"><p><?php echo($nome); ?></p></div>
-    <div style="display: <?php if($has_promocao == false){echo("none");}; ?>;" class="b-main-p-prodto-display-promo">
-        <label>R$ <?php echo number_format($preco_normal,2,",","."); ?></label>
-        <div class="taxa-promo">
-            <i class='bx bx-down-arrow-alt'></i>
-            <p><?php echo round($diferenca_percentual); ?>%</p>
-        </div>
-    </div>
-    <div class="b-main-p-prodto-display-preco"><p>R$ <?php echo number_format($preco,2,",","."); ?></p></div>
-    <div class="b-main-p-prodto-display-desc"><label><?php echo($desc); ?></label></div>
-    <div class="b-main-container-footer" style="height: 70px; padding-top: 10px;">
-        <form action="" method="POST">
-            <div class="b-main-container-qtd-produto-venda">
-                <button class="bt-menos" type="button"><i class='bx bx-minus'></i></button>
-                <input type="text" class="input-qtd" name="qtd_pedido" value="1"/>
-                <button class="bt-mais" type="button"><i class='bx bx-plus' ></i></button>
-            </div>
-            <button style="width: 180px; position: relative; float: right;" class="button-65" name="btadd" type="submit">Adicionar a sacola</button>
-        </form>
-    </div>
-</body>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const btnMais = document.querySelector('.bt-mais');
-            const btnMenos = document.querySelector('.bt-menos');
-            const inputQtd = document.querySelector('.input-qtd');
-            const maxStock = <?php echo $estoque; ?>; // Replace with actual stock quantity
 
-            btnMais.addEventListener('click', () => {
-                let currentValue = parseInt(inputQtd.value);
-                if (currentValue < maxStock) {
-                    inputQtd.value = currentValue + 1;
-                }
-            });
+#|
+#|  Inicio da ação de adicionar o produto a sacola
+#|_______________________________________________________________________________________
+#|
+if(isset($_POST['btadd'])) 
+{
 
-            btnMenos.addEventListener('click', () => {
-                let currentValue = parseInt(inputQtd.value);
-                if (currentValue > 1) {
-                    inputQtd.value = currentValue - 1;
-                }
-            });
-        });
-    </script>
-</html>
-<?php 
-if(isset($_POST['btadd'])) {
     // verifica se tem quantidade
     $qtd_pedido = $mysqli->real_escape_string($_POST['qtd_pedido']);
     // verifica se o usuarios esta logado
@@ -182,17 +86,34 @@ if(isset($_POST['btadd'])) {
         // redireciona para pagina de log-in
         $link = 'd.php?produto='.$id.'&loja='.$loja;
         header("Location: ../login.php?type=user&redirect=". urlencode($link));
+        exit; 
     }
     if(!isset($_COOKIE['authorization_type'])) {
         // redireciona para pagina de log-in
         $link = 'd.php?produto='.$id.'&loja='.$loja;
         header("Location: ../login.php?type=user&redirect=". urlencode($link));
+        exit; 
     }
     // verifica se o tipo de usuario logado e user
     if($_COOKIE['authorization_type'] != 'user'){
         $link = 'd.php?produto='.$id.'&loja='.$loja;
         header("Location: ../login.php?type=user&redirect=". urlencode($link));
-        exit;
+        exit;        
+    }
+
+    // Verifica se tem e foi informado a variação do produto
+    if($TotRecordsVariacao > 0)
+    {
+        if (isset($_POST['produto_variacao'])) 
+        {
+            $id_produto_variacao = $_POST['produto_variacao'];
+            
+        } else {
+            echo "Nenhuma opção foi selecionada.";
+            exit;
+        }
+    } else {
+        $id_produto_variacao=0;
     }
 
     // verifica se tem venda em andamento
@@ -241,7 +162,21 @@ if(isset($_POST['btadd'])) {
         if(intval($id_empresa_produto) != intval($id_empresa_venda)){
             echo "Você já tem um pedido de outra empresa em adamento "; 
         }else{
-            if (addProdutoVenda($mysqli,$id_produto,$qtd_pedido,'obs',$id_venda)){
+            // verifica se tem variação do produto
+            if($TotRecordsVariacao > 0)
+            {
+                $has_variacao = 'S'; 
+            }  else {
+                $has_variacao = 'N';
+            }   
+            $Produto = array(
+                "id_produto" => $id_produto,
+                "qtd"        => $qtd_pedido,
+                "obs"        => "",
+                "variacao"   => $has_variacao,
+                "id_variacao"=> $id_produto_variacao
+            );
+            if (addProdutoVenda($mysqli,$Produto,$id_venda)){
                 header("Location: ../assets/pages/success_product_bag.html?loja=".$loja);
             }else{
                 echo "Erro na inserção da venda detalhe: "; 
@@ -249,5 +184,123 @@ if(isset($_POST['btadd'])) {
         }
 
     }
+
 }
+#|
+#|  FIM da ação de adicionar o produto a sacola
+#|_______________________________________________________________________________________
+#|
+
 ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Produto</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/main.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/buttons.css'>
+    <!--boxicon-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>    
+</head>
+<body>
+    <div class="b-main-p-prodto-display-img b-main-centro-total"><img src="../painel/<?php echo($path_img); ?>"/></div>
+    <div class="b-main-p-prodto-display-title"><p><?php echo($nome); ?></p></div> 
+    
+    <?php 
+
+        // verifica se mostra o preço promocional
+        $displayPrecoPromocao = '';
+        $displayPreco         = '';
+        $displayVariacao      = '';
+
+        if($has_promocao == false)
+        {
+            $displayPrecoPromocao = 'none'; 
+        }
+
+        // Verifica se tem variação de preco se tiver 
+        // não mostra o preço promocional
+        if($TotRecordsVariacao > 0)
+        {
+            $displayPrecoPromocao = 'none'; 
+            $displayPreco         = 'none';
+            $estoque              = 1; // Inportante quando o produto tem variação seta o estoque como 1
+
+        } else {
+            $displayVariacao      = 'none';
+        }
+        
+        
+
+    ?>
+    
+    <div style="display: <?php echo($displayPrecoPromocao);  ?>;" class="b-main-p-prodto-display-promo">
+        <label>R$ <?php echo number_format($preco_normal,2,",","."); ?></label>
+        <div class="taxa-promo">
+            <i class='bx bx-down-arrow-alt'></i>
+            <p><?php echo round($diferenca_percentual); ?>%</p>
+        </div>
+    </div>
+    <div style="display: <?php echo($displayPreco);  ?>;" class="b-main-p-prodto-display-preco"><p>R$ <?php echo number_format($preco,2,",","."); ?></p></div>
+
+
+    <div class="b-main-p-prodto-display-desc"><label><?php echo($desc); ?></label></div>
+
+
+    <form action="#" method="POST">
+
+        <!--
+            Verifica se tem variação de preço
+        -->
+        <div style="display: <?php echo($displayVariacao);  ?>;" class="b-main-p-prodto-display-variacao">
+            <p>Selecione a variação</p><br>
+            <?php foreach($variacao as $row){?>
+            <div style="width: 100%; height: 25px;">    
+                <input type="radio" id="variacao_<?php echo $row['id']; ?>" name="produto_variacao" value="<?php echo $row['id']; ?>">
+                <label for="variacao_<?php echo $row['id']; ?>"><?php echo $row['descricao']; ?></label>
+                <b>   R$ <?php echo number_format($row['preco'],2,",","."); ?></b>
+            </div>
+            <?php } ?>
+        </div>
+
+        <!--
+            Fim da variação de preço
+        --> 
+
+        <div style="width: 100%; height: 75px;"></div>
+        <div class="b-main-container-footer" style="height: 70px; padding-top: 10px;">
+                <div class="b-main-container-qtd-produto-venda">
+                    <button class="bt-menos" type="button"><i class='bx bx-minus'></i></button>
+                    <input type="text" class="input-qtd" name="qtd_pedido" value="1"/>
+                    <button class="bt-mais" type="button"><i class='bx bx-plus' ></i></button>
+                </div>
+                <button style="width: 180px; position: relative; float: right;" class="button-65" name="btadd" type="submit">Adicionar a sacola</button>
+        </div>
+
+    </form>
+</body>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const btnMais = document.querySelector('.bt-mais');
+            const btnMenos = document.querySelector('.bt-menos');
+            const inputQtd = document.querySelector('.input-qtd');
+            const maxStock = <?php echo $estoque; ?>; // Replace with actual stock quantity
+
+            btnMais.addEventListener('click', () => {
+                let currentValue = parseInt(inputQtd.value);
+                if (currentValue < maxStock) {
+                    inputQtd.value = currentValue + 1;
+                }
+            });
+
+            btnMenos.addEventListener('click', () => {
+                let currentValue = parseInt(inputQtd.value);
+                if (currentValue > 1) {
+                    inputQtd.value = currentValue - 1;
+                }
+            });
+        });
+    </script>
+</html>
