@@ -1,5 +1,6 @@
 <?php 
 include('../req/conex.php');
+include('../model/settings.php');
 $_error_ = false;
 $_error_ = false;
 $_error_msg_ = '';
@@ -8,7 +9,10 @@ if(!isset($_GET['cod'])){
     $_error_ = true;
 }else{$cod = $_GET['cod'];}
 
-function sendWhatsappEmpresa($mysqli,$value): bool {
+
+function sendWhatsappEmpresa($mysqli,$value): bool 
+{
+
     $retorno = false;
     $sql_code = "SELECT * FROM venda WHERE id = ".$value;
     $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
@@ -25,9 +29,15 @@ function sendWhatsappEmpresa($mysqli,$value): bool {
             $cod = str_pad($value, 8, '0', STR_PAD_LEFT);    
             $msg = "Você tem um novo pedido no cataloguei.shop cod. pedido: *#".$cod."* click no link para mais informações www.cataloguei.shop/pedido/pedido.php";
             $numero = '55'.$num_whatsapp;
+
+            // seta os dados da z-api
+            $zapi_client_token = 'F3b7c9eafb4b64139a5d5bb54e6a41273S'; 
+            $zapi_token        = '5C91D4E7085ECA40B610E629';
+            $zapi_instances    = '3A9774DE30F9100EAEE986DC9E7D4A64';
+
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.z-api.io/instances/3A9774DE30F9100EAEE986DC9E7D4A64/token/5C91D4E7085ECA40B610E629/send-text",
+            CURLOPT_URL => "https://api.z-api.io/instances/$zapi_instances/token/$zapi_token/send-text",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -37,7 +47,7 @@ function sendWhatsappEmpresa($mysqli,$value): bool {
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => "{\"phone\": \"$numero\", \"message\": \"$msg\"}",
             CURLOPT_HTTPHEADER => array(
-               "client-token: F3b7c9eafb4b64139a5d5bb54e6a41273S",
+               "client-token: $zapi_client_token",
                "content-type: application/json"
             ),
             ));
@@ -60,7 +70,8 @@ function sendWhatsappEmpresa($mysqli,$value): bool {
 }
 
 
-function sendWhatsappUser($mysqli,$value,$status): bool {
+function sendWhatsappUser($mysqli,$value,$status,$id_empresa): bool 
+{
     $retorno = false;
     $sql_code = "SELECT * FROM venda WHERE id = ".$value;
     $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
@@ -85,9 +96,23 @@ function sendWhatsappUser($mysqli,$value,$status): bool {
                 $msg = "Obrigado pelo seu pedido, você poderia avaliar nossa loja";
             }
             $numero = '55'.$num_whatsapp;
+
+            // seta os dados da z-api
+            $settings = new Settings($id_empresa);
+            if($settings->getZapi_ativado() == 'S')
+            {
+                $zapi_client_token = $settings->getZapi_client_token(); 
+                $zapi_token        = $settings->getZapi_token();
+                $zapi_instances    = $settings->getZapi_instances();
+            }else{
+                $zapi_client_token = 'F3b7c9eafb4b64139a5d5bb54e6a41273S'; 
+                $zapi_token        = '5C91D4E7085ECA40B610E629';
+                $zapi_instances    = '3A9774DE30F9100EAEE986DC9E7D4A64';                
+            }
+
             $curl = curl_init();
             curl_setopt_array($curl, array(
-            CURLOPT_URL => "https://api.z-api.io/instances/3A9774DE30F9100EAEE986DC9E7D4A64/token/5C91D4E7085ECA40B610E629/send-text",
+            CURLOPT_URL => "https://api.z-api.io/instances/$zapi_instances/token/$zapi_token/send-text",
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => "",
             CURLOPT_MAXREDIRS => 10,
@@ -97,7 +122,7 @@ function sendWhatsappUser($mysqli,$value,$status): bool {
             CURLOPT_CUSTOMREQUEST => "POST",
             CURLOPT_POSTFIELDS => "{\"phone\": \"$numero\", \"message\": \"$msg\"}",
             CURLOPT_HTTPHEADER => array(
-               "client-token: F3b7c9eafb4b64139a5d5bb54e6a41273S",
+               "client-token: $zapi_client_token",
                "content-type: application/json"
             ),
             ));
@@ -193,6 +218,7 @@ if(isset($_POST['bt_status'])) {
         $venda = $sql_query->fetch_assoc();
         $id_venda = $venda['id'];
         $status = $venda['status'];
+        $id_empresa = $venda['empresa_id'];
     }
     // verifica o status
     if( strtoupper($status) == strtoupper('finalized'))
@@ -219,7 +245,7 @@ if(isset($_POST['bt_status'])) {
     // Executa a consulta de atualização
     if ($stmt->execute()) {
         //echo "Dados atualizados com sucesso!";
-        sendWhatsappUser($mysqli,$id_venda,$statusAltCod);
+        sendWhatsappUser($mysqli,$id_venda,$statusAltCod,$id_empresa);
         $_SUCCESS = true;
     } else {
         echo "Erro na atualização de dados: " . $stmt->error;

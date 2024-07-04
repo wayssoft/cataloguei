@@ -85,7 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         #|_______________________________________________________________________________________
         #|
         #|
-        #| 
+        #|
         
         try {
 
@@ -194,6 +194,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
         if($_ACTION == 'edit')
         {
 
+             // busca imagem antiga para deletar 
+             $sql_code = "SELECT * FROM produto WHERE id = ".$id_produto;
+             $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+             $quantidade = $sql_query->num_rows;
+             if($quantidade == 1) 
+             { 
+                $produto   = $sql_query->fetch_assoc();
+                $path_old_img        = $produto['path_imagem'];
+                
+                // delata o arquivo antigo
+                if(file_exists( $_UP['pasta'] . $path_old_img )){
+                    unlink($_UP['pasta'] .$path_old_img);
+                }
+                
+             }
+ 
             $sql = "UPDATE produto SET codigo_barras=?, nome=?, descricao=?, preco=?, estoque=?, path_imagem=? WHERE id = ?"; // Você pode ajustar a condição WHERE conforme necessário
             $stmt = $mysqli->prepare($sql);
             if (!$stmt) {

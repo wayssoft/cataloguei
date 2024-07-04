@@ -141,3 +141,24 @@ function entrar_usuario_menu(url){
     }); 
     $('.drop-down').toggleClass('drop-down--active');     
 }
+
+
+// area destinada painel
+// prefixo das funções para painel = painel ex: painel_config
+
+// menu do produto
+function painel_open_settings()
+{
+    Swal.fire({
+        html: `
+            <br>
+            <iframe src="settings/empresa.php" class="janela-produto-menu" title="Crie ou acesse sua conta"></iframe>
+        `,
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: false,
+        showConfirmButton: false,
+        width: 500
+    }); 
+    $('.drop-down').toggleClass('drop-down--active');      
+}

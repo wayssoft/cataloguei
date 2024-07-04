@@ -145,7 +145,21 @@ if(isset($_POST['btadd']))
         // Executa a consulta
         if ($stmt->execute()) {
             $id_venda = $mysqli->insert_id; // Obtém o ID do registro inserido
-            if (addProdutoVenda($mysqli,$id_produto,$qtd_pedido,'obs',$id_venda)){
+                        // verifica se tem variação do produto
+            if($TotRecordsVariacao > 0)
+            {
+                $has_variacao = 'S'; 
+            }  else {
+                $has_variacao = 'N';
+            }   
+            $Produto = array(
+                "id_produto" => $id_produto,
+                "qtd"        => $qtd_pedido,
+                "obs"        => "",
+                "variacao"   => $has_variacao,
+                "id_variacao"=> $id_produto_variacao
+            );
+            if (addProdutoVenda($mysqli,$Produto,$id_venda)){
                 header("Location: ../assets/pages/success_product_bag.html?loja=".$loja);
             }else{
                 echo "Erro na inserção da venda detalhe: "; 
