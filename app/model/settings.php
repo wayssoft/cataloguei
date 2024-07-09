@@ -10,6 +10,7 @@ class Settings
     private string $zapi_client_token;
     private string $zapi_token;
     private string $zapi_instances;
+    private int    $id_empresa;
     private $mysqli; // Atributo para armazenar a conexão com o banco de dados
 
     //atributos para erros
@@ -45,6 +46,7 @@ class Settings
             $this->zapi_token               = $empresa_config['zapi_token'];
             $this->zapi_instances           = $empresa_config['zapi_instances'];
 
+            $this->id_empresa               = $id_empresa;
         } else {
             die("error xS001 Não foi encontrado os dados da configurações.<p><a href=\"log-in.php\">Entrar</a></p>");
         }
@@ -115,6 +117,40 @@ class Settings
     public function setZapi_instances($zapi_instances): void
     {
         $this->zapi_instances = $zapi_instances;
+    }
+
+    public function getHorario(string $semana)
+    {
+        // Construir a consulta SQL com segurança
+        $sql_code = "SELECT * FROM empresa_config_horarios WHERE semana = '".$semana."' AND id_empresa=" . intval($this->id_empresa);
+        $sql_query = $this->mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $this->mysqli->error);
+
+        
+        // Verificar o número de linhas retornadas
+        $quantidade = $sql_query->num_rows;
+        
+        $horarios=array();
+
+        if($quantidade > 0)
+        {
+            $DsHorarios = $sql_query->fetch_all(MYSQLI_ASSOC);
+            foreach($DsHorarios as $row)
+            {
+                $horarios[]=array(
+                    "abertura" => $row['hora_abertura'],
+                    "fechamento" => $row['hora_fechamento'],
+                    "horario_ativo" => TRUE
+                );
+            }
+        }else{
+            $horarios[]=array(
+                "abertura" => "00:00:00",
+                "fechamento" => "00:00:00",
+                "horario_ativo" => FALSE
+            );
+        }
+
+        return $horarios;
     }
 
     

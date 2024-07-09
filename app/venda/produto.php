@@ -1,10 +1,17 @@
 <?php 
 include('../req/conex.php');
 include('services/produto.sales.php');
+
+# include na nova versão do codigo em class
+include('../model/settings.php');
+include('../model/utilities.php');
+
+$_error_    = FALSE;
+$_error_msg = '';
 #verifica se tem a variavel na url loja
 if(!isset($_GET['id']))
 {
-    $_error_ = True;
+    $_error_ = TRUE;
     die("error não foi passado a variavel id do produto<p><a href=\"log-in.php\">documentação</a></p>");    
 
 }else{$id = $_GET['id'];}
@@ -12,11 +19,14 @@ if(!isset($_GET['id']))
 
 if(!isset($_GET['loja']))
 {
-    $_error_ = True;
+    $_error_ = TRUE;
     die("error não foi passado a variavel loja<p><a href=\"log-in.php\">documentação</a></p>");    
 
 }else{$loja = $_GET['loja'];}
 
+#busca o id da empresa
+$id_empresa = retornaIdEmpresa($mysqli,$loja);
+$settings = new Settings($id_empresa);
 #|
 #|  Dados produtos 
 #|_______________________________________________________________________________________
@@ -49,7 +59,7 @@ if($quantidade == 1)
         $diferenca_percentual = ($diferenca / $produto['preco']) * 100;
     }
 } else {
-    $_error_ = True;
+    $_error_ = TRUE;
     die("error não foi encontrado a pagina<p><a href=\"log-in.php\">documentação</a></p>");
 }
 
@@ -109,92 +119,111 @@ if(isset($_POST['btadd']))
             $id_produto_variacao = $_POST['produto_variacao'];
             
         } else {
-            echo "Nenhuma opção foi selecionada.";
-            exit;
+            $_error_msg = 'Nenhuma opção foi selecionada.';
+            $_error_ = TRUE;
         }
     } else {
         $id_produto_variacao=0;
     }
 
-    // verifica se tem venda em andamento
-    $sql_code = "SELECT * FROM venda WHERE usuario_id = ".$_COOKIE['authorization_id']." and status='pending'";
-    $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
-    $quantidade = $sql_query->num_rows;
-    if($quantidade == 0) {    
-        // cria o cabecario da venda
-        // Prepara a consulta SQL para inserção dos dados
-        $sql = "INSERT INTO venda (data_venda, hora_venda, total, status,usuario_id,empresa_id,endereco_id)  VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $mysqli->prepare($sql);
-        if (!$stmt) {
-            echo "Erro na preparação da consulta: " . $conn->error;
-            return -1;
+
+    $horarios = $settings->getHorario(obterDiaDaSemana());
+
+    if($horarios[0]['horario_ativo'] == TRUE)
+    {
+        $result_horarios = verificarHorarioLoja($horarios);
+        if($result_horarios['status'] == 'fechado')
+        {
+            $_error_msg = 'A loja está fechada e não pode receber pedidos';
+            $_error_ = TRUE;           
         }
-        // Vincula os parâmetros à consulta preparada
-        $status = 'pending';
-        $id_endereco = 1;
-        $total = 0;
-        $currentDate = date("Y-m-d");
-        $currentTime = date("H:i:s");
-        $id_user = $_COOKIE['authorization_id'];
-        $id_empresa = retornaIdEmpresa($mysqli,$loja);
-        if(intval($id_empresa) == 0){
-            $_error_ = True;
-            die("error não foi encontrado o id da empresa<p><a href=\"log-in.php\">documentação</a></p>");   
-        }
-        $stmt->bind_param("sssssss", $currentDate, $currentTime, $total, $status, $id_user, $id_empresa, $id_endereco);
-        // Executa a consulta
-        if ($stmt->execute()) {
-            $id_venda = $mysqli->insert_id; // Obtém o ID do registro inserido
-                        // verifica se tem variação do produto
-            if($TotRecordsVariacao > 0)
-            {
-                $has_variacao = 'S'; 
-            }  else {
-                $has_variacao = 'N';
-            }   
-            $Produto = array(
-                "id_produto" => $id_produto,
-                "qtd"        => $qtd_pedido,
-                "obs"        => "",
-                "variacao"   => $has_variacao,
-                "id_variacao"=> $id_produto_variacao
-            );
-            if (addProdutoVenda($mysqli,$Produto,$id_venda)){
-                header("Location: ../assets/pages/success_product_bag.html?loja=".$loja);
-            }else{
-                echo "Erro na inserção da venda detalhe: "; 
+    }  
+
+
+    if ($_error_ == FALSE){
+
+        // verifica se tem venda em andamento
+        $sql_code = "SELECT * FROM venda WHERE usuario_id = ".$_COOKIE['authorization_id']." and status='pending'";
+        $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+        $quantidade = $sql_query->num_rows;
+        if($quantidade == 0) {    
+            // cria o cabecario da venda
+            // Prepara a consulta SQL para inserção dos dados
+            $sql = "INSERT INTO venda (data_venda, hora_venda, total, status,usuario_id,empresa_id,endereco_id)  VALUES (?, ?, ?, ?, ?, ?, ?)";
+            $stmt = $mysqli->prepare($sql);
+            if (!$stmt) {
+                echo "Erro na preparação da consulta: " . $conn->error;
+                return -1;
             }
+            // Vincula os parâmetros à consulta preparada
+            $status = 'pending';
+            $id_endereco = 1;
+            $total = 0;
+            $currentDate = date("Y-m-d");
+            $currentTime = date("H:i:s");
+            $id_user = $_COOKIE['authorization_id'];
+            if(intval($id_empresa) == 0){
+                $_error_ = TRUE;
+                die("error não foi encontrado o id da empresa<p><a href=\"log-in.php\">documentação</a></p>");   
+            }
+            $stmt->bind_param("sssssss", $currentDate, $currentTime, $total, $status, $id_user, $id_empresa, $id_endereco);
+            // Executa a consulta
+            if ($stmt->execute()) {
+                $id_venda = $mysqli->insert_id; // Obtém o ID do registro inserido
+                            // verifica se tem variação do produto
+                if($TotRecordsVariacao > 0)
+                {
+                    $has_variacao = 'S'; 
+                }  else {
+                    $has_variacao = 'N';
+                }   
+                $Produto = array(
+                    "id_produto" => $id_produto,
+                    "qtd"        => $qtd_pedido,
+                    "obs"        => "",
+                    "variacao"   => $has_variacao,
+                    "id_variacao"=> $id_produto_variacao
+                );
+                if (addProdutoVenda($mysqli,$Produto,$id_venda)){
+                    header("Location: ../assets/pages/success_product_bag.html?loja=".$loja);
+                }else{
+                    echo "Erro na inserção da venda detalhe: "; 
+                }
+            } else {
+                echo "Erro na inserção de dados: " . $stmt->error;
+            }
+            $stmt->close();
         } else {
-            echo "Erro na inserção de dados: " . $stmt->error;
-        }
-        $stmt->close();
-    } else {
-        $venda = $sql_query->fetch_assoc();
-        $id_venda = $venda['id'];
-        $id_empresa_venda = $venda['empresa_id'];
-        // verifica se a venda e da mesma loja 
-        if(intval($id_empresa_produto) != intval($id_empresa_venda)){
-            echo "Você já tem um pedido de outra empresa em adamento "; 
-        }else{
-            // verifica se tem variação do produto
-            if($TotRecordsVariacao > 0)
-            {
-                $has_variacao = 'S'; 
-            }  else {
-                $has_variacao = 'N';
-            }   
-            $Produto = array(
-                "id_produto" => $id_produto,
-                "qtd"        => $qtd_pedido,
-                "obs"        => "",
-                "variacao"   => $has_variacao,
-                "id_variacao"=> $id_produto_variacao
-            );
-            if (addProdutoVenda($mysqli,$Produto,$id_venda)){
-                header("Location: ../assets/pages/success_product_bag.html?loja=".$loja);
+            $venda = $sql_query->fetch_assoc();
+            $id_venda = $venda['id'];
+            $id_empresa_venda = $venda['empresa_id'];
+            // verifica se a venda e da mesma loja 
+            if(intval($id_empresa_produto) != intval($id_empresa_venda)){
+                //echo "Você já tem um pedido de outra empresa em adamento "; 
+                $_error_msg = 'Você já tem um pedido de outra empresa em adamento';
+                $_error_ = TRUE;
             }else{
-                echo "Erro na inserção da venda detalhe: "; 
+                // verifica se tem variação do produto
+                if($TotRecordsVariacao > 0)
+                {
+                    $has_variacao = 'S'; 
+                }  else {
+                    $has_variacao = 'N';
+                }   
+                $Produto = array(
+                    "id_produto" => $id_produto,
+                    "qtd"        => $qtd_pedido,
+                    "obs"        => "",
+                    "variacao"   => $has_variacao,
+                    "id_variacao"=> $id_produto_variacao
+                );
+                if (addProdutoVenda($mysqli,$Produto,$id_venda)){
+                    header("Location: ../assets/pages/success_product_bag.html?loja=".$loja);
+                }else{
+                    echo "Erro na inserção da venda detalhe: "; 
+                }
             }
+
         }
 
     }
@@ -215,10 +244,18 @@ if(isset($_POST['btadd']))
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/main.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/buttons.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/alerts.css'>
     <!--boxicon-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>    
 </head>
 <body>
+
+    <!-- alerta -->
+    <div style="display: <?php if($_error_ == FALSE){ echo('none'); } ?>; margin-top: -0px;" class="warning-no-margin">
+        <img src="../assets/img/alert.png" />
+        <p><?php echo($_error_msg); ?></p>
+    </div>
+
     <div class="b-main-p-prodto-display-img b-main-centro-total"><img src="../painel/<?php echo($path_img); ?>"/></div>
     <div class="b-main-p-prodto-display-title"><p><?php echo($nome); ?></p></div> 
     

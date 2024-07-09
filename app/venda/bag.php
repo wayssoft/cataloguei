@@ -362,7 +362,7 @@ $link = 'd.php?loja='.$loja;
         <div style="width: 600px;" class="display">
 
             <!-- alerta de erros -->
-            <div style="display: <?php if($_error_ == false){ echo('none'); } ?>;" class="warning">
+            <div style="display: <?php if($_error_ == false){ echo('none'); } ?>;" class="warning-no-margin">
                 <img src="../assets/img/alert.png" />
                 <p><?php echo($_error_msg_); ?></p>
             </div>

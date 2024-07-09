@@ -1,5 +1,7 @@
 <?php 
 include('req/conex.php');
+
+
 #verifica se tem a variavel na url loja
 $_error_ = False;
 if(!isset($_GET['loja'])){
@@ -23,6 +25,28 @@ if($quantidade == 1) {
     $_error_ = True;
     die("error não foi encontrado a pagina<p><a href=\"log-in.php\">documentação</a></p>");
 }
+
+
+
+# include na nova versão do codigo em class
+include('model/settings.php');
+include('model/utilities.php');
+
+# Verifica se a loja esta aberta ou fechada
+$settings = new Settings($id_empresa);
+$horarios = $settings->getHorario(obterDiaDaSemana());
+
+if($horarios[0]['horario_ativo'] == TRUE)
+{
+    $result_horarios = verificarHorarioLoja($horarios);
+}else{
+    $result_horarios=array(
+        'status' => 'aberto',
+        'tempo_restante_para_abrir' => 'N/A'
+    );
+}
+# fim da ferificação da loja aberta ou fechada
+
 // verifica se tem o usuario logado
 if(!isset($_COOKIE['authorization_id'])){$login_user=false;}else{
     if(!isset($_COOKIE['authorization_type'])){$login_user=false;}{
@@ -199,6 +223,13 @@ $link = 'd.php?loja='.$loja;
     <div class="b-main-separador"></div>
     <div class="b-main-container-produtos b-main-centro-total">
         <div class="display">
+
+            <!-- alerta loja fechada -->
+            <div style="display: <?php if($result_horarios['status'] == 'aberto'){ echo('none'); } ?>;" class="warning">
+                <i class='bx bx-time-five'></i>
+                <p>A loja esta fechada e abrira em <?php echo($result_horarios['tempo_restante_para_abrir']); ?></p>
+            </div>
+
             <?php foreach($produtos as $row){
                 $path_img_produto = $row[1];
                 $path_img_produto = "painel/".$path_img_produto;
