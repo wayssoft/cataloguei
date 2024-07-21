@@ -70,7 +70,6 @@ $isMobile = true;
 <body>
     <div class="b-main-container-topo b-main-shadow-topo">
         <div class="logo b-main-centro-total"><img src="../assets/img/cataloguei.shop.logo.png" /></div>
-        <div class="logo b-main-centro-total"><img src="../assets/img/cataloguei.shop.logo.png" /></div>
         <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="list.pedidos.php">Pedidos</a></div>
         <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="list.produto.php">Produtos</a></div>
         <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="list.clientes.php" >Clientes</a></div>
@@ -91,6 +90,9 @@ $isMobile = true;
                             <li onclick="logoEmpresa()" data-name="profile" class="drop-down__item">
                                 Logo da empresa
                             </li>
+                            <li  style="color: #932be9;" data-name="profile" class="drop-down__item">
+                                Grupos de produtos
+                            </li>                            
                             <li data-name="dashboard" class="drop-down__item">
                                 Suporte
                             </li>
@@ -104,7 +106,7 @@ $isMobile = true;
         </div>
         <!-- Fim menu-->
         <div class="img-user b-main-centro-total"><img src="<?php echo($path_logo); ?>" /></div>
-        <div class="cart b-main-centro-total"><i onclick="addProduto('0')" class='bx bx-plus'></i></div>
+        <div class="cart b-main-centro-total"><i onclick="addProdutoGrupo('0')" class='bx bx-plus'></i></div>
     </div>
     <div style="width: 100%; height: 60px;"></div>
     <div class="b-main-container-produtos b-main-centro-total">

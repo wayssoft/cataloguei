@@ -105,6 +105,9 @@ $isMobile = true;
                             <li onclick="logoEmpresa()" data-name="profile" class="drop-down__item">
                                 Logo da empresa
                             </li>
+                            <li onclick="window.location.href = 'list.produto.grupo.php';" data-name="activity" class="drop-down__item">
+                                Grupos de produtos
+                            </li>                            
                             <li data-name="dashboard" class="drop-down__item">
                                 Suporte
                             </li>

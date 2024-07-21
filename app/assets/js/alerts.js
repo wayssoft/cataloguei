@@ -38,6 +38,19 @@ function addProduto(id){
         width: 500
     });      
 }
+function addProdutoGrupo(id_produto_grupo,id_produto){
+    Swal.fire({
+        html: `
+            <br>
+            <iframe src="add.produto.grupo.php?id_produto_grupo=`+id_produto_grupo+`" class="janela-produto-detalhe" title="Crie ou acesse sua conta"></iframe>
+        `,
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: false,
+        showConfirmButton: false,
+        width: 500
+    });      
+}
 function trocarEnd(id,loja){
     Swal.fire({
         html: `

@@ -18,6 +18,7 @@ root {
 ::-webkit-scrollbar {
     display: none;
 }
+
 .b-main-centro-total{
     align-items: center;
     display: flex;

@@ -134,7 +134,7 @@ if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
             }
             if($type == 'company'){
                 echo "<script type='text/javascript'>
-                    window.parent.location.href = './painel/vendas.php';
+                    window.parent.location.href = './painel/list.pedidos.php';
                 </script>";
             }            
         }         

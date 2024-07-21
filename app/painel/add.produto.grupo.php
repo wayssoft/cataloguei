@@ -6,28 +6,28 @@ $_error_ = False;
 $_error_msg_ = '';
 
 # zera as variaveis
-$preco       = '';
-$promocao    = 'N';
-$preco_promocional = 0;
-$nome = '';
+$produto_grupo='';
 
-#verifica se tem a variavel na url id
-if(!isset($_GET['id'])){
+#verifica se tem a variavel na url id do grupo
+if(!isset($_GET['id_produto_grupo'])){
     $_error_ = True;
-    die("error não foi passado a variavel id do produto.<p><a href=\"log-in.php\">documentação</a></p>");    
-}else{$id_produto = $_GET['id'];}
+    die("error não foi passado a variavel id do grupo.<p><a href=\"log-in.php\">documentação</a></p>");    
+}else{$id_produto_grupo = $_GET['id_produto_grupo'];}
+
+# verifica se tem o ID da empresa
+if(!isset($_COOKIE['authorization_id'])){
+    $_error_ = True;
+    die("error não foi passado a variavel id da empresa.<p><a href=\"log-in.php\">documentação</a></p>");
+}else{$id_empresa  = $_COOKIE['authorization_id'];}
 
 # se for para editar busca o produto
-if(intval($id_produto) > 0){
-    $sql_code = "SELECT * FROM produto WHERE id=".$id_produto;
+if(intval($id_produto_grupo) > 0){
+    $sql_code = "SELECT * FROM produto_categoria WHERE id=".$id_produto_grupo;
     $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
     $quantidade = $sql_query->num_rows;
     if($quantidade == 1) {
-        $produto = $sql_query->fetch_assoc();
-        $nome              = $produto['nome'];
-        $promocao          = $produto['promocao'];
-        $preco             = $produto['preco'];
-        $preco_promocional = $produto['preco_promocional'];        
+        $produto_grupo = $sql_query->fetch_assoc();
+        $grupo_descricao       = $produto_grupo['descricao'];        
     } else {
         $_error_ = True;
         $_error_msg_ = 'Falha ao logar! E-mail ou senha incorretos';
@@ -35,39 +35,59 @@ if(intval($id_produto) > 0){
 }
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {    
-    if(strlen($_POST['preco']) == 0){
-        $_error_ = True;
-        $_error_msg_ = 'Não foi informado o preço promocional';
-    } else { 
-        $preco_promocional_informado = $mysqli->real_escape_string($_POST['preco']);
-        if($preco_promocional_informado >= $preco){
-            $_error_ = True;
-            $_error_msg_ = 'Valor promocional não pode ser maior que o preço atual';                
-        }    
-        if($preco_promocional_informado > 0){$promocao = 'S';}else{$promocao = 'N';}     
-        // grava o registro na base de dados
-        if ($_error_ == False){
-            $sql = "UPDATE produto SET promocao=?,preco_promocional=? WHERE id = ?"; // Você pode ajustar a condição WHERE conforme necessário
-            $stmt = $mysqli->prepare($sql);
-            if (!$stmt) {
+if ($_SERVER["REQUEST_METHOD"] == "POST") {   
+    
+             $grupo_descricao = 'teste';
+             $icon = '';   
+
+            // verifica se vai ser um novo produto ou editar um produto
+            if((intval($id_produto_grupo) == 0) 
+            and ($_error_ != True))
+            {
+                // Prepara a consulta SQL para inserção dos dados
+                $sql = "INSERT INTO produto_categoria (id_empresa, icon, descricao)  VALUES (?, ?, ?)";
+                $stmt = $mysqli->prepare($sql);
+                if (!$stmt) {
                 echo "Erro na preparação da consulta: " . $conn->error;
                 return -1;
-            }
-            $stmt->bind_param("sss", $promocao, $preco_promocional_informado, $id_produto);
-            // Executa a consulta de atualização
-            if ($stmt->execute()) {
-                //echo "Dados atualizados com sucesso!";
-                $_SUCCESS = True;
-            } else {
-                echo "Erro na atualização de dados: " . $stmt->error;
-            }
-            $stmt->close();          
+                }
+                // Vincula os parâmetros à consulta preparada
+                $stmt->bind_param("sss", $id_empresa, $icon, $grupo_descricao);
+                // Executa a consulta
+                if ($stmt->execute()) {
+                    $id_produto_return = $mysqli->insert_id; // Obtém o ID do registro inserido
+                    $_SUCCESS = True;
+                } else {
+                    echo "Erro na inserção de dados: " . $stmt->error;
+                }
+                $stmt->close();
+            }  
+
+
+            if((intval($id_produto_grupo) > 0) 
+            and ($_error_ != True))
+            {
+                // edita sem imagem
+                if($insertImg == False){
+                    $sql = "UPDATE produto_categoria SET icon=?,descricao=? WHERE id = ?";
+                    $stmt = $mysqli->prepare($sql);
+                    if (!$stmt) {
+                        echo "Erro na preparação da consulta: " . $conn->error;
+                        return -1;
+                    }
+                    $stmt->bind_param("sss", $icon, $grupo_descricao, $id_produto_grupo);
+                    // Executa a consulta de atualização
+                    if ($stmt->execute()) {
+                        //echo "Dados atualizados com sucesso!";
+                        $_SUCCESS = True;
+                    } else {
+                        echo "Erro na atualização de dados: " . $stmt->error;
+                    }
+                    $stmt->close();  
+                }
             
-        }
+            }
 
-
-    }
 }
 if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
 ?>
