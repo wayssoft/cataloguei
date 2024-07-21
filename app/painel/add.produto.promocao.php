@@ -44,8 +44,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if($preco_promocional_informado >= $preco){
             $_error_ = True;
             $_error_msg_ = 'Valor promocional não pode ser maior que o preço atual';                
-        }    
-        if($preco_promocional_informado > 0){$promocao = 'S';}else{$promocao = 'N';}     
+        }  
+        
+        // verifica checkbox 
+        if (isset($_POST['ckPromocao'])) 
+        {
+            $promocao = 'S';
+        }else{
+            $promocao = 'N';
+        }        
+    
         // grava o registro na base de dados
         if ($_error_ == False){
             $sql = "UPDATE produto SET promocao=?,preco_promocional=? WHERE id = ?"; // Você pode ajustar a condição WHERE conforme necessário
@@ -83,6 +91,7 @@ if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/main.css'>
     <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/buttons.css'>
+    <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/checkbox.css'>
     <style>
         .roboto-light {
             font-family: "Roboto", sans-serif;
@@ -129,7 +138,23 @@ if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
         <div class="container-input "> 
             <input style="width: 120px;" class="text-input" type="text" name="preco" id="preco" value="<?php echo number_format($preco_promocional,2,",","."); ?>" placeholder="ex: 6,99" required>
         </div>                           
-        <br><br>        
+        <br><br> 
+        
+        <div class="container-input">      
+            <div style="margin-top: 5px;" class="checkbox-wrapper-4">
+                <input class="inp-cbx" id="ckPromocao" name="ckPromocao" type="checkbox" <?php if($promocao == 'S'){echo('checked');} ?>/>
+                <label class="cbx" for="ckPromocao"><span>
+                <svg width="12px" height="10px">
+                    <use xlink:href="#check-4"></use>
+                </svg></span><span>Ativar promoção</span></label>
+                <svg class="inline-svg">
+                    <symbol id="check-4" viewbox="0 0 12 10">
+                    <polyline points="1.5 6 4.5 9 10.5 1"></polyline>
+                    </symbol>
+                </svg>
+            </div>             
+        </div>        
+
         <div class="b-main-container-footer b-main-centro-total" style="height: 70px; padding-top: 10px;">
             <button style="width: 220px;" class="button-65" type="submit">Salvar preço</button>
         </div>

@@ -11,7 +11,16 @@ $nome        = '';
 $desc        = '';
 $preco       = 0.00;
 $estoque     = '';
+$id_categoria= 1;
 
+//verifica se o tipo de usuario e empresa
+if($_COOKIE['authorization_type'] != 'company'){
+  die("error x011 o tipo de usuario não e compativel para acessar essa pagina.<p><a href=\"log-in.php\">Entrar</a></p>");
+}
+// verifica se tem o id da empresa
+if(!isset($_COOKIE['authorization_id'])){
+  die("error x011 o tipo de usuario não e compativel para acessar essa pagina.<p><a href=\"log-in.php\">Entrar</a></p>");
+}
 #verifica se tem a variavel na url id
 if(!isset($_GET['id'])){
     $_error_ = True;
@@ -29,7 +38,8 @@ if(intval($id_produto) > 0){
         $nome        = $produto['nome'];
         $desc        = $produto['descricao'];
         $preco       = $produto['preco'];
-        $estoque     = $produto['estoque'];   
+        $estoque     = $produto['estoque']; 
+        $id_categoria= $produto['id_categoria'];   
         $path_imagem_atual = $produto['path_imagem'];     
     } else {
         $_error_ = True;
@@ -37,7 +47,12 @@ if(intval($id_produto) > 0){
     }
 }
 
+# lista os grupos de produtos
+$sql_code = "SELECT * FROM produto_categoria WHERE id_empresa=".$_COOKIE['authorization_id'];
+$sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+$produto_grupo = $sql_query->fetch_all(MYSQLI_ASSOC);
 
+// inseri ou edita um produto
 if ($_SERVER["REQUEST_METHOD"] == "POST") {    
     if(strlen($_POST['codBarras']) == 0){
         $_error_ = True;
@@ -177,6 +192,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $codBarras   = $mysqli->real_escape_string($_POST['codBarras']);
             $nome        = $mysqli->real_escape_string($_POST['nome']);
             $desc        = $mysqli->real_escape_string($_POST['desc']);
+            $id_categoria= $mysqli->real_escape_string($_POST['categoria']);
             $preco       = $mysqli->real_escape_string($_POST['preco']);
             $preco       = str_replace(",", ".", $preco);
             $estoque     = $mysqli->real_escape_string($_POST['estoque']);
@@ -187,14 +203,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // verifica se vai ser um novo produto ou editar um produto
             if(intval($id_produto) == 0){
                 // Prepara a consulta SQL para inserção dos dados
-                $sql = "INSERT INTO produto (codigo_barras, nome, descricao, preco, path_imagem, estoque, id_empresa)  VALUES (?, ?, ?, ?, ?, ?, ?)";
+                $sql = "INSERT INTO produto (codigo_barras, nome, descricao, preco, path_imagem, estoque, id_empresa, id_categoria)  VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 $stmt = $mysqli->prepare($sql);
                 if (!$stmt) {
                 echo "Erro na preparação da consulta: " . $conn->error;
                 return -1;
                 }
                 // Vincula os parâmetros à consulta preparada
-                $stmt->bind_param("sssssss", $codBarras, $nome, $desc, $preco, $path_imagem, $estoque, $id_empresa);
+                $stmt->bind_param("ssssssss", $codBarras, $nome, $desc, $preco, $path_imagem, $estoque, $id_empresa, $id_categoria);
                 // Executa a consulta
                 if ($stmt->execute()) {
                     $id_produto_return = $mysqli->insert_id; // Obtém o ID do registro inserido
@@ -209,13 +225,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if(intval($id_produto) > 0){
                 // edita sem imagem
                 if($insertImg == False){
-                    $sql = "UPDATE produto SET codigo_barras=?,nome=?,descricao=?,preco=?,estoque=? WHERE id = ?";
+                    $sql = "UPDATE produto SET codigo_barras=?,nome=?,descricao=?,preco=?,estoque=?, id_categoria=? WHERE id = ?";
                     $stmt = $mysqli->prepare($sql);
                     if (!$stmt) {
                         echo "Erro na preparação da consulta: " . $conn->error;
                         return -1;
                     }
-                    $stmt->bind_param("ssssss", $codBarras, $nome, $desc, $preco, $estoque, $id_produto);
+                    $stmt->bind_param("sssssss", $codBarras, $nome, $desc, $preco, $estoque, $id_categoria, $id_produto);
                     // Executa a consulta de atualização
                     if ($stmt->execute()) {
                         //echo "Dados atualizados com sucesso!";
@@ -318,6 +334,15 @@ if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
         <div class="container-input "> 
             <input style="width: 100%;" class="text-input" type="text" name="desc" id="desc" value="<?php echo($desc); ?>" placeholder="ex: Tubes Morango Fini, um clássico da marca. Docinho, irresistíveis e cumpridinhos, possuem formato de tubo. No pacote contém tubes na cor vermelho com sabor de morango" required>
         </div>
+        <div class="container-label"><label>Grupo produto</label><div> 
+        <div class="container-input "> 
+            <select style="width: 100%;" class="text-input" name="categoria" id="categoria">
+                <option value="1">Geral</option>
+                <?php foreach($produto_grupo as $row){?>
+                    <option value="<?php echo $row['id']; ?>" <?php if($id_categoria == $row['id']){ echo('selected'); } ?> ><?php echo $row['descricao']; ?></option>
+                <?php } ?>
+            </select>
+        </div>        
         <div class="container-label"><label>Preço</label><div> 
         <div class="container-input "> 
             <input style="width: 120px;" class="text-input" type="text" name="preco" id="preco" value="<?php echo number_format($preco,2,",","."); ?>" placeholder="ex: 6,99" required>

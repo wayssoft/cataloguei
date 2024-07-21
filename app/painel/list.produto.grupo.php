@@ -4,6 +4,11 @@ include('../req/protect.php');
 if($_COOKIE['authorization_type'] != 'company'){
   die("error x011 o tipo de usuario não e compativel para acessar essa pagina.<p><a href=\"log-in.php\">Entrar</a></p>");
 }
+// verifica se tem o id da empresa
+if(!isset($_COOKIE['authorization_id'])){
+  die("error x011 o tipo de usuario não e compativel para acessar essa pagina.<p><a href=\"log-in.php\">Entrar</a></p>");
+}
+
 // busca dados da empresa
 $sql_code = "SELECT * FROM empresa WHERE id=".$_COOKIE['authorization_id'];
 $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
@@ -128,7 +133,7 @@ $isMobile = true;
                         <td class="b-main-active-mobile-col-table"><?php echo $row['descricao']; ?></td>
                         <td style="width: 100px;">
                           <div style="width: 40px; position: relative; float: right;" class="b-main-container-right b-main-centro-total">
-                            <div class="buttons-bt-generic-2-table b-main-centro-total"><a href="#" onclick="openChatWhatsapp('<?php echo $row['id']; ?>')"><i class='bx bxl-whatsapp'></i></a></div>
+                            <div class="buttons-bt-generic-2-table b-main-centro-total"><a href="#" onclick="addProdutoGrupo('<?php echo $row['id']; ?>')"><i class='bx bx-edit'></i></a></div>
                           </div>
                         </td>
                       </tr>

@@ -70,6 +70,9 @@ if(!isset($_COOKIE['authorization_id'])){$login_user=false;}else{
 // verifica os produtos
 if ($_error_ == False){
     
+    // mosta toda a lista de produto
+    $all_list = TRUE;
+
     // Definindo o número de registros por página
     $registros_por_pagina = 10;
 
@@ -78,10 +81,58 @@ if ($_error_ == False){
     $offset = ($pagina_atual - 1) * $registros_por_pagina;
 
     // Consulta para obter o total de registros
-    $sql_total = "SELECT COUNT(*) AS total FROM produto WHERE estoque > 0 AND id_empresa = ".$id_empresa;
+    if(isset($_GET['cat']))
+    {
+        $sql_total = "SELECT COUNT(*) AS total FROM produto WHERE estoque > 0 AND id_empresa = ".$id_empresa." AND estoque > 0 AND id_categoria = ".$_GET['cat']."";
+        $all_list = FALSE;
+    }
+
+    if(isset($_GET['promo']))
+    {
+        $sql_total = "SELECT COUNT(*) AS total FROM produto WHERE estoque > 0 AND id_empresa = ".$id_empresa." AND estoque > 0 AND promocao = 'S'";
+        $all_list = FALSE;
+    }   
+    
+    
+    if(isset($_POST['search']))
+    {
+        $sql_total = "SELECT COUNT(*) AS total FROM produto WHERE estoque > 0 AND id_empresa = ".$id_empresa." AND estoque > 0 AND upper(nome) LIKE '%".$search."%'";
+        $all_list = FALSE;
+        $pagina_atual = 1;
+        $offset = ($pagina_atual - 1) * $registros_por_pagina;
+    }
+
+    if($all_list == TRUE)
+    {
+        $sql_total = "SELECT COUNT(*) AS total FROM produto WHERE estoque > 0 AND id_empresa = ".$id_empresa;
+    }
+
     $result_total = $mysqli->query($sql_total) or die("Falha na execução do código SQL: " . $mysqli->error);
     $total_registros = $result_total->fetch_assoc()['total'];
 
+   
+    if(isset($_GET['cat'])){
+        $search = $_POST['search'];
+        $search = strtoupper($search);
+        $sql_code = "SELECT id,path_imagem,codigo_barras,nome,descricao,preco,estoque,promocao,preco_promocional FROM produto WHERE id_empresa = ".$id_empresa." AND estoque > 0 AND id_categoria = ".$_GET['cat']."";
+        $sql_code = $sql_code . " LIMIT $registros_por_pagina OFFSET $offset";
+        $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+        $quantidade = $sql_query->num_rows;
+        $produtos = $sql_query->fetch_all();
+        $all_list = FALSE;
+    } 
+
+    if(isset($_GET['promo'])){
+        $search = $_POST['search'];
+        $search = strtoupper($search);
+        $sql_code = "SELECT id,path_imagem,codigo_barras,nome,descricao,preco,estoque,promocao,preco_promocional FROM produto WHERE id_empresa = ".$id_empresa." AND estoque > 0 AND promocao = 'S'";
+        $sql_code = $sql_code . " LIMIT $registros_por_pagina OFFSET $offset";
+        $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+        $quantidade = $sql_query->num_rows;
+        $produtos = $sql_query->fetch_all();
+        $all_list = FALSE;
+    }    
+    
     if(isset($_POST['search'])){
         $search = $_POST['search'];
         $search = strtoupper($search);
@@ -90,7 +141,9 @@ if ($_error_ == False){
         $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
         $quantidade = $sql_query->num_rows;
         $produtos = $sql_query->fetch_all();
-    }else{
+    }
+     
+    if($all_list == TRUE){
         $sql_code = "SELECT id,path_imagem,codigo_barras,nome,descricao,preco,estoque,promocao,preco_promocional FROM produto WHERE estoque > 0 AND id_empresa = ".$id_empresa;
         $sql_code = $sql_code . " LIMIT $registros_por_pagina OFFSET $offset";
         $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
@@ -131,6 +184,13 @@ if(isset($_COOKIE['authorization_id'])){
     $total_venda = 0;
 }
 
+# lista os grupos de produtos
+$sql_code = "SELECT * FROM produto_categoria WHERE id_empresa=".$id_empresa;
+$sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+$qtd_produto_grupo = $sql_query->num_rows;
+$qtd_produto_grupo = $qtd_produto_grupo + 1;
+$produto_grupo = $sql_query->fetch_all(MYSQLI_ASSOC);
+
 // Links para pop-menu
 $link = 'd.php?loja='.$loja;
 ?>
@@ -154,6 +214,8 @@ $link = 'd.php?loja='.$loja;
     <link rel='stylesheet' type='text/css' media='screen' href='assets/css/alerts.css?v=1.0'>
     <link rel='stylesheet' type='text/css' media='screen' href='assets/css/buttons.css?v=1.0'>
     <link rel='stylesheet' type='text/css' media='screen' href='assets/css/menu.css?v=1.0'>
+    <link rel='stylesheet' type='text/css' media='screen' href='assets/css/carousel.banner.css?v=1.7'>
+    <link rel='stylesheet' type='text/css' media='screen' href='assets/css/carousel.categoria.css?v=1.7'>    
     <!--boxicon-->
     <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
     <!--sweetalert-->
@@ -162,6 +224,15 @@ $link = 'd.php?loja='.$loja;
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
     <!-- -->
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+
+    <style>
+        .hs-categoria {
+            display: grid;
+            grid-gap: calc(var(--gutter) / <?php echo $qtd_produto_grupo; ?>);
+            grid-template-columns: repeat(<?php echo $qtd_produto_grupo; ?>, calc(120px - var(--gutter) * 2));
+            grid-template-rows: minmax(150px, 1fr);
+        }
+    </style>    
 </head>
 <body>
     <div class="b-main-container-topo b-main-shadow-topo-home">
@@ -229,6 +300,28 @@ $link = 'd.php?loja='.$loja;
                 <i class='bx bx-time-five'></i>
                 <p>A loja esta fechada e abrira em <?php echo($result_horarios['tempo_restante_para_abrir']); ?></p>
             </div>
+
+            <div style="width: 100%; height: 30px; padding-left: 20px; padding-top: 12px;"><p>Categoria</p></div>
+            <!-- categoria -->
+            <div class="app-categoria">        
+                <ul class="hs-categoria">
+
+                        <li class="item-categoria">
+                            <div onclick="window.location.href = 'd.php?loja=<?php echo $loja; ?>&promo=S';" class="img_itens_carrosel-categoria" style="background-image: url('assets/img/categorias/promicao.png')">                
+                            </div>    
+                            <div class="container_desc_carrosel-categoria b-main-centro-total"><label>Promoções</label></div>        
+                        </li>
+                        <?php foreach($produto_grupo as $row){?>
+                        <li class="item-categoria">
+                            <div onclick="window.location.href = 'd.php?loja=<?php echo $loja; ?>&cat=<?php echo $row['id']; ?>';" class="img_itens_carrosel-categoria" style="background-image: url('assets/img/categorias/cervejas.png')">                
+                            </div>    
+                            <div class="container_desc_carrosel-categoria b-main-centro-total"><label><?php echo($row['descricao']); ?></label></div>        
+                        </li>                       
+                        <?php } ?>        
+                </ul>                
+            </div>
+            <!-- categoria -->
+
 
             <?php foreach($produtos as $row){
                 $path_img_produto = $row[1];

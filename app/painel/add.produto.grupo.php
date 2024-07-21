@@ -37,7 +37,7 @@ if(intval($id_produto_grupo) > 0){
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {   
     
-             $grupo_descricao = 'teste';
+             $grupo_descricao = $mysqli->real_escape_string($_POST['descricao']);;
              $icon = '';   
 
             // verifica se vai ser um novo produto ou editar um produto
@@ -139,19 +139,16 @@ if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
 <body>
     <form action="#" method="POST" enctype="multipart/form-data">  
         <div style="width: 100%; height: 30px;" class="b-main-container-left">
-            <label class="roboto-light">Aplicar preço promocional para: <?php echo  $nome ;  ?></label>
+            <label class="roboto-light">Grupo de produtos</label>
         </div>
-        <br><br>
-        <div style="width: 100%; height: 30px;" class="b-main-container-left">
-            <label class="roboto-light-2">Preço atual: <b><?php echo number_format($preco,2,",","."); ?></b></label>
-        </div>               
-        <div class="container-label"><label>Preço promocional</label><div> 
+        <br><br>             
+        <div class="container-label"><label>Descrição do grupo</label><div> 
         <div class="container-input "> 
-            <input style="width: 120px;" class="text-input" type="text" name="preco" id="preco" value="<?php echo number_format($preco_promocional,2,",","."); ?>" placeholder="ex: 6,99" required>
+            <input style="width: 100%" class="text-input" type="text" name="descricao" id="descricao" value="<?php echo $grupo_descricao; ?>" placeholder="Bebidas" required>
         </div>                           
         <br><br>        
         <div class="b-main-container-footer b-main-centro-total" style="height: 70px; padding-top: 10px;">
-            <button style="width: 220px;" class="button-65" type="submit">Salvar preço</button>
+            <button style="width: 220px;" class="button-65" type="submit">Salvar grupo</button>
         </div>
     </form>
     <?php 
@@ -169,30 +166,5 @@ if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
         }         
     ?>
 </body>
-    <script>
-        // Função para aplicar a máscara de telefone
-        function aplicarMascaraTelefone(event) {
-            // Obtém o valor atual do campo de entrada
-            let input = event.target;
-            let valor = input.value;
-            
-            // Remove tudo exceto números
-            valor = valor.replace(/\D/g, '');
-            
-            // Aplica a máscara
-            if (valor.length > 0) {
-                valor = "(" + valor.substring(0, 2) + ") " + valor.substring(2, 3) + " " + valor.substring(3, 7) + "-" + valor.substring(7, 11);
-            }
-            
-            // Atualiza o valor do campo de entrada
-            input.value = valor;
-        }
-        
-        // Seleciona o campo de entrada
-        let campoTelefone = document.getElementById("telefone");
-        
-        // Adiciona um ouvinte de evento para detectar mudanças no campo de entrada
-        campoTelefone.addEventListener("input", aplicarMascaraTelefone);
-    </script>
     <script src='../assets/js/main.js'></script>
 </html>

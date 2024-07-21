@@ -1,0 +1,117 @@
+:root {
+    --gutter: 20px;
+  }
+  
+  .app {
+    padding: var(--gutter) 0;
+    display: grid;
+    grid-gap: var(--gutter) 0;
+    grid-template-columns: var(--gutter) 1fr var(--gutter);
+    align-content: start;
+    overflow: hidden;
+  }
+  
+  .app > * {
+    grid-column: 2 / -2;
+  }
+  
+  .app > .full {
+    grid-column: 1 / -1;
+  }
+
+  ::-webkit-scrollbar {
+    width: 12px;
+    display: none;
+}
+  
+  .hs {
+    display: grid;
+    grid-gap: calc(var(--gutter) / 2);
+    grid-template-columns: repeat(2, calc(300px - var(--gutter) * 2));
+    grid-template-rows: minmax(150px, 1fr);
+
+    
+    overflow-x: scroll;
+    overflow-y: hidden;
+    scroll-snap-type: x proximity;
+    padding-bottom: calc(.75 * var(--gutter));
+    margin-bottom: calc(-.25 * var(--gutter));
+    padding: 0 0px;
+  }
+  
+  
+  /* Demo styles */
+  
+
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+  }
+  
+  .app {
+    width: 100%;
+    height: 160px;
+    overflow-y: scroll;
+
+  }
+  
+  .hs > li,
+  .item {
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    border-radius: 8px;
+  }
+
+
+  .img_itens_carrosel{
+      width: 100%;
+      height: 125px;
+      border-radius: 5px;
+      background: #FFFFFF;
+      border: solid 1px #ebeff0; 
+      background-position: center center;
+      background-repeat: no-repeat;
+      background-size: cover;     
+  }
+
+  .desc_item_carrosel{
+    background: rgba(0,0,0,0);
+    font-family: 'Oxygen', sans-serif;
+    font-style: normal;
+    font-Weight: 300;    
+    color: #1b242c;
+    font-size: 11px;
+    cursor: pointer;    
+    top: 12px;
+    left: 5px;
+    position: relative;
+  }
+
+  .img_banner_itens_carrosel{
+      height: 60%;
+      position: relative;
+      left: 5px;
+      top: 15px;
+      background: rgba(0,0,0,0);
+  }
+
+  .container_desc_carrosel{
+    width: 100%;
+    height: 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+  }
+
+@media only screen and (max-width: 768px) {
+  .app {
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }    
+}
