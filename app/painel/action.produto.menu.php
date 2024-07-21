@@ -44,7 +44,7 @@ if(!isset($_GET['id'])){
             <p>Aplicar promoção no produto</p>
         </div>
         <div class="container-bt b-main-centro-total">
-            <a href="produto_promocao.php?id=<?php echo $id_produto; ?>"><i class='bx bx-chevron-right'></i></a>
+            <a href="add.produto.promocao.php?id=<?php echo $id_produto; ?>"><i class='bx bx-chevron-right'></i></a>
         </div>
     </div>
 
@@ -54,7 +54,7 @@ if(!isset($_GET['id'])){
             <p>Variação do produto</p>
         </div>
         <div class="container-bt b-main-centro-total">
-            <a href="produto_variacao.php?id=<?php echo $id_produto; ?>"><i class='bx bx-chevron-right'></i></a>
+            <a href="add.produto.variacao.php?id=<?php echo $id_produto; ?>"><i class='bx bx-chevron-right'></i></a>
         </div>
     </div>    
 </body>

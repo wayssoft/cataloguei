@@ -301,7 +301,7 @@ if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
     </style>
 </head>
 <body>
-    <form action="produto_add.php?id=<?php echo $_GET['id']; ?>" method="POST" enctype="multipart/form-data">  
+    <form action="add.produto.php?id=<?php echo $_GET['id']; ?>" method="POST" enctype="multipart/form-data">  
         <div class="container-label"><label>Imagem do produto</label><div> 
         <div style="height: 30px;" class="container-input">      
             <input type="file" accept="image/jpeg,image/jpg" name="arquivo" <?php if(intval($id_produto) == 0){echo('required');}; ?>/>

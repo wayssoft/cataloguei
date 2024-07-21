@@ -228,7 +228,7 @@ function sendWhatsappEmpresa($mysqli,$value): bool {
             $cod = str_pad($value, 8, '0', STR_PAD_LEFT);   
             $linkDescription = "Cataloguei pedido: ".$cod; 
             $title = "Pedido:".$cod;
-            $link = "https://app.cataloguei.shop/painel/pedido.php?cod=".$_id_venda."&token=".$token;
+            $link = "https://app.cataloguei.shop/painel/list.pedido.detalhe.php?cod=".$_id_venda."&token=".$token;
             $numero = '55'.$num_whatsapp;
             $curl = curl_init();
             curl_setopt_array($curl, array(

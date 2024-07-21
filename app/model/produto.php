@@ -30,31 +30,31 @@ class Produto
 
         // Construir a consulta SQL com segurança
         $sql_code = "SELECT * FROM produto WHERE id=" . intval($id_produto);
-        $sql_query = $this->mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $this->mysqli->error);
+        $sql_query = $this->mysqli->query($sql_code) or die("Falha na execução do código SQL: "  /*.$this->mysqli->error*/);
 
         
-       // Verificar o número de linhas retornadas
-       $quantidade = $sql_query->num_rows;
+        // Verificar o número de linhas retornadas
+        $quantidade = $sql_query->num_rows;
 
 
-       if($quantidade == 1) 
-       {
-           $produto   = $sql_query->fetch_assoc();
+        if($quantidade == 1) 
+        {
+            $produto   = $sql_query->fetch_assoc();
 
-           $this->nome                     = $produto['nome']; 
-           $this->descricao                = $produto['descricao'];
-           $this->codigo_barras            = $produto['codigo_barras'];
-           $this->preco                    = $produto['preco'];
-           $this->path_img                 = $produto['path_imagem'];
-           $this->estoque                  = $produto['estoque'];
-           $this->id_empresa               = $produto['id_empresa'];
-           $this->promocao                 = $produto['promocao'];
-           $this->preco_promocao           = $produto['preco_promocional'];
-           $this->identificado             = $produto['identificador'];
+            $this->nome                     = $produto['nome']; 
+            $this->descricao                = $produto['descricao'];
+            $this->codigo_barras            = $produto['codigo_barras'];
+            $this->preco                    = $produto['preco'];
+            $this->path_img                 = $produto['path_imagem'];
+            $this->estoque                  = $produto['estoque'];
+            $this->id_empresa               = $produto['id_empresa'];
+            $this->promocao                 = $produto['promocao'];
+            $this->preco_promocao           = $produto['preco_promocional'];
+            $this->identificado             = $produto['identificador'];
 
-       } else {
-           die("error xP001 Não foi encontrado os dados do produto.<p><a href=\"log-in.php\">Entrar</a></p>");
-       }
+        } else {
+            die("error xP001 Não foi encontrado os dados do produto.<p><a href=\"log-in.php\">Entrar</a></p>");
+        }
     }
 
 
@@ -192,7 +192,7 @@ class Produto
                                     identificador=? WHERE id = ?";
         $stmt = $this->mysqli->prepare($sql);
         if (!$stmt) { 
-            $this->error_msg = "Erro na preparação da consulta: " . $stmt->error;
+            $this->error_msg = "Erro na preparação da consulta: "  /*. $stmt->error*/;
             return FALSE;
         }
         $stmt->bind_param("ssssssssss",  

@@ -1,11 +1,9 @@
 <?php 
-include('../req/conex.php');
 include('../req/protect.php');
 //verifica se o tipo de usuario e empresa
 if($_COOKIE['authorization_type'] != 'company'){
   die("error x011 o tipo de usuario não e compativel para acessar essa pagina.<p><a href=\"log-in.php\">Entrar</a></p>");
 }
-
 // busca dados da empresa
 $sql_code = "SELECT * FROM empresa WHERE id=".$_COOKIE['authorization_id'];
 $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
@@ -21,6 +19,7 @@ if($quantidade == 1) {
     die("error x011 o tipo de usuario não e compativel para acessar essa pagina.<p><a href=\"log-in.php\">Entrar</a></p>");
 }
 
+
 // Definindo o número de registros por página
 $registros_por_pagina = 50;
 
@@ -29,28 +28,20 @@ $pagina_atual = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
 $offset = ($pagina_atual - 1) * $registros_por_pagina;
 
 // Consulta para obter o total de registros
-$sql_total = "SELECT COUNT(*) AS total FROM produto WHERE id_empresa = ".$_COOKIE['authorization_id'];
+$sql_total = "SELECT COUNT(*) AS total FROM produto_categoria WHERE id_empresa = ".$_COOKIE['authorization_id'];
 $result_total = $mysqli->query($sql_total) or die("Falha na execução do código SQL: " . $mysqli->error);
 $total_registros = $result_total->fetch_assoc()['total'];
 
 // Consulta para obter os registros com limite e offset
-$sql_code = "SELECT id, path_imagem, codigo_barras, nome, descricao, preco, estoque 
-             FROM produto 
+$sql_code = "SELECT id, descricao, icon 
+             FROM produto_categoria 
              WHERE id_empresa = ".$_COOKIE['authorization_id']."
              LIMIT $registros_por_pagina OFFSET $offset";
 $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
-$produtos = $sql_query->fetch_all(MYSQLI_ASSOC);
+$clientes = $sql_query->fetch_all(MYSQLI_ASSOC);
 
 // Calculando o número total de páginas
 $total_paginas = ceil($total_registros / $registros_por_pagina);
-
-/*
-//$sql_code = "SELECT * FROM instancia_whatsapp WHERE idUser = ".$_COOKIE['authorization_user_id'];
-$sql_code = "SELECT id,path_imagem,codigo_barras,nome,descricao,preco,estoque FROM produto WHERE id_empresa = ".$_COOKIE['authorization_id'];
-$sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
-$quantidade = $sql_query->num_rows;
-$produtos = $sql_query->fetch_all();
-*/
 //verifica esta navegando do mobile
 $isMobile = true;
 ?>
@@ -59,7 +50,7 @@ $isMobile = true;
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>Meus produtos</title>
+    <title>Vendas</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/main.css?v=1.2'>
     <link rel='stylesheet' type='text/css' media='screen' href='../assets/css/alerts.css?v=1.1'>
@@ -79,9 +70,10 @@ $isMobile = true;
 <body>
     <div class="b-main-container-topo b-main-shadow-topo">
         <div class="logo b-main-centro-total"><img src="../assets/img/cataloguei.shop.logo.png" /></div>
-        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="vendas.php">Vendas</a></div>
-        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a style="color: #932be9;" href="produtos.php">Produtos</a></div>
-        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="clientes.php" >Clientes</a></div>
+        <div class="logo b-main-centro-total"><img src="../assets/img/cataloguei.shop.logo.png" /></div>
+        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="list.pedidos.php">Pedidos</a></div>
+        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="list.produto.php">Produtos</a></div>
+        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="list.clientes.php" >Clientes</a></div>
         <div class="link-catalago">
             <p>Link do catalago</p><input type="text" class="link" value="https://app.cataloguei.shop/d?loja=<?php echo($dominio); ?>" disabled />
             <div class="container-bt b-main-centro-total"><i class='bx bx-copy'></i></div>
@@ -117,43 +109,32 @@ $isMobile = true;
     <div style="width: 100%; height: 60px;"></div>
     <div class="b-main-container-produtos b-main-centro-total">
         <div class="display display-modular">
-
+         
 
         <table summary="" class="table table-bordered table-hover">
                     <thead>
                       <tr>
-                        <th style="width: 80px;">Imagem</th>
-                        <th class="b-main-active-mobile-col-table" data-priority="1" style="width: 250px;">Código de barras</th>
-                        <th data-priority="2">nome</th>
-                        <th class="b-main-active-mobile-col-table" data-priority="3">descrição</th>
-                        <th class="b-main-active-mobile-col-table" data-priority="4" style="width: 80px;">preço</th>
-                        <th class="b-main-active-mobile-col-table" data-priority="5" style="width: 80px;">estoque</th>
-                        <th data-priority="6" style="width: 100px;"></th>
+                        <th data-priority="1" style="width: 80px;">Icon</th>
+                        <th class="b-main-active-mobile-col-table" data-priority="2">Descrição</th>
+                        <th data-priority="3" style="width: 80px;"></th>
                       </tr>
                     </thead>
                     <tbody>
-                      <?php foreach($produtos as $row){?>
+                      <?php foreach($clientes as $row){?>
                       <tr>
-                        <td><img class="img-produto" src="<?php echo $row['path_imagem']; ?>"/></td>
-                        <td class="b-main-active-mobile-col-table"><?php echo $row['codigo_barras']; ?></td>
-                        <td><?php echo $row['nome']; ?></td>
+                        <td><?php echo $row['icon']; ?></td>
                         <td class="b-main-active-mobile-col-table"><?php echo $row['descricao']; ?></td>
-                        <td class="b-main-active-mobile-col-table"><?php echo number_format($row['preco'],2,",","."); ?></td>
-                        <td class="b-main-active-mobile-col-table"><?php echo $row['estoque']; ?></td>
                         <td style="width: 100px;">
                           <div style="width: 40px; position: relative; float: right;" class="b-main-container-right b-main-centro-total">
-                            <div class="buttons-bt-generic-2-table b-main-centro-total"><a href="#" onclick="addProduto('<?php echo $row['id'];; ?>')"><i class='bx bx-edit'></i></a></div>
+                            <div class="buttons-bt-generic-2-table b-main-centro-total"><a href="#" onclick="openChatWhatsapp('<?php echo $row['id']; ?>')"><i class='bx bxl-whatsapp'></i></a></div>
                           </div>
-                          <div style="width: 40px; position: relative; float: right;" class="b-main-container-right b-main-centro-total">
-                            <div class="buttons-bt-generic-2-table b-main-centro-total"><a href="#" onclick="produto_menu('<?php echo $row['id'];; ?>')"><i class='bx bx-menu'></i></a></div>
-                          </div>                          
                         </td>
                       </tr>
                       <?php }; ?>
                     </tbody>
                     <tfoot>
                       <tr>
-                        <td colspan="7" class="text-center">
+                        <td colspan="6" class="text-center">
                         <!-- paginação dos dados -->
                         <div class="pagination b-main-centro-total">
                             <?php if ($pagina_atual > 1): ?>
@@ -169,7 +150,7 @@ $isMobile = true;
                             <?php endif; ?>
                         </div>
                         <!-- Fim da paginação -->
-                        </td>
+                        </td>                        
                       </tr>
                     </tfoot>
                   </table>
@@ -180,9 +161,9 @@ $isMobile = true;
     <div style="width: 100%; height: 60px;"></div><!-- Separa a grid do menu -->
     <div style="height: 60px;" class="b-main-container-footer b-main-active-mobile-footer-bar">
       <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i onclick="openPageMenuMobile('vendas.php')" class='bx bx-cart disabled'></i></div>
-      <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i class='bx bx-package active' ></i></div>
-      <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i onclick="openPageMenuMobile('clientes.php')" class='bx bx-user disabled' ></i></div>
-    </div>
+      <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i onclick="openPageMenuMobile('produtos.php')" class='bx bx-package disabled' ></i></div>
+      <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i class='bx bx-user active' ></i></div>
+    </div>    
 </body>
 <script src='../assets/js/alerts.js'></script>
 <script src='../assets/js/main.js?v=1.0'></script>

@@ -29,7 +29,7 @@ function addProduto(id){
     Swal.fire({
         html: `
             <br>
-            <iframe src="produto_add.php?id=`+id+`" class="janela-produto-detalhe" title="Crie ou acesse sua conta"></iframe>
+            <iframe src="add.produto.php?id=`+id+`" class="janela-produto-detalhe" title="Crie ou acesse sua conta"></iframe>
         `,
         showCloseButton: true,
         showCancelButton: false,
@@ -56,7 +56,7 @@ function pedido_detalhe(id, token){
     Swal.fire({
         html: `
             <br>
-            <iframe src="pedido.php?cod=`+id+`&token=`+token+`" class="janela-produto-detalhe" title="Crie ou acesse sua conta"></iframe>
+            <iframe src="list.pedido.detalhe.php?cod=`+id+`&token=`+token+`" class="janela-produto-detalhe" title="Crie ou acesse sua conta"></iframe>
         `,
         showCloseButton: true,
         showCancelButton: false,
@@ -85,7 +85,7 @@ function pedido_status(id){
     Swal.fire({
         html: `
             <br>
-            <iframe src="pedido_status.php?cod=`+id+`" class="janela-pedido_status" title="Crie ou acesse sua conta"></iframe>
+            <iframe src="action.pedido.status.php?cod=`+id+`" class="janela-pedido_status" title="Crie ou acesse sua conta"></iframe>
         `,
         showCloseButton: true,
         showCancelButton: false,
@@ -100,7 +100,7 @@ function produto_menu(id){
     Swal.fire({
         html: `
             <br>
-            <iframe src="produto_menu.php?id=`+id+`" class="janela-produto-menu" title="Crie ou acesse sua conta"></iframe>
+            <iframe src="action.produto.menu.php?id=`+id+`" class="janela-produto-menu" title="Crie ou acesse sua conta"></iframe>
         `,
         showCloseButton: true,
         showCancelButton: false,

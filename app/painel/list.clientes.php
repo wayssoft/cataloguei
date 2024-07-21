@@ -85,9 +85,9 @@ $isMobile = true;
 <body>
     <div class="b-main-container-topo b-main-shadow-topo">
         <div class="logo b-main-centro-total"><img src="../assets/img/cataloguei.shop.logo.png" /></div>
-        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="vendas.php">Vendas</a></div>
-        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="produtos.php">Produtos</a></div>
-        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a style="color: #932be9;" href="clientes.php" >Clientes</a></div>
+        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="list.pedidos.php">Pedidos</a></div>
+        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a href="list.produto.php">Produtos</a></div>
+        <div class="item-menu b-main-centro-total b-main-active-mobile-menu-item"><a style="color: #932be9;" href="list.clientes.php" >Clientes</a></div>
         <div class="link-catalago">
             <p>Link do catalago</p><input type="text" class="link" value="https://app.cataloguei.shop/d?loja=<?php echo($dominio); ?>" disabled />
             <div class="container-bt b-main-centro-total"><i class='bx bx-copy'></i></div>
