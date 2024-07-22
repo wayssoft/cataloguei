@@ -203,8 +203,8 @@ $isMobile = true;
     <div style="width: 100%; height: 60px;"></div><!-- Separa a grid do menu -->
     <div style="height: 60px;" class="b-main-container-footer b-main-active-mobile-footer-bar">
       <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i class='bx bx-cart active'></i></div>
-      <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i onclick="openPageMenuMobile('produtos.php')" class='bx bx-package disabled' ></i></div>
-      <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i onclick="openPageMenuMobile('clientes.php')" class='bx bx-user disabled' ></i></div>
+      <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i onclick="openPageMenuMobile('list.produto.php')" class='bx bx-package disabled' ></i></div>
+      <div class="b-main-item-menu-footer-mobile b-main-centro-total"><i onclick="openPageMenuMobile('list.clientes.php')" class='bx bx-user disabled' ></i></div>
     </div>
 </body>
 <script src='../assets/js/alerts.js'></script>
