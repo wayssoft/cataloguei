@@ -313,7 +313,7 @@ $link = 'd.php?loja='.$loja;
                         </li>
                         <?php foreach($produto_grupo as $row){?>
                         <li class="item-categoria">
-                            <div onclick="window.location.href = 'd.php?loja=<?php echo $loja; ?>&cat=<?php echo $row['id']; ?>';" class="img_itens_carrosel-categoria" style="background-image: url('assets/img/categorias/cervejas.png')">                
+                            <div onclick="window.location.href = 'd.php?loja=<?php echo $loja; ?>&cat=<?php echo $row['id']; ?>';" class="img_itens_carrosel-categoria" style="background-image: url('painel/<?php echo $row['icon'] ?>')">                
                             </div>    
                             <div class="container_desc_carrosel-categoria b-main-centro-total"><label><?php echo($row['descricao']); ?></label></div>        
                         </li>                       

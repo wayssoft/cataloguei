@@ -129,7 +129,7 @@ $isMobile = true;
                     <tbody>
                       <?php foreach($clientes as $row){?>
                       <tr>
-                        <td><?php echo $row['icon']; ?></td>
+                        <td><img class="img-produto" src="<?php echo $row['icon']; ?>"/></td>
                         <td class="b-main-active-mobile-col-table"><?php echo $row['descricao']; ?></td>
                         <td style="width: 100px;">
                           <div style="width: 40px; position: relative; float: right;" class="b-main-container-right b-main-centro-total">
