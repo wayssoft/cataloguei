@@ -191,6 +191,71 @@ root {
     color: #83919e;
     margin-top: 5px; margin-left: 10px;
     font-family: "Roboto", sans-serif;}  
+
+
+.b-main-bag-container-entrega{width: 100%; height: auto; box-shadow: 0px 10px 15px -15px rgba(0,0,0,0.1); padding: 8px; border-radius: 8px; background-color: #FFFFFF;}
+.b-main-bag-container-entrega .bag-itens{width: 100%; height: 60px; border-bottom: 1px solid #e9ebeb4d;}
+.b-main-bag-container-entrega .bag-itens .bag-itens-desc{width: 100%; height: 25px;}
+.b-main-bag-container-entrega .bag-itens .bag-itens-desc p{
+    position: relative; float: left; 
+    font-weight: 900;
+    margin-top: 4px;
+    font-size: 14px;
+    color: #4b5258;
+    font-family: "Roboto", sans-serif;}
+.b-main-bag-container-entrega .bag-itens .bag-itens-desc .preco{
+    position: relative; float: right; 
+    font-weight: 900;
+    margin-top: 3px;
+    font-size: 16px;
+    color: #4b5258;
+    font-family: "Roboto", sans-serif;}    
+.b-main-bag-container-entrega .bag-itens .bag-itens-desc label{
+    position: relative; float: left; 
+    font-weight: 400;
+    font-size: 14px;
+    color: #83919e;
+    margin-top: 5px; margin-left: 0px;
+    font-family: "Roboto", sans-serif;} 
+    
+.b-main-bag-container-entrega .bag-itens .bag-itens-desc .text-input-cupom{
+    position: relative;
+    float: left;
+    width: calc(100% - 70px);
+    height: 45px;
+    border-radius: 10px;
+    border: 1px solid #E8E9E7;
+    font-family: "Roboto", sans-serif;
+    font-weight: 700;
+    margin-right: 5px;
+    padding-left: 5px;}     
+    
+    
+.b-main-bag-container-entrega .bag-itens{width: 100%; height: 60px; border-bottom: 1px solid #e9ebeb4d;}
+.b-main-bag-container-entrega .bag-itens .bag-itens-desc{width: 100%; height: 25px;}
+.b-main-bag-container-entrega .bag-itens .bag-itens-desc p{
+    position: relative; float: left; 
+    font-weight: 900;
+    margin-top: 4px;
+    font-size: 14px;
+    color: #4b5258;
+    font-family: "Roboto", sans-serif;}
+.b-main-bag-container-entrega .bag-itens .bag-itens-desc .preco{
+    position: relative; float: right; 
+    font-weight: 900;
+    margin-top: 3px;
+    font-size: 16px;
+    color: #4b5258;
+    font-family: "Roboto", sans-serif;}    
+.b-main-bag-container-entrega .bag-itens .bag-itens-desc label{
+    position: relative; float: left; 
+    font-weight: 400;
+    font-size: 14px;
+    color: #83919e;
+    margin-top: 5px; margin-left: 0px;
+    font-family: "Roboto", sans-serif;} 
+
+
 .b-main-bag-container-bt-finalizar{width: 100%; height: 80px; box-shadow: 0px 10px 15px -15px rgba(0,0,0,0.1); padding: 8px; border-radius: 8px; background-color: #FFFFFF; margin-top: 30px;}     
 .b-main-bag-container-pagamento{width: 100%; height: 150px; box-shadow: 0px 10px 15px -15px rgba(0,0,0,0.1); padding: 8px; padding-left: 10px; border-radius: 8px; background-color: #FFFFFF;}
 .b-main-bag-container-pagamento .bt-radio{

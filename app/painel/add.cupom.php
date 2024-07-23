@@ -22,6 +22,12 @@ if(!isset($_GET['id'])){
     die("error não foi passado a variavel id do produto.<p><a href=\"log-in.php\">documentação</a></p>");    
 }else{$id_cupom = $_GET['id'];}
 
+# verifica se tem o ID da empresa
+if(!isset($_COOKIE['authorization_id'])){
+    $_error_ = True;
+    die("error não foi passado a variavel id da empresa.<p><a href=\"log-in.php\">documentação</a></p>");
+}else{$id_empresa  = $_COOKIE['authorization_id'];}
+
 # se for para editar busca o produto
 if(intval($id_cupom) > 0){
     $sql_code = "SELECT * FROM cupom WHERE id=".$id_cupom;
@@ -53,24 +59,46 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $whats_influ     = $mysqli->real_escape_string($_POST['whats_influ']);
     $taxa_influ      = $mysqli->real_escape_string($_POST['taxa_influ']);
 
+    // verifica checkbox 
+    if (isset($_POST['ckAtivaCupom'])) 
+    {
+        $ativa_cupom = 'S';
+    }else{
+        $ativa_cupom = 'N';
+    }  
+
+    if (isset($_POST['ckAtivaInflu'])) 
+    {
+        $ativa_influ = 'S';
+    }else{
+        $ativa_influ = 'N';
+    } 
+
+    // verifica se vai ser um novo produto ou editar um produto
+    if(intval($id_produto) == 0){
+
+        // Prepara a consulta SQL para inserção dos dados
+        $sql = "INSERT INTO cupom (cod_cupom, taxa_desconto, qtd_cupom, ativa_influ, whatsapp_notifica_influ, nome_influ, taxa_influ, status, id_empresa)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $mysqli->prepare($sql);
+        if (!$stmt) {
+            echo "Erro na preparação da consulta: " . $conn->error;
+            return -1;
+        }
+        // Vincula os parâmetros à consulta preparada
+        $stmt->bind_param("sssssssss", $cod, $taxa_desconto, $qtd, $ativa_influ, $whats_influ,  $nome_influ, $taxa_influ, $ativa_influ,$id_empresa);
+        // Executa a consulta
+        if ($stmt->execute()) {
+            $id_produto_return = $mysqli->insert_id; // Obtém o ID do registro inserido
+            $_SUCCESS = True;
+        } else {
+            echo "Erro na inserção de dados: " . $stmt->error;
+        }
+        $stmt->close();
+
+    }      
 
     if(intval($id_cupom) > 0)
-    {
-        
-        // verifica checkbox 
-        if (isset($_POST['ckAtivaCupom'])) 
-        {
-            $ativa_cupom = 'S';
-        }else{
-            $ativa_cupom = 'N';
-        }  
-        
-        if (isset($_POST['ckAtivaInflu'])) 
-        {
-            $ativa_influ = 'S';
-        }else{
-            $ativa_influ = 'N';
-        }          
+    {        
     
         // grava o registro na base de dados
         if ($_error_ == False){

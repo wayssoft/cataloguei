@@ -111,7 +111,10 @@ $isMobile = true;
                             </li>
                             <li onclick="window.location.href = 'list.produto.grupo.php';" data-name="activity" class="drop-down__item">
                                 Grupos de produtos
-                            </li>                              
+                            </li>
+                            <li onclick="window.location.href = 'list.cupom.php';" data-name="activity" class="drop-down__item">
+                                Cupom
+                            </li>                                                            
                             <li data-name="dashboard" class="drop-down__item">
                                 Suporte
                             </li>
