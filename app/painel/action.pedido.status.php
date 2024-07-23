@@ -144,6 +144,67 @@ function sendWhatsappUser($mysqli,$value,$status,$id_empresa): bool
     return $retorno;
 } 
 
+
+function sendWhatsappInflu($mysqli,$value): bool 
+{
+
+    $retorno = false;
+    $sql_code = "SELECT * FROM venda WHERE id = ".$value;
+    $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+    $quantidade = $sql_query->num_rows;
+    if($quantidade == 1) { 
+        $venda = $sql_query->fetch_assoc();
+        $_id_cupom = $venda['id_cupom'];
+        $sql_code = "SELECT * FROM cupom WHERE id = ".$_id_cupom;
+        $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+        $quantidade = $sql_query->num_rows;
+        if($quantidade == 1) {
+            $cupom = $sql_query->fetch_assoc();
+            $num_whatsapp = $cupom['whatsapp_notifica_influ'];   
+            $msg = "Pedido: *#".$value."* Finalizado com seu cupom";
+            $numero = '55'.$num_whatsapp;
+
+            // seta os dados da z-api
+            $zapi_client_token = 'F3b7c9eafb4b64139a5d5bb54e6a41273S'; 
+            $zapi_token        = '5C91D4E7085ECA40B610E629';
+            $zapi_instances    = '3A9774DE30F9100EAEE986DC9E7D4A64';
+
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => "https://api.z-api.io/instances/$zapi_instances/token/$zapi_token/send-text",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_SSL_VERIFYPEER => false, // Desabilitar verificação SSL (não recomendado)
+            CURLOPT_CUSTOMREQUEST => "POST",
+            CURLOPT_POSTFIELDS => "{\"phone\": \"$numero\", \"message\": \"$msg\"}",
+            CURLOPT_HTTPHEADER => array(
+               "client-token: $zapi_client_token",
+               "content-type: application/json"
+            ),
+            ));
+          
+            $response = curl_exec($curl);
+            $err = curl_error($curl);
+          
+            curl_close($curl);
+          
+            if ($err) {
+            //echo "cURL Error #:" . $err;
+            $retorno = false;
+            } else {
+            //echo $response;
+            $retorno = true;
+            }
+        }
+    }
+    return $retorno;
+}
+
+
+
 function baixa_estoque($mysqli,$id_venda): bool {
     $sql_code = "SELECT produto_id,qtd,variacao,id_variacao FROM venda_detalhe WHERE status = 'added' AND venda_id = ".$id_venda;
     $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
@@ -219,6 +280,8 @@ if(isset($_POST['bt_status'])) {
         $id_venda = $venda['id'];
         $status = $venda['status'];
         $id_empresa = $venda['empresa_id'];
+        $ativa_cupom = $venda['ativa_cupom'];
+        $id_cupom = $venda['id_cupom'];
     }
     // verifica o status
     if( strtoupper($status) == strtoupper('finalized'))
@@ -233,6 +296,45 @@ if(isset($_POST['bt_status'])) {
     // verifica se o status e finalized e da baixa no estoque
     if($statusAltCod == 'finalized'){
         if (baixa_estoque($mysqli,$id_venda)!=true) {echo("ERROR ao tentar dar baixa no estoque"); exit;}; 
+        // verifica se a venda teve cupom e se tem influ
+        if($ativa_cupom == 'S')
+        {
+
+                // busca o cupom na base de dados
+            $sql_code = "SELECT * FROM cupom WHERE id = ".$id_cupom;
+            $sql_query = $mysqli->query($sql_code) or die("Falha na execução do código SQL: " . $mysqli->error);
+            $quantidade = $sql_query->num_rows;
+            if($quantidade > 0)
+            {
+                $ds_cupom = $sql_query->fetch_assoc();
+                $ativa_influ = $ds_cupom['ativa_influ'];
+                $qtd_cupom = $ds_cupom['qtd_cupom'];
+                $qtd_cupom = $qtd_cupom - 1;
+                if($ativa_influ == 'S')
+                {
+                    // da baixa na quantidade do cupom
+                    $sql = "UPDATE cupom SET qtd_cupom=? WHERE id = ?"; // Você pode ajustar a condição WHERE conforme necessário
+                    $stmt = $mysqli->prepare($sql);
+                    if (!$stmt) {
+                        echo "Erro na preparação da consulta: " . $conn->error;
+                        return -1;
+                    }
+                    $stmt->bind_param("ss",  $qtd_cupom, $id_cupom);
+                    // Executa a consulta de atualização
+                    if ($stmt->execute()) {
+                        //echo "Dados atualizados com sucesso!";
+                        sendWhatsappInflu($mysqli,$cod);
+                    } else {
+                        echo "Erro na atualização de dados: " . $stmt->error;
+                    }
+                    $stmt->close(); 
+                } 
+
+            }           
+
+
+        };
+
     }    
 
     $sql = "UPDATE venda SET status=? WHERE id = ?"; // Você pode ajustar a condição WHERE conforme necessário
@@ -378,7 +480,7 @@ if($_error_ == false){
             <?php 
                     if($_SUCCESS == true){
                         echo "<script type='text/javascript'>
-                            window.parent.location.href = './vendas.php';
+                            window.parent.location.href = './list.pedidos.php';
                         </script>";
                     }         
             ?>            

@@ -28,6 +28,91 @@ if(!isset($_COOKIE['authorization_id'])){
     die("error não foi passado a variavel id da empresa.<p><a href=\"log-in.php\">documentação</a></p>");
 }else{$id_empresa  = $_COOKIE['authorization_id'];}
 
+
+if ($_SERVER["REQUEST_METHOD"] == "POST") { 
+    
+    $cod             = $mysqli->real_escape_string($_POST['cod']);
+    $taxa_desconto   = $mysqli->real_escape_string($_POST['taxa_desconto']);
+    $qtd             = $mysqli->real_escape_string($_POST['qtd_cupom']);
+    $nome_influ      = $mysqli->real_escape_string($_POST['nome_influ']);
+    $whats_influ     = $mysqli->real_escape_string($_POST['whats_influ']);
+    $whats_influ     = preg_replace('/\D/', '', $whats_influ);
+    $taxa_influ      = $mysqli->real_escape_string($_POST['taxa_influ']);
+
+    // verifica checkbox 
+    if (isset($_POST['ckAtivaCupom'])) 
+    {
+        $ativa_cupom = 'S';
+    }else{
+        $ativa_cupom = 'N';
+    }  
+
+    if (isset($_POST['ckAtivaInflu'])) 
+    {
+        $ativa_influ = 'S';
+    }else{
+        $ativa_influ = 'N';
+    } 
+
+    // verifica se vai ser um novo produto ou editar um produto
+    if(intval($id_cupom) == 0){
+
+        // Prepara a consulta SQL para inserção dos dados
+        $sql = "INSERT INTO cupom (cod_cupom, taxa_desconto, qtd_cupom, ativa_influ, whatsapp_notifica_influ, nome_influ, taxa_influ, status, id_empresa)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        $stmt = $mysqli->prepare($sql);
+        if (!$stmt) {
+            echo "Erro na preparação da consulta: " . $conn->error;
+            return -1;
+        }
+        // Vincula os parâmetros à consulta preparada
+        $stmt->bind_param("sssssssss", $cod, $taxa_desconto, $qtd, $ativa_influ, $whats_influ,  $nome_influ, $taxa_influ, $ativa_influ,$id_empresa);
+        // Executa a consulta
+        if ($stmt->execute()) {
+            $id_cupom_return = $mysqli->insert_id; // Obtém o ID do registro inserido
+            $_SUCCESS = True;
+        } else {
+            echo "Erro na inserção de dados: " . $stmt->error;
+        }
+        $stmt->close();
+
+    }      
+
+    if(intval($id_cupom) > 0)
+    {        
+    
+        // grava o registro na base de dados
+        if ($_error_ == False){
+            $sql = "UPDATE cupom SET cod_cupom=?,
+                                     taxa_desconto=?,
+                                     qtd_cupom=?,
+                                     ativa_influ=?,
+                                     whatsapp_notifica_influ=?,
+                                     nome_influ=?,
+                                     taxa_influ=?,
+                                     status=?
+                                     WHERE id = ?"; // Você pode ajustar a condição WHERE conforme necessário
+            $stmt = $mysqli->prepare($sql);
+            if (!$stmt) {
+                echo "Erro na preparação da consulta: " . $conn->error;
+                return -1;
+            }
+            $stmt->bind_param("sssssssss", $cod, $taxa_desconto, $qtd, $ativa_influ, $whats_influ, $nome_influ, $taxa_influ, $ativa_influ, $id_cupom);
+            // Executa a consulta de atualização
+            if ($stmt->execute()) {
+                //echo "Dados atualizados com sucesso!";
+                $_SUCCESS = True;
+            } else {
+                echo "Erro na atualização de dados: " . $stmt->error;
+            }
+            $stmt->close();          
+            
+        }
+
+
+    }
+}
+
+
 # se for para editar busca o produto
 if(intval($id_cupom) > 0){
     $sql_code = "SELECT * FROM cupom WHERE id=".$id_cupom;
@@ -50,87 +135,6 @@ if(intval($id_cupom) > 0){
 }
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") { 
-    
-    $cod             = $mysqli->real_escape_string($_POST['cod']);
-    $taxa_desconto   = $mysqli->real_escape_string($_POST['taxa_desconto']);
-    $qtd             = $mysqli->real_escape_string($_POST['qtd_cupom']);
-    $nome_influ      = $mysqli->real_escape_string($_POST['nome_influ']);
-    $whats_influ     = $mysqli->real_escape_string($_POST['whats_influ']);
-    $taxa_influ      = $mysqli->real_escape_string($_POST['taxa_influ']);
-
-    // verifica checkbox 
-    if (isset($_POST['ckAtivaCupom'])) 
-    {
-        $ativa_cupom = 'S';
-    }else{
-        $ativa_cupom = 'N';
-    }  
-
-    if (isset($_POST['ckAtivaInflu'])) 
-    {
-        $ativa_influ = 'S';
-    }else{
-        $ativa_influ = 'N';
-    } 
-
-    // verifica se vai ser um novo produto ou editar um produto
-    if(intval($id_produto) == 0){
-
-        // Prepara a consulta SQL para inserção dos dados
-        $sql = "INSERT INTO cupom (cod_cupom, taxa_desconto, qtd_cupom, ativa_influ, whatsapp_notifica_influ, nome_influ, taxa_influ, status, id_empresa)  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        $stmt = $mysqli->prepare($sql);
-        if (!$stmt) {
-            echo "Erro na preparação da consulta: " . $conn->error;
-            return -1;
-        }
-        // Vincula os parâmetros à consulta preparada
-        $stmt->bind_param("sssssssss", $cod, $taxa_desconto, $qtd, $ativa_influ, $whats_influ,  $nome_influ, $taxa_influ, $ativa_influ,$id_empresa);
-        // Executa a consulta
-        if ($stmt->execute()) {
-            $id_produto_return = $mysqli->insert_id; // Obtém o ID do registro inserido
-            $_SUCCESS = True;
-        } else {
-            echo "Erro na inserção de dados: " . $stmt->error;
-        }
-        $stmt->close();
-
-    }      
-
-    if(intval($id_cupom) > 0)
-    {        
-    
-        // grava o registro na base de dados
-        if ($_error_ == False){
-            $sql = "UPDATE cupom SET cod_cupom=?,
-                                     taxa_desconto=?,
-                                     qtd_cupom=?,
-                                     ativa_influ,
-                                     whatsapp_notifica_influ,
-                                     nome_influ,
-                                     taxa_influ,
-                                     status
-                                     WHERE id = ?"; // Você pode ajustar a condição WHERE conforme necessário
-            $stmt = $mysqli->prepare($sql);
-            if (!$stmt) {
-                echo "Erro na preparação da consulta: " . $conn->error;
-                return -1;
-            }
-            $stmt->bind_param("sssssssss", $cod, $taxa_desconto, $qtd, $ativa_influ, $whats_influ, $nome_influ, $taxa_influ, $ativa_influ, $id_cupom);
-            // Executa a consulta de atualização
-            if ($stmt->execute()) {
-                //echo "Dados atualizados com sucesso!";
-                $_SUCCESS = True;
-            } else {
-                echo "Erro na atualização de dados: " . $stmt->error;
-            }
-            $stmt->close();          
-            
-        }
-
-
-    }
-}
 if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
 ?>
 
@@ -176,7 +180,10 @@ if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
             font-family: "Roboto", sans-serif;
             font-weight: 400;
             padding-left: 5px;
-        }                    
+        }  
+        #cod{
+            text-transform: uppercase;
+        }                          
     </style>
 </head>
 <body>
@@ -290,10 +297,21 @@ if($_error_ == True){$show_alert = 'True';}else{$show_alert = 'False';}
         }
         
         // Seleciona o campo de entrada
-        let campoTelefone = document.getElementById("telefone");
+        let campoTelefone = document.getElementById("whats_influ");
         
         // Adiciona um ouvinte de evento para detectar mudanças no campo de entrada
         campoTelefone.addEventListener("input", aplicarMascaraTelefone);
     </script>
+
+    <script>
+        document.getElementById('cod').addEventListener('input', function (e) {
+            const value = e.target.value;
+            const regex = /^[a-zA-Z0-9_]*$/;
+
+            if (!regex.test(value)) {
+                e.target.value = value.replace(/[^a-zA-Z0-9_]/g, '');
+            }
+        });
+    </script>    
     <script src='../assets/js/main.js'></script>
 </html>

@@ -126,15 +126,17 @@ $isMobile = true;
                       <tr>
                         <th data-priority="1" style="width: 80px;">Quatidade</th>
                         <th class="b-main-active-mobile-col-table" data-priority="2">Cupom</th>
-                        <th class="b-main-active-mobile-col-table" style="width: 150px;" data-priority="3">(%) Desconto</th>
+                        <th class="b-main-active-mobile-col-table" data-priority="3">link</th>
+                        <th class="b-main-active-mobile-col-table" style="width: 150px;" data-priority="4">(%) Desconto</th>
                         <th data-priority="3" style="width: 80px;"></th>
                       </tr>
                     </thead>
                     <tbody>
                       <?php foreach($cupom as $row){?>
                       <tr>
-                        <td><img class="img-produto" src="<?php echo $row['qtd_cupom']; ?>"/></td>
+                        <td><?php echo $row['qtd_cupom']; ?></td>
                         <td class="b-main-active-mobile-col-table"><?php echo $row['cod_cupom']; ?></td>
+                        <td class="b-main-active-mobile-col-table">https://app.cataloguei.shop/d?loja=<?php echo($dominio); ?>&cupom=<?php echo $row['cod_cupom']; ?></td>
                         <td class="b-main-active-mobile-col-table"><?php echo $row['taxa_desconto']; ?></td>
                         <td style="width: 100px;">
                           <div style="width: 40px; position: relative; float: right;" class="b-main-container-right b-main-centro-total">

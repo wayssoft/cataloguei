@@ -173,6 +173,15 @@ if(isset($_POST['bt_cupom'])) {
         $ds_cupom = $sql_query->fetch_assoc();
         $id_cupom   = $ds_cupom['id'];
         $cupom_taxa_desconto = $ds_cupom['taxa_desconto'];
+        $qtd_cupom = $ds_cupom['qtd_cupom'];
+
+        // verifica se o cupom ainda tem quantidade
+        if($qtd_cupom <= 0)
+        {
+            $_error_ = true;
+            $_error_msg_ = 'Cumpo informado já não é mais valido'; 
+        }
+
     }else{
         $_error_ = true;
         $_error_msg_ = 'Cumpo informado não é valido';        
