@@ -51,6 +51,19 @@ function addProdutoGrupo(id_produto_grupo,id_produto){
         width: 500
     });      
 }
+function addCupom(id_cupom){
+    Swal.fire({
+        html: `
+            <br>
+            <iframe src="add.cupom.php?id=`+id_cupom+`" class="janela-produto-detalhe" title="Crie ou acesse sua conta"></iframe>
+        `,
+        showCloseButton: true,
+        showCancelButton: false,
+        focusConfirm: false,
+        showConfirmButton: false,
+        width: 500
+    });      
+}
 function trocarEnd(id,loja){
     Swal.fire({
         html: `
