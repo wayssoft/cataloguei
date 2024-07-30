@@ -41,6 +41,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_error_msg_ = 'Não foi informado o preço promocional';
     } else { 
         $preco_promocional_informado = $mysqli->real_escape_string($_POST['preco']);
+        $preco_promocional_informado = str_replace(",", ".", $preco_promocional_informado);
         if($preco_promocional_informado >= $preco){
             $_error_ = True;
             $_error_msg_ = 'Valor promocional não pode ser maior que o preço atual';                
