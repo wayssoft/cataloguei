@@ -6,6 +6,7 @@ header("Content-Type: application/json; charset=UTF-8");
 
 require_once 'conex.php';
 
+
 // Inicializa uma resposta padrão
 $response = array('status' => 'error', 'message' => 'falhou');
 

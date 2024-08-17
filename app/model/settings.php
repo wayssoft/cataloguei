@@ -4,6 +4,7 @@ include('conex.php');
 class Settings
 {
     private string $no_update_imagem_produto;
+    private string $no_update_nome_produto;
     private float  $taxa_entrega_geral;
     private int    $id_config_empresa;
     private string $zapi_ativado;
@@ -39,6 +40,7 @@ class Settings
             $empresa_config   = $sql_query->fetch_assoc();
 
             $this->no_update_imagem_produto = $empresa_config['no_update_imagem_produto']; 
+            $this->no_update_nome_produto   = $empresa_config['no_update_nome_produto'];
             $this->taxa_entrega_geral       = $empresa_config['taxa_entrega_geral'];
             $this->id_config_empresa        = $empresa_config['id'];
             $this->zapi_ativado             = $empresa_config['zapi_ativado'];
@@ -59,6 +61,11 @@ class Settings
         $this->no_update_imagem_produto = $value;
     }
 
+    public function set__no_update_nome_produto(string $value): void 
+    {
+        $this->no_update_nome_produto = $value;
+    }    
+
     public function set__taxa_entrega_geral(float $value): void 
     {
         $this->taxa_entrega_geral = $value;
@@ -67,7 +74,12 @@ class Settings
     public function get__no_update_imagem_produto(): string 
     {
         return $this->no_update_imagem_produto;
-    }   
+    }  
+    
+    public function get__no_update_nome_produto(): string 
+    {
+        return $this->no_update_nome_produto;
+    }     
     
     public function get__taxa_entrega_geral(): string 
     {
@@ -159,6 +171,7 @@ class Settings
 
         $sql = "UPDATE empresa_config SET 
                                         no_update_imagem_produto=?,
+                                        no_update_nome_produto=?,
                                         taxa_entrega_geral=?, 
                                         zapi_ativado=?,
                                         zapi_client_token=?,
@@ -170,8 +183,9 @@ class Settings
             $this->error_msg = "Erro na preparação da consulta: " . $stmt->error;
             return FALSE;
         }
-        $stmt->bind_param("sssssss",  
+        $stmt->bind_param("ssssssss",  
                             $this->mysqli->real_escape_string($this->no_update_imagem_produto),
+                            $this->mysqli->real_escape_string($this->no_update_nome_produto),
                             $this->mysqli->real_escape_string($this->taxa_entrega_geral),
                             $this->mysqli->real_escape_string($this->zapi_ativado),
                             $this->mysqli->real_escape_string($this->zapi_client_token),
