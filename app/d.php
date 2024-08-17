@@ -76,6 +76,9 @@ if ($_error_ == False){
     // Definindo o número de registros por página
     $registros_por_pagina = 10;
 
+    //define a variavel de compossição para paginição
+    $composition_link_pagination='';
+
     // Obtendo o número da página atual
     $pagina_atual = isset($_GET['pagina']) ? intval($_GET['pagina']) : 1;
     $offset = ($pagina_atual - 1) * $registros_por_pagina;
@@ -85,12 +88,14 @@ if ($_error_ == False){
     {
         $sql_total = "SELECT COUNT(*) AS total FROM produto WHERE estoque > 0 AND id_empresa = ".$id_empresa." AND estoque > 0 AND id_categoria = ".$_GET['cat']."";
         $all_list = FALSE;
+        $composition_link_pagination='cat='.$_GET['cat'];
     }
 
     if(isset($_GET['promo']))
     {
         $sql_total = "SELECT COUNT(*) AS total FROM produto WHERE estoque > 0 AND id_empresa = ".$id_empresa." AND estoque > 0 AND promocao = 'S'";
         $all_list = FALSE;
+        $composition_link_pagination='promo='.$_GET['promo'];
     }   
     
     
@@ -371,17 +376,17 @@ $link = 'd.php?loja='.$loja;
                         <!-- paginação dos dados -->
 
                             <?php if ($pagina_atual > 1): ?>
-                                <div class="pagination-previous b-main-centro-total"><a href="?loja=<?php echo $loja ?>&pagina=<?php echo $pagina_atual - 1; ?>"><i class='bx bx-chevron-left' ></i></a></div>
+                                <div class="pagination-previous b-main-centro-total"><a href="?loja=<?php echo $loja ?>&pagina=<?php echo $pagina_atual - 1; ?>&<?php echo $composition_link_pagination; ?>"><i class='bx bx-chevron-left' ></i></a></div>
                             <?php endif; ?>
                             
                             <div style="display: <?php if($total_registros <= 10){echo "none";} ?>;" class="pagination-number b-main-centro-total">
                             <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
-                                <a href="?loja=<?php echo $loja ?>&pagina=<?php echo $i; ?>" <?php if ($pagina_atual == $i) echo 'style="font-weight: bold;"'; ?>><?php echo $i; ?></a>
+                                <a href="?loja=<?php echo $loja ?>&pagina=<?php echo $i; ?>&<?php echo $composition_link_pagination; ?>" <?php if ($pagina_atual == $i) echo 'style="font-weight: bold;"'; ?>><?php echo $i; ?></a>
                             <?php endfor; ?>
                             </div>
 
                             <?php if ($pagina_atual < $total_paginas): ?>
-                                <div  class="pagination-next b-main-centro-total"><a href="?loja=<?php echo $loja ?>&pagina=<?php echo $pagina_atual + 1; ?>"><i class='bx bx-chevron-right'></i></a></div>
+                                <div  class="pagination-next b-main-centro-total"><a href="?loja=<?php echo $loja ?>&pagina=<?php echo $pagina_atual + 1; ?>&<?php echo $composition_link_pagination; ?>"><i class='bx bx-chevron-right'></i></a></div>
                             <?php endif; ?>
 
                         <!-- Fim da paginação -->                    
